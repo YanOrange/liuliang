@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑商户</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>登陆账号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="account_name" value="{{ d.account_name }}" lay-verify="required" autocomplete="off" placeholder="请输入登陆账号" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">登陆密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="pwd"  autocomplete="off" placeholder="留空默认不修改" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>商户名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="merchant_name" value="{{ d.merchant_name }}" lay-verify="required" autocomplete="off" placeholder="请输入商户名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>商户手机</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="login_mobiles" value="{{ d.login_mobiles }}" lay-verify="required" autocomplete="off" placeholder="请输入商户手机号" class="layui-input">
+                        <text title="必填项" style="color:red;">多个手机号英文用“,”隔开</text>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">机构名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="company_name" value="{{ d.company_name }}"  autocomplete="off" placeholder="请输入机构名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联后端客户成功</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="admin_ids"
+                             data-sourceType="route"
+                             data-source="/admin.user/index"
+                             data-textField="nickname"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                             data-layVerify="required"
+                             data-selected="{{=d.admin_ids}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联前端销售</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="front_sale_id"
+                             data-sourceType="route"
+                             data-source="/admin.user/index"
+                             data-textField="nickname"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                             data-selected="{{=d.front_sale_id}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>机构版本</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="is_many_organization"
+                             data-sourceType="data"
+                             data-source="[{name:'单类目单机构',value:'1'},{name:'单类目多机构',value:'2'},{name:'多类目多机构',value:'3'},{name:'单机构2.0',value:'4'},,{name:'单机构2.5',value:'5'},{name:'逾期版本1',value:'6'},{name:'逾期版本2',value:'7'}]"
+                             data-placeholder="请选择机构版本"
+                             data-selected="{{=d.is_many_organization}}"
+                             data-onchange="xmcb"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>商户logo</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="merchant_logo"
+                             data-accept="image"
+                             data-uploaded="{{ d.merchant_logo }}"
+                             data-uploadedId="{{ d.merchant_logo }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">搜索用户报名占比</label>
+                    <div class="layui-input-block" style="display: flex">
+                        <input type="number" name="search_rate" value="{{ d.search_rate }}" autocomplete="off" placeholder="请输入搜索线索比率" class="layui-input" style="width:90%;"><span style="display: inline-block;line-height: 40px;height: 50px;">%</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>年龄段权重</label>
+                    <div class="layui-input-block">
+                        <table class="layui-table"  lay-skin="line">
+                            <thead>
+                            <tr>
+                                <th>年龄段</th>
+                                <th>权重</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            {{# if(d.age_range_weight_json){ }}
+                            {{# var key; for(key in d.age_range_weight_json){ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[age_range][]" value="{{=key}}" /></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[weight][]" value="{{=d.age_range_weight_json[key]}}" /></td>
+                            </tr>
+                            {{# } }}
+                            {{# }else{ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[age_range][]" value="未满18岁" disabled/></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[weight][]" value="0" /></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[age_range][]" value="18-19岁" disabled/></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[weight][]" value="1" /></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[age_range][]" value="20-24岁" disabled/></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[weight][]" value="1" /></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[age_range][]" value="25-29岁" disabled/></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[weight][]" value="1" /></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[age_range][]" value="30-35岁" disabled/></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[weight][]" value="1" /></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[age_range][]" value="36岁以上" disabled/></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="age_range_weight_json[weight][]" value="1" /></td>
+                            </tr>
+                            {{# } }}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>报名成功提示文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="apply_success_msg" lay-verify="required" autocomplete="off" placeholder="请输入报名成功提示文案" class="layui-input" value="{{ d.apply_success_msg }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>闲时线索单价</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="leisure_price" lay-verify="number" autocomplete="off" class="layui-input" value="{{ d.leisure_price }}">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>高峰线索单价</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="peak_price" lay-verify="number" autocomplete="off" class="layui-input" value="{{ d.peak_price }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">线索原价</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="thread_price_origin" lay-verify="number" autocomplete="off" class="layui-input" value="{{ d.thread_price_origin }}">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>线索周期(手动干预)</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="intervene_thread_period_num" lay-verify="number" autocomplete="off" class="layui-input" value="{{ d.intervene_thread_period_num }}">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}" >
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>当天线索数量限制</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="totay_thread_limit_nums" lay-verify="number" autocomplete="off" class="layui-input" value="{{ d.totay_thread_limit_nums }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>分配线索数量限制</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="assign_thread_limit_nums" lay-verify="number" autocomplete="off" class="layui-input" value="{{ d.assign_thread_limit_nums }}">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>线索周期数量</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="thread_period_num" lay-verify="number" autocomplete="off" placeholder="线索周期数量" class="layui-input" value="{{ d.thread_period_num }}">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>线索报名年龄限制</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="thread_age_restrict" lay-verify="number" autocomplete="off" placeholder="索报名年龄限制" class="layui-input" value="{{ d.thread_age_restrict }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text><span id="increment_rate" onmouseover="show('控制商户最高加微率不能高于一个百分比（例如：A商户设置了75%，当A商户的加微率高于75%，则自动插入一条表单数据，计算公式为：最高加微率= 加微人数÷报名人数×100%）注意：此功能可以和【最高加微率人数底限】搭配使用','increment_rate')" onmouseleave="closeTips()">最高加微率限制<i class="layui-icon layui-icon-tips"></i></span></label>
+                    <div class="layui-input-block" style="display:flex;">
+                        <input type="number" name="increment_rate" lay-verify="number" autocomplete="off" placeholder="最高加微率限制" class="layui-input" value="{{ d.increment_rate }}">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text><span id="maximum_rate_lowest_limit" onmouseover="show('用于配合最高加微率限制使用，避免在商户刚进量时就插入表单','maximum_rate_lowest_limit')" onmouseleave="closeTips()">最高加微率人数底限<i class="layui-icon layui-icon-tips"></i></span></label>
+                    <div class="layui-input-block">
+                        <input type="number" name="maximum_rate_lowest_limit" lay-verify="number" autocomplete="off" placeholder="最高加微率人数底限" class="layui-input" value="{{ d.maximum_rate_lowest_limit }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text><span id="minimum_rate" onmouseover="show('用于控制商户加微率太低时使用，主要控制客服系统中一个线索分配多个商户功能，当此商户加微率低于一个值时，不允许客服那边在操作一分多时，把线索分配到此商户','minimum_rate')" onmouseleave="closeTips()">最低加微率限制<i class="layui-icon layui-icon-tips"></i></span></label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="minimum_rate" lay-verify="number" autocomplete="off" placeholder="最低加微率限制" class="layui-input" style="width:98%;" value="{{ d.minimum_rate }}">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>最高搜索用户类型占比</label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="max_search_user_ratio" lay-verify="number" autocomplete="off" placeholder="最高搜索用户类型占比" class="layui-input" style="width:98%;" value="{{ d.max_search_user_ratio }}">
+                        <span>%</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>最低搜索用户类型占比</label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="min_search_user_ratio" lay-verify="number" autocomplete="off" placeholder="最低搜索用户类型占比" class="layui-input" style="width:98%;" value="{{ d.min_search_user_ratio }}">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text><span id="assign_upper_limit_rate" onmouseover="show('用于客服分配线索功能，针对1个线索分配多个商户的线索质量问题，计算公式为：此商户今日线索总数的百分之多少是支持一分多功能的（例如：A商户今日100线索，分配线索上线率50%  等于此商户针对一分多，只能分配50条）','assign_upper_limit_rate')" onmouseleave="closeTips()">分配线索上限率<i class="layui-icon layui-icon-tips"></i></span></label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="assign_upper_limit_rate" lay-verify="number" autocomplete="off" placeholder="分配线索上限率" class="layui-input" style="width:98%;" value="{{ d.assign_upper_limit_rate }}">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text><span id="maximum_virtual_micro_rate" onmouseover="show('提高机构加微率，当客服手动分配线索加微率小于该数值，在分配的线索标记为已加微；（配合的是客服那边分配线索时，使用的是“小程序链接”方式）','maximum_virtual_micro_rate')" onmouseleave="closeTips()">分配线索虚拟加微率<i class="layui-icon layui-icon-tips"></i></span></label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="maximum_virtual_micro_rate" lay-verify="number" autocomplete="off" placeholder="分配线索虚拟加微率" class="layui-input" style="width:98%;" value="{{ d.maximum_virtual_micro_rate }}">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text><span id="auto_micro_rate_limit" onmouseover="show('提高机构加微率，自动加V率线索小于该值，继续自动分配线索；大于该值是不支持自动分配线索，只允许客服分配线索；0不进线索','auto_micro_rate_limit')" onmouseleave="closeTips()">自动加微率限制<i class="layui-icon layui-icon-tips"></i></span></label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="auto_micro_rate_limit" lay-verify="number" autocomplete="off" placeholder="自动加微率限制" class="layui-input" style="width:75%;" value="{{ d.auto_micro_rate_limit }}">
+                        <span>%</span>
+                        <div class="laytp-btn laytp-btn-primary laytp-btn-sm" style="margin-left:10px;" onclick="ageRangeShow()">设置年龄分配率</div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="age-range-rate-list" style="display:none;">
+                    <div class="layui-input-block">
+                        <table class="layui-table"  lay-skin="line">
+                            <tbody>
+                            <tr>
+                                <td style="padding: 4px 15px;width:70%;">
+                                    <div class="xmSelect"
+                                         data-name="age_range_rate_json[age_ids][]"
+                                         data-sourceType="route"
+                                         data-source="/admin.merchant/ageRangeListRate"
+                                         data-textField="name"
+                                         data-valueField="id"
+                                         data-paging="true"
+                                         data-placeholder="年龄段"
+                                         data-selected="{{d.age_range_rate_json[0].id}}"
+                                    ></div>
+                                </td>
+                                <td style="padding: 4px 15px;width:30%;">
+                                    <input class="layui-input" type="text" name="age_range_rate_json[age_rates][]" value="{{d.age_range_rate_json[0].rate}}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;width:70%;">
+                                    <div class="xmSelect"
+                                         data-name="age_range_rate_json[age_ids][]"
+                                         data-sourceType="route"
+                                         data-source="/admin.merchant/ageRangeListRate"
+                                         data-textField="name"
+                                         data-valueField="id"
+                                         data-paging="true"
+                                         data-placeholder="年龄段"
+                                         data-selected="{{d.age_range_rate_json[1].id}}"
+                                    ></div>
+                                </td>
+                                <td style="padding: 4px 15px;width:30%;">
+                                    <input class="layui-input" type="text" name="age_range_rate_json[age_rates][]" value="{{d.age_range_rate_json[1].rate}}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;width:70%;">
+                                    <div class="xmSelect"
+                                         data-name="age_range_rate_json[age_ids][]"
+                                         data-sourceType="route"
+                                         data-source="/admin.merchant/ageRangeListRate"
+                                         data-textField="name"
+                                         data-valueField="id"
+                                         data-paging="true"
+                                         data-placeholder="年龄段"
+                                         data-selected="{{d.age_range_rate_json[2].id}}"
+                                    ></div>
+                                </td>
+                                <td style="padding: 4px 15px;width:30%;">
+                                    <input class="layui-input" type="text" name="age_range_rate_json[age_rates][]" value="{{d.age_range_rate_json[2].rate}}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;width:70%;">
+                                    <div class="xmSelect"
+                                         data-name="age_range_rate_json[age_ids][]"
+                                         data-sourceType="route"
+                                         data-source="/admin.merchant/ageRangeListRate"
+                                         data-textField="name"
+                                         data-valueField="id"
+                                         data-paging="true"
+                                         data-placeholder="年龄段"
+                                         data-selected="{{d.age_range_rate_json[3].id}}"
+                                    ></div>
+                                </td>
+                                <td style="padding: 4px 15px;width:30%;">
+                                    <input class="layui-input" type="text" name="age_range_rate_json[age_rates][]" value="{{d.age_range_rate_json[3].rate}}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;width:70%;">
+                                    <div class="xmSelect"
+                                         data-name="age_range_rate_json[age_ids][]"
+                                         data-sourceType="route"
+                                         data-source="/admin.merchant/ageRangeListRate"
+                                         data-textField="name"
+                                         data-valueField="id"
+                                         data-paging="true"
+                                         data-placeholder="年龄段"
+                                         data-selected="{{d.age_range_rate_json[4].id}}"
+                                    ></div>
+                                </td>
+                                <td style="padding: 4px 15px;width:30%;">
+                                    <input class="layui-input" type="text" name="age_range_rate_json[age_rates][]" value="{{d.age_range_rate_json[4].rate}}" />
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text><span id="manual_assign_ratio" onmouseover="show('提高机构线索质量，例如3:1，自然量进3条，可以手动分配1条，第1个= 0时不限制，第2个等于0时不支持手动分配','manual_assign_ratio')" onmouseleave="closeTips()">手动分配比值<i class="layui-icon layui-icon-tips"></i></span></label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="manual_assign_ratio[]" lay-verify="number" autocomplete="off" placeholder="手动分配比值" class="layui-input" style="width:50%;" value="{{ d.manual_assign_ratio[0] }}">
+                        <input type="number" name="manual_assign_ratio[]" lay-verify="number" autocomplete="off" placeholder="手动分配比值" class="layui-input" style="width:50%;" value="{{ d.manual_assign_ratio[1] }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>0元留资落地页分配一分商户比值</label>
+                    <div class="layui-input-block" style="display: flex;">
+                        <input type="number" name="capital_landing_page_share_merchant_ratio1" lay-verify="number" autocomplete="off" placeholder="0元留资落地页分配一分商户比值" class="layui-input" style="width:50%;" value="{{ d.capital_landing_page_share_merchant_ratio1 }}">
+                        <input type="number" name="capital_landing_page_share_merchant_ratio2" lay-verify="number" autocomplete="off" placeholder="0元留资落地页分配一分商户比值" class="layui-input" style="width:50%;" value="{{ d.capital_landing_page_share_merchant_ratio2 }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>18-24岁线索数量限制</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="today_18to25_thread_limit_nums" lay-verify="number" autocomplete="off" placeholder="18-24岁线索数量限制" class="layui-input" value="{{ d.today_18to25_thread_limit_nums }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>商户类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="company_id" value="1" title="宇络" {{# if(d.company_id===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="company_id" value="2" title="大枝桠" {{# if(d.company_id===2){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">商户来源</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_source" value="1" title="站内" {{# if(d.is_source===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="is_source" value="2" title="站外" {{# if(d.is_source===2){ }}checked="checked"{{# } }} />
+
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>应用分类</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_class_id"
+                             data-sourceType="route"
+                             data-source="/admin.app_class/index"
+                             data-radio="true"
+                             data-textField="app_class_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.app_class_id}}"
+                             data-onChange="tenimcustomer"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item tenim-customer" style="display: none">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>客服功能</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_customer" value="0" title="关闭" {{# if(d.is_tenim_customer===0){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="is_customer" value="1" title="开启" {{# if(d.is_tenim_customer===1){ }}checked="checked"{{# } }} />
+
+                    </div>
+                </div>
+
+                <div class="layui-form-item tenim-customer" style="display: none">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>客服咨询入口图标</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="customer_consult_icon"
+                             data-accept="image"
+                             data-uploaded="{{ d.customer_consult_icon }}"
+                             data-uploadedId="{{ d.customer_consult_icon }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>有电脑用户线索百分比限制</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="is_has_computer_rate_limit" lay-verify="number" autocomplete="off" placeholder="有电脑用户线索百分比限制" class="layui-input" value="{{ d.is_has_computer_rate_limit }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">是否是纯表单</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_form" value="1" title="是" {{# if(d.is_form===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="is_form" value="0" title="否" {{# if(d.is_form===0){ }}checked="checked"{{# } }} />
+
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">是否跳转小程序</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_jump_miniprogram" value="1" title="是" {{# if(d.is_jump_miniprogram===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="is_jump_miniprogram" value="0" title="否" {{# if(d.is_jump_miniprogram===0){ }}checked="checked"{{# } }} />
+
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">进量开关</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_switch" value="1" title="开启" {{# if(d.is_switch===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="is_switch" value="0" title="关闭" {{# if(d.is_switch===0){ }}checked="checked"{{# } }} />
+
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">是否允许设置进量开关</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_allow_set_switch" value="1" title="允许" {{# if(d.is_allow_set_switch===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="is_allow_set_switch" value="0" title="禁用" {{# if(d.is_allow_set_switch===0){ }}checked="checked"{{# } }} />
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">账号状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="正常" {{# if(d.status===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="status" value="0" title="禁用" {{# if(d.status===0){ }}checked="checked"{{# } }} />
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">免测状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_free_try" value="1" title="是" {{# if(d.is_free_try===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_free_try" value="0" title="否" {{# if(d.is_free_try===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">分配状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_assign" value="1" title="是" {{# if(d.is_assign===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_assign" value="0" title="否" {{# if(d.is_assign===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                {{# if(d.customer_qrcode_explain){ }}
+                {{# var key; for(key in d.customer_qrcode_explain){ }}
+                {{# if(key == 0){ }}
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">客服二维码文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="customer_qrcode_explain[]" value="{{ d.customer_qrcode_explain[key] }}" autocomplete="off" placeholder="请输入二维码文案" class="layui-input">
+                    </div>
+                </div>
+                {{# }else{ }}
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <input type="text" name="customer_qrcode_explain[]" value="{{ d.customer_qrcode_explain[key] }}" autocomplete="off" placeholder="请输入二维码文案" class="layui-input">
+                        <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-delete delArrayItem" layer-tips="删除" title="删除"></a>
+                    </div>
+                </div>
+                {{# } }}
+                {{# } }}
+                {{# }else{ }}
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">客服二维码文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="customer_qrcode_explain[]" autocomplete="off" placeholder="请输入二维码文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <input type="text" name="customer_qrcode_explain[]" autocomplete="off" placeholder="请输入二维码文案" class="layui-input">
+                        <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-delete delArrayItem" layer-tips="删除" title="删除"></a>
+                    </div>
+                </div>
+                {{# } }}
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <div class="layui-input-block">
+                        <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-1 addArrayItem" title="追加">追加</a>
+                    </div>
+                </div>
+
+                {{# if(d.customer_qrcode_explain_single){ }}
+                {{# var key; for(key in d.customer_qrcode_explain_single){ }}
+                {{# if(key == 0){ }}
+                <div class="layui-form-item customer-qrcode-explain-single" {{# if(d.is_show_qrcode_single != 1){ }}style="display: none;"{{# } }}>
+                    <label class="layui-form-label">客服二维码文案(单机构2.0)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="customer_qrcode_explain_single[]" value="{{ d.customer_qrcode_explain_single[key] }}" autocomplete="off" placeholder="请输入客服二维码文案" class="layui-input">
+                    </div>
+                </div>
+                {{# }else{ }}
+                <div class="layui-form-item customer-qrcode-explain-single" {{# if(d.is_show_qrcode_single != 1){ }}style="display: none;"{{# } }}>
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <input type="text" name="customer_qrcode_explain_single[]" value="{{ d.customer_qrcode_explain_single[key] }}" autocomplete="off" placeholder="请输入客服二维码文案" class="layui-input">
+                    </div>
+                </div>
+                {{# } }}
+                {{# } }}
+                {{# }else{ }}
+                <div class="layui-form-item customer-qrcode-explain-single" {{# if(d.is_show_qrcode_single != 1){ }}style="display: none;"{{# } }}>
+                    <label class="layui-form-label">客服二维码文案(单机构2.0)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="customer_qrcode_explain_single[]" value="扫码添加好友 边学边玩边赚钱" autocomplete="off" placeholder="请输入客服二维码文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item customer-qrcode-explain-single" {{# if(d.is_show_qrcode_single != 1){ }}style="display: none;"{{# } }}>
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <input type="text" name="customer_qrcode_explain_single[]" value="扫码添加好友 边学边玩边赚钱" autocomplete="off" placeholder="请输入客服二维码文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item customer-qrcode-explain-single" {{# if(d.is_show_qrcode_single != 1){ }}style="display: none;"{{# } }}>
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <input type="text" name="customer_qrcode_explain_single[]" value="实现高薪副业" autocomplete="off" placeholder="请输入客服二维码文案" class="layui-input">
+                    </div>
+                </div>
+                {{# } }}
+
+                <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                    <label class="layui-form-label">客服文案状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="customer_explain_status" value="1" title="开启" {{# if(d.customer_explain_status===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="customer_explain_status" value="0" title="关闭" {{# if(d.customer_explain_status===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+                <div  style="display: none;" id="miniOfficial">
+                    <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                        <label class="layui-form-label">兼职课程小程序文案</label>
+                        <div class="layui-input-block">
+                            <table class="layui-table" >
+                                <colgroup>
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {{# if(d.part_mini_official){ }}
+                                    {{# var key; for(key in d.part_mini_official){ }}
+
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案{{=parseInt(key)+1}}</label><input class="layui-input" type="text" name="part_mini_official[]"  value="{{=d.part_mini_official[key]}}" autocomplete="off"/></td>
+
+                                    {{# } }}
+                                </tr>
+                                {{# }else{ }}
+                                <tr>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案1</label><input class="layui-input" type="text" name="part_mini_official[]"  autocomplete="off"/></td>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案2</label><input class="layui-input" type="text" name="part_mini_official[]"  autocomplete="off"/></td>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案3</label><input class="layui-input" type="text" name="part_mini_official[]"  autocomplete="off"/></td>
+                                </tr>
+                                {{# } }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                        <label class="layui-form-label">直播课程小程序文案</label>
+                        <div class="layui-input-block">
+                            <table class="layui-table" >
+                                <colgroup>
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {{# if(d.live_mini_official){ }}
+                                    {{# var key; for(key in d.live_mini_official){ }}
+
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案{{=parseInt(key)+1}}</label><input class="layui-input" type="text" name="live_mini_official[]"  value="{{=d.live_mini_official[key]}}" autocomplete="off"/></td>
+
+                                    {{# } }}
+                                </tr>
+                                {{# }else{ }}
+                                <tr>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案1</label><input class="layui-input" type="text" name="live_mini_official[]"  autocomplete="off"/></td>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案2</label><input class="layui-input" type="text" name="live_mini_official[]"  autocomplete="off"/></td>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案3</label><input class="layui-input" type="text" name="live_mini_official[]"  autocomplete="off"/></td>
+                                </tr>
+                                {{# } }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="display: {{ d.is_customer }}">
+                        <label class="layui-form-label">培训课程小程序文案</label>
+                        <div class="layui-input-block">
+                            <table class="layui-table" >
+                                <colgroup>
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {{# if(d.cultivate_mini_official){ }}
+                                    {{# var key; for(key in d.cultivate_mini_official){ }}
+
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案{{=parseInt(key)+1}}</label><input class="layui-input" type="text" name="cultivate_mini_official[]"  value="{{=d.cultivate_mini_official[key]}}" autocomplete="off"/></td>
+
+                                    {{# } }}
+                                </tr>
+                                {{# }else{ }}
+                                <tr>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案1</label><input class="layui-input" type="text" name="cultivate_mini_official[]"  autocomplete="off"/></td>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案2</label><input class="layui-input" type="text" name="cultivate_mini_official[]"  autocomplete="off"/></td>
+                                    <td><label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文案3</label><input class="layui-input" type="text" name="cultivate_mini_official[]"  autocomplete="off"/></td>
+                                </tr>
+                                {{# } }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    function show(msg,id)
+    {
+        layer.tips(''+msg,'#'+id,{tips:[1,'black']});
+    }
+
+    function closeTips()
+    {
+        layer.closeAll('tips');
+    }
+
+    function ageRangeShow()
+    {
+        $("#age-range-rate-list").show();
+    }
+
+    window.tenimcustomer = function(params) {
+        var  arr = params.arr
+        for (var a in arr) {
+            console.log(arr[a]['id'])
+            if (arr[a]['id'] == 9) {
+                $(".tenim-customer").css('display','block')
+            } else {
+                $(".tenim-customer").css('display','none')
+            }
+        }
+    }
+
+    window.xmcb = function(params){
+        var flag = false;
+        var flag2 = false;
+        var  arr = params.arr
+        console.log(arr);
+        for (var a in arr) {
+            if (arr[a]['value'] == 3) {
+                flag = true;
+                break;
+            }
+        }
+        for (var a in arr) {
+            if (arr[a]['value'] == 4) {
+                flag2 = true;
+                break;
+            }
+        }
+        if (flag) {
+            $("#miniOfficial").show();
+        } else {
+            $("#miniOfficial").hide();
+        }
+        if (flag2) {
+            $(".customer-qrcode-explain-single").show();
+        } else {
+            $(".customer-qrcode-explain-single").hide();
+        }
+    }
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.merchant/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                    if (res.data.is_many_organization.indexOf("3") >= 0) {
+                        $("#miniOfficial").show();
+                    }
+                    if (res.data.app_class_id == 9) {
+                        $(".tenim-customer").css('display','block')
+                    } else {
+                        $(".tenim-customer").css('display','none')
+                    }
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.merchant/edit',
+                data:data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

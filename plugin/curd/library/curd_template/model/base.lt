@@ -1,0 +1,29 @@
+<?php
+/**
+ * {%tableComment%}模型
+ */
+namespace {%modelNamespace%};
+
+use laytp\BaseModel;{%softDelPackage%}{%uploadDomainPackage%}
+
+class {%modelClassName%} extends BaseModel
+{{%useSoftDel%}{%defaultSoftDelete%}
+
+    //模型名
+    protected $name = '{%modelName%}';
+
+    //附加属性
+    protected $append = [{%append%}];
+
+    //时间戳字段转换
+    {%autoTimeFormat%}
+
+    //表名
+    {%tableName%}
+
+    //关联模型
+    {%relationModel%}
+
+    //新增属性的方法
+    {%getAttrFun%}
+}

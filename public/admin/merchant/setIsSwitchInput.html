@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>进量设置</title>
+</head>
+<body>
+<script src="../../static/component/vue.min.js"></script>
+<script src="../../static/component/lib/index.js"></script>
+<link rel="stylesheet" href="../../static/component/lib/index.css">
+
+<style>
+    #app {
+        width: 500px;
+        margin-top: 30px;
+        border: 1px solid black;
+        margin: auto;
+    }
+
+    /*    .title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            padding: 30px 0 30px 0;
+            border-bottom: 1px solid black;
+        }
+
+        .Monday {
+            display: inline-block;
+            width: 100%;
+            border-bottom: 1px solid black;
+        }
+
+        .Monday1 {
+            display: inline-block;
+            width: 10%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+            border-right: 1px solid black;
+            margin: 10px 0 10px 0;
+        }
+
+        .Time {
+            display: inline-block;
+            width: 88%;
+        }
+
+        .time111 {
+            display: inline-block;
+            width: 4.03333%;
+            text-align: center;
+        }
+
+        .time {
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .changeStyle {
+            background-color: green;
+        }
+
+        .selectAll {}*/
+
+
+    /**
+        周期样式 2022-09-06
+     */
+    body {
+        padding: 30px;
+    }
+
+    .Setup_text {
+        font-weight: 700;
+    }
+
+    .inp_suffix {
+        width: 30%;
+    }
+
+    .demo-input-suffix {
+        display: flex;
+        align-items: center;
+        margin: 30px 0 0 30px;
+    }
+
+    .box_time {
+        width: 460px;
+        height: 440px;
+        padding: 20px;
+        background: rgb(181, 180, 180);
+        /*margin-left: 30px;*/
+        /*margin-top: 20px;*/
+    }
+
+    .box_time_One {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .time_One {
+        margin-right: 20px;
+    }
+</style>
+<input id="thread_input_period_json_value" name="thread_input_period_json_value" type="hidden" value="">
+</div>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}"/>
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        当天线索数量限制</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="totay_thread_limit_nums" lay-verify="number" autocomplete="off"
+                               class="layui-input" value="{{ d.totay_thread_limit_nums }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div style="width: 160px">
+                        进量周期时间(每周日晚上九点自动清空)
+                    </div>
+                    <div class="layui-input-block" style="margin-top: -35px">
+                        <input type="text" id="thread_input_period_string" name="thread_input_period_string"
+                               value="{{d.thread_input_period_string}}" class="layui-input"
+                               lay-verify="required">
+                        <input id="thread_input_period_json1" name="thread_input_period_json" type="hidden"
+                               value='{{d.thread_input_period_json}}' class="layui-input">
+                    </div>
+                </div>
+                <div id="app">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit=""
+                    lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp', 'admin'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.merchant/info",
+            data: {id: facade.getUrlParam('id')},
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            var defweek = [
+                {
+                    week: "周一",
+                    time: "",
+                },
+                {
+                    week: "周二",
+                    time: ""
+                },
+                {
+                    week: "周三",
+                    time: ""
+                },
+                {
+                    week: "周四",
+                    time: ""
+                },
+                {
+                    week: "周五",
+                    time: ""
+                },
+                {
+                    week: "周六",
+                    time: ""
+                },
+                {
+                    week: "周日",
+                    time: ""
+                }];
+
+            let json = (res.data.thread_input_period_json.length > 0) ? JSON.parse(res.data.thread_input_period_json) : defweek;
+            for (var i = 0; i < json.length; i++) {
+                if (json[i].time == null) {
+                    json[i].time = "";
+                }
+            }
+
+            if (res.code === 0) {
+                layui.laytpl($("#form").html()).render(res.data, function (string) {
+                    $("form").html(string);
+                    let div = ' <div class="box_time"><div class="box_time_One" v-for="(item , index) in list"><div class="time_One">{{item.week}}</div><el-time-picker v-model="item.time" @focus="bb(index)" :picker-options="{selectableRange: \'00:00:00 - 23:59:00\'}" @change="aa(index)" value-format="HH:mm" format=\'HH:mm\' placeholder="时--分"></el-time-picker></div></div>\n';
+                    $("#app").html(div);
+                    new Vue({
+                        el: '#app',
+                        data() {
+                            return {
+                                value1: json,   //传入后台数据
+                                list: json      //渲染数据
+                            }
+                        },
+                        created() {
+                            this.cc()
+                        },
+                        methods: {
+                            aa(index) {
+                                this.value1.splice(index, 1, this.list[index])
+                                $("#thread_input_period_json1").val(JSON.stringify(this.value1));
+                            },
+                            bb(index) {
+                                if (this.list[index].time == '') {
+                                    this.list[index].time = "00:00"
+                                }
+                            },
+                            cc() {
+                                this.store = (res.data.thread_input_period_json.length > 0) ? JSON.parse(res.data.thread_input_period_json) : '';
+                            }
+                        }
+                    })
+
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function (data) {
+            facade.ajax({
+                route: '/admin.merchant/setIsSwitchInput',
+                data: data.field
+            }).done(function (res) {
+                if (res.code === 0) {
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.funController.tableRender();
+                    parent.parent.renderMenu();//重新渲染菜单
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+
+    //回收站
+    public function recycle(){
+        $where = $this->buildSearchParams();
+        $order = $this->buildOrder();
+        $limit = $this->request->param('limit', 10);
+        $data  = $this->model->onlyTrashed()
+                 {%withRelation%}
+                 ->order($order)->where($where)->paginate($limit)->toArray();
+        return $this->success('回收站数据获取成功', $data);
+    }

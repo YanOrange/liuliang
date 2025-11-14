@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>课程列表</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">课程名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[title]" class="layui-input" autocomplete="off" placeholder="请输入课程名称"/>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">课程分类</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[course_type]"
+                             data-sourceType="data"
+                             data-radio="true"
+                             data-source="[{name:'精选',value:'1'},{name:'推荐',value:'2'}]"
+                             data-placeholder="请选择状态"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">商户</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[merchant_id]"
+                             data-sourceType="route"
+                             data-source="/admin.merchant/index?is_many_organization=4"
+                             data-radio="true"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择商户"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">应用</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[app_ids]"
+                             data-sourceType="route"
+                             data-source="/admin.app/index?is_many_organization=4&is_single_merchant=1"
+                             data-radio="true"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择应用"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[status]"
+                             data-sourceType="data"
+                             data-radio="true"
+                             data-source="[{name:'上架',value:'1'},{name:'下架',value:'0'}]"
+                             data-placeholder="请选择状态"
+                        ></div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate"
+                               id="create_time" name="search_param[create_time]"
+                               data-type="datetime" data-isRange="true" placeholder="请选择创建时间" >
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="default-toolbar">
+    <div class="dropdown-menu">
+        <button class="laytp-btn laytp-btn-primary laytp-btn-md">
+            <i class="layui-icon layui-icon-triangle-d"></i>
+            批量操作
+        </button>
+        <ul class="dropdown-menu-nav layui-anim-upbit dropdown-bottom-left layui-anim">
+            <div class="dropdown-anchor"></div>
+            {{# if(facade.hasAuth("/admin.single.course/edit")){ }}
+            <li><a lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a></li>
+            {{# } }}
+            {{# if(facade.hasAuth("/admin.single.course/del")){ }}
+            <li><a lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a></li>
+            {{# } }}
+        </ul>
+    </div>
+    {{# if(facade.hasAuth("/admin.single.course/add")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-md" lay-event="add">
+        <i class="layui-icon layui-icon-add-1"></i>
+        新增
+    </button>
+    {{# } }}
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+    {{# if(facade.hasAuth("/admin.single.course/recycle")){ }}
+    <button class="laytp-btn laytp-btn-success laytp-btn-md" lay-event="recycle">
+        <i class="layui-icon layui-icon-delete"></i>
+        回收站
+    </button>
+    {{# } }}
+</script>
+
+<script type="text/html" id="default-bar">
+    {{# if(facade.hasAuth("/admin.single.course/edit")){ }}
+    <button class="laytp-btn laytp-btn-primary laytp-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.single.course/evaluate")){ }}
+    <button class="laytp-btn laytp-btn-primary laytp-btn-xs" lay-event="evaluate">评价</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.single.course/showEvaluateList")){ }}
+    <button class="laytp-btn laytp-btn-primary laytp-btn-xs" lay-event="showEvaluateList">评价列表</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.single.course/del")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+    {{# } }}
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/single/course.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/single/course.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

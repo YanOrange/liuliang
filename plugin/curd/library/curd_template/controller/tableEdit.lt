@@ -1,0 +1,25 @@
+
+    //设置{%comment%}
+    public function set{%funcName%}()
+    {
+        $id       = $this->request->post('id');
+        $fieldVal = $this->request->post('field_val');
+        $isRecycle = $this->request->post('is_recycle');
+        $update['{%field%}'] = $fieldVal;
+        try {
+            if($isRecycle) {
+                $updateRes = $this->model->onlyTrashed()->where('id', '=', $id)->update($update);
+            } else {
+                $updateRes = $this->model->where('id', '=', $id)->update($update);
+            }
+            if ($updateRes) {
+                return $this->success('操作成功');
+            } else if ($updateRes === 0) {
+                return $this->success('未作修改');
+            } else {
+                return $this->error('操作失败');
+            }
+        } catch (\Exception $e) {
+            return $this->error('数据库异常，操作失败');
+        }
+    }

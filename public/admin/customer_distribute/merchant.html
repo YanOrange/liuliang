@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商户客服分配比例</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/customerDistributeMerchant.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/customerDistributeMerchant.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

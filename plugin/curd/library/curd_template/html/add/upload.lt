@@ -1,0 +1,5 @@
+<div class="laytpUpload"
+                             data-name="{%field%}"
+                             data-accept="{%accept%}"
+                             data-multi="{%multi%}"{%type%}{%viaServer%}{%width%}{%height%}{%max%}{%dir%}{%url%}{%mime%}{%size%}{%verify%}
+                        ></div>

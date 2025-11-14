@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>线索详情</title>
+</head>
+<style>
+    .main{
+        width:80%;
+        margin-top:10px
+    }
+</style>
+<body>
+<form type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div style="font-weight: bold;margin-top: 25px;margin-left: 20px;font-size: 16px">第一步：线索基础信息</div>
+    <div class="main">
+        <table class="layui-table" lay-skin="line" style="margin: 20px 20px;">
+            <tbody>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">ID</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.id}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">用户昵称</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.user.nickname}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">手机号</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.user.phone}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">微信昵称</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.user.wx_nickname}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">微信账号</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.user.wx_nickname}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">年龄</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.user.age_range}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">学历</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.user.education}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">身份</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.user.identity}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">来源商户</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.merchant.merchant_name}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">渠道</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.channel}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">应用分类</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.class.app_class_name}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">产品类型</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.thread_type}}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">报名课程</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.course.title}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">创建时间</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.create_time}}</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="font-weight: bold;margin-top: 25px;margin-left: 20px;font-size: 16px">第二步：生成客服二维码</div>
+    <div class="main">
+        <table class="layui-table" lay-skin="line" style="margin: 20px 20px;">
+            <tbody>
+                <tr>
+                    <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                        <div class="layui-table-cell laytable-cell-4-0-22">分配商户</div>
+                    </td>
+                    <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                        <div class="layui-table-cell laytable-cell-4-0-22">{{d.assign.merchant_name}}</div>
+                    </td>
+                    <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                        <div class="layui-table-cell laytable-cell-4-0-22">分配客服</div>
+                    </td>
+                    <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                        <div class="layui-table-cell laytable-cell-4-0-22">{{d.assign.customer_name}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                        <div class="layui-table-cell laytable-cell-4-0-22">客服二维码</div>
+                    </td>
+                    <td data-field="operation" colspan="3" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                        <div class="laytable-cell-4-0-22">
+                            <img src="{{d.assign.customer_qr_code}}" alt="" style="height:100px;">
+                            <input type="hidden" name="customer_qr_code" value="{{d.assign.customer_qr_code}}">
+                            <span style="color:deepskyblue;cursor: pointer;" onclick="copyImg()">复制二维码</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="font-weight: bold;margin-top: 25px;margin-left: 20px;font-size: 16px">第三步：操作信息</div>
+    <div class="main">
+        <table class="layui-table" lay-skin="line" style="margin: 20px 20px;">
+            <tbody>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">操作人</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.assign.admin_username}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">操作时间</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{d.create_time}}</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</form>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+
+<script>
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread_transformation/detail",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true,
+            cache:false,
+        }).done(function(res){
+            if(res.code === 0){
+                $('#form')[0].reset();
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+    })
+
+    function copyImg() {
+        var text = $("input[name=customer_qr_code]").val();
+        var oInput = document.createElement('input');
+        oInput.value = text;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display='none';
+        alert('复制成功')
+    }
+
+</script>
+</body>
+</html>

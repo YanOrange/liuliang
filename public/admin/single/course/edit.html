@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑课程</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}"/>
+    <div class="mainBox">
+        <div style="font-weight: bold;margin-top: 25px;margin-left: 20px;font-size: 16px">基础设置</div>
+        <div style="width: 98%;border: 0.1px solid grey;opacity: 0.3;margin: auto;margin-top: 10px;"></div>
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        课程分类</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="course_type" value="1" title="精选" {{# if(d.course_type===1){
+                               }}checked="checked" {{# } }}>
+                        <input type="radio" name="course_type" value="2" title="推荐" {{# if(d.course_type===2){
+                               }}checked="checked" {{# } }}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="上架" {{# if(d.status===1){ }}checked="checked"
+                               {{# } }}>
+                        <input type="radio" name="status" value="0" title="下架" {{# if(d.status===0){ }}checked="checked"
+                               {{# } }}>
+                    </div>
+                </div>
+                <div class="" style="line-height: 35px">
+                    <div class="layui-input-block" style="color: red; font-weight: bold;">**********  添加商户时，请选择一个站内商户</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        商户</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="merchant_ids"
+                             data-sourceType="route"
+                             data-source="/admin.CommonApi/getMerchantList"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="添加商户时，请选择一个站内商户"
+                             data-selected="{{=d.merchant_ids}}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        应用</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_ids"
+                             data-sourceType="route"
+                             data-source="/admin.app/index?is_many_organization=4&is_single_merchant=1"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="应用"
+                             data-selected="{{=d.app_ids}}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        课程名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" maxlength="30" lay-verify="required|title" autocomplete="off"
+                               placeholder="请输入课程名称" class="layui-input" value="{{ d.title }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        主讲老师昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="teacher_name" maxlength="30" autocomplete="off"
+                               placeholder="请输入主讲老师昵称" class="layui-input" value="{{ d.teacher_name }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主讲老师头像</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="teacher_avatar"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-uploaded="{{ d.teacher_avatar }}"
+                             data-uploadedId="{{ d.teacher_avatar }}"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主讲老师简介</label>
+                    <div class="layui-input-block">
+                        <textarea name="teacher_desc" class="layui-textarea">{{ d.teacher_desc }}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        课程描述</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="course_desc" maxlength="30" lay-verify="required|course_desc" autocomplete="off"
+                               placeholder="请输入课程描述" class="layui-input" value="{{ d.course_desc }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课程标签</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="tag_id"
+                             data-sourceType="route"
+                             data-source="/admin.part.part_course_tag/index?tag_type=2"
+                             data-textField="tag_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择标签"
+                             data-radio="true"
+                             data-selected="{{=d.tag_id}}"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        售卖价</label>
+                    <div class="layui-input-block" style="display: flex">
+                        <input type="number" style="width: 50%" name="entry_fee" lay-verify="number|entry_fee"
+                               autocomplete="off" placeholder="请输入售卖价" class="layui-input" value="{{ d.entry_fee }}">
+                        <label class="layui-form-label">
+                            <text title="必填项" style="color:red;">*</text>
+                            原价(下划线价格)</label>
+                        <input type="number" style="width: 50%" name="original_price" lay-verify="number|original_price"
+                               autocomplete="off" placeholder="请输入原价" class="layui-input"
+                               value="{{ d.original_price }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        课程封面</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_cover_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-uploaded="{{ d.video_cover_image }}"
+                             data-uploadedId="{{ d.video_cover_image }}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        视频</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_url"
+                             data-accept="video"
+                             data-uploaded="{{ d.video_url }}"
+                             data-uploadedId="{{ d.video_url }}"
+                             data-type="ali-oss-url"
+                             data-viaServer="unVia"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        学习人数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="virtual_apply_nums" lay-verify="number|virtual_apply_nums"
+                               autocomplete="off"
+                               placeholder="请输入虚拟学习人数" class="layui-input" value="{{ d.virtual_apply_nums }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" title="ueditor编辑器">
+                        <text title="必填项" style="color:red;">*</text>
+                        内容</label>
+                    <div class="layui-input-block">
+                        <iframe src="/admin/ueditor.html?id=ueditor" class="editor" data-type="ueditor"
+                                data-id="content" style="width:100%;height:530px;border: 0"></iframe>
+                        <textarea class="editorContent" data-id="ueditor"
+                                  style="display:none;">{{=d.content}}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        关联学习视频资源</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="video_resource_ids"
+                             data-sourceType="route"
+                             data-source="/admin.part.study_video_resource/index"
+                             data-textField="video_title"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择关联学习视频资源"
+                             data-selected="{{=d.video_resource_ids}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关联课程</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="course_ids"
+                             data-sourceType="route"
+                             data-source="/admin.single.course/index?cid={{=d.id}}"
+                             data-textField="title"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择关联课程"
+                             data-selected="{{=d.course_ids}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        排序</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="sort" lay-verify="number" autocomplete="off" placeholder="请输入排序"
+                               class="layui-input" value="{{ d.sort }}">
+                    </div>
+                </div>
+                <div style="font-weight: bold;margin-top: 25px;margin-left: 20px;font-size: 16px">其它设置</div>
+                <div style="width: 98%;border: 0.1px solid grey;opacity: 0.3;margin: auto;margin-top: 10px;"></div>
+
+                <div style="font-weight: bold;margin-top: 25px;margin-left: 25px;font-size: 14px">按钮文案设置</div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="btn_desc" lay-verify="required" autocomplete="off"
+                               placeholder="请输入按钮文案" class="layui-input" value="{{ d.btn_desc }}">
+                    </div>
+                </div>
+                <div style="font-weight: bold;margin-top: 25px;margin-left: 25px;font-size: 14px">二次确认信息设置</div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <table class="layui-table" lay-skin="line">
+                            <thead>
+                            </thead>
+                            <tbody>
+                            {{# if(d.confirm_copy_desc){ }}
+                            {{# var key; for(key in d.confirm_copy_desc){ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><label>
+                                    <text title="必填项" style="color:red;">*</text>
+                                    文案<span>{{=parseInt(key)+1}}</span></label><input class="layui-input" type="text"
+                                                                                      name="confirm_copy_desc[desc][]"
+                                                                                      value="{{=d.confirm_copy_desc[key]['desc']}}"/>
+                                </td>
+                            </tr>
+                            {{# } }}
+                            {{# }else{ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><label>
+                                    <text title="必填项" style="color:red;">*</text>
+                                    文案1</label><input class="layui-input" type="text" name="confirm_copy_desc[desc][]"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><label>
+                                    <text title="必填项" style="color:red;">*</text>
+                                    文案2</label><input class="layui-input" type="text" name="confirm_copy_desc[desc][]"/>
+                                </td>
+                            </tr>
+                            {{# } }}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        流程设置</label>
+                    <div class="layui-input-block">
+                        <table class="layui-table" lay-skin="line">
+                            <thead>
+                            </thead>
+                            <tbody>
+                            {{# if(d.flow_desc){ }}
+                            {{# var key; for(key in d.flow_desc){ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><label>
+                                    <text title="必填项" style="color:red;">*</text>
+                                    第{{=parseInt(key)+1}}步</label><input class="layui-input" type="text"
+                                                                         name="flow_desc[desc][]"
+                                                                         value="{{=d.flow_desc[key]['desc']}}"
+                                                                         lay-verify="required"/></td>
+                            </tr>
+                            {{# } }}
+                            {{# }else{ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><label>
+                                    <text title="必填项" style="color:red;">*</text>
+                                    第1步</label><input class="layui-input" type="text" name="flow_desc[desc][]"
+                                                      lay-verify="required"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><label>
+                                    <text title="必填项" style="color:red;">*</text>
+                                    第2步</label><input class="layui-input" type="text" name="flow_desc[desc][]"
+                                                      lay-verify="required"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px 15px;"><label>
+                                    <text title="必填项" style="color:red;">*</text>
+                                    第3步</label><input class="layui-input" type="text" name="flow_desc[desc][]"
+                                                      lay-verify="required"/></td>
+                            </tr>
+                            {{# } }}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        确认按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="confirm_btn_desc" lay-verify="required" autocomplete="off"
+                               placeholder="请输入按钮文案" class="layui-input" value="{{ d.confirm_btn_desc }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit=""
+                    lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.form.verify({
+        //value：表单的值、item：表单的DOM对象
+        title: function (value, item) {
+            if (value.length > 30) {
+                return '课程名称不能大于30个字';
+            }
+        },
+        course_desc: function (value, item) {
+            if (value.length > 30) {
+                return '课程描述不能大于30个字';
+            }
+        },
+        entry_fee: function (value, item) {
+            if (value < 0) {
+                return '课程价格不能小于0';
+            }
+        },
+        original_price: function (value, item) {
+            if (value < 0) {
+                return '课程原价不能小于0';
+            }
+        },
+        virtual_apply_nums: function (value, item) {
+            if (value < 0) {
+                return '课程原价不能小于0';
+            }
+        },
+    });
+
+    layui.use(['laytp'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if (!id) {
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.single.course/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                layui.laytpl($("#form").html()).render(res.data, function (string) {
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function (data) {
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route: '/admin.single.course/edit',
+                data: data.field
+            }).done(function (res) {
+                if (res.code === 0) {
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

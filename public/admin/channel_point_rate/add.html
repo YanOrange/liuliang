@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加返点</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input laydate" lay-verify="required"
+                               id="point_date" name="point_date"
+                               data-type="date" data-isRange="true" placeholder="请选择日期" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="channel_id"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getChannelList"
+                             data-radio="true"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="number" name="point_rate" lay-verify="required"
+                               autocomplete="off" placeholder="请输入返点" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        layui.form.on('submit(add)', function(data){
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route:'/admin.channel_point_rate/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

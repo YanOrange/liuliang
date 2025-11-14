@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加渠道落地页</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>是否审核专用</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_audit" value="0" title="否" checked>
+                        <input type="radio" name="is_audit" value="1" title="是" >
+                    </div>
+                </div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title"  lay-verify="required" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                    </div>
+                </div>
+                 <input type="hidden" name="channel_id"  class="layui-input" id="channel_id">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>副标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sub_title"  lay-verify="required" autocomplete="off" placeholder="请输入副标题" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>首页按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="main_btn_desc"  lay-verify="required" autocomplete="off" placeholder="请输入首页按钮文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ldy_btn_desc"  lay-verify="required" autocomplete="off" placeholder="请输入落地页按钮文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>留资页选项按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ldylz_option_btn_desc"  lay-verify="required" autocomplete="off" placeholder="请输入留资页按钮文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" id="app_login_btn_color">
+                    <label class="layui-form-label">留资页按钮背景色</label>
+                    <div class="layui-input-block">
+                        <div class="colorPicker"
+                             data-id="color_picker"
+                             data-name="ldylz_btn_color"
+                             data-color="#000"
+                             data-format="hex"
+                             data-alpha="true"
+                             data-predefine="true"
+                             data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                        ></div>
+                    </div>
+                </div>
+                 <div class="layui-form-item">
+                    <label class="layui-form-label">留资页选项背景色</label>
+                    <div class="layui-input-block">
+                        <div class="colorPicker"
+                             data-id="color_picker2"
+                             data-name="ldylz_option_color"
+                             data-color="#000"
+                             data-format="hex"
+                             data-alpha="true"
+                             data-predefine="true"
+                             data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                        ></div>
+                    </div>
+                </div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>标签(多个以英文逗号,分开)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="labelList"  lay-verify="required" autocomplete="off" placeholder="请输入标签" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>虚拟参与人数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="participation_nums"  lay-verify="required" autocomplete="off" placeholder="请输入虚拟参与人数" class="layui-input" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>排序</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="weight"  lay-verify="required" autocomplete="off" placeholder="请输入排序" class="layui-input" value="0">
+                    </div>
+                </div>
+                 <div class="layui-form-item">
+                    <label class="layui-form-label">APP多张背景图版本必传</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="more_background_images"
+                             data-accept="image"
+                             data-multi="true"
+                             data-max="3"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页按钮动图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="btn_gif"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>首页视频背景图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_cover_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>首页视频封面图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="main_video_cover_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        落地页视频</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_url"
+                             data-accept="video"
+                             data-type="ali-oss-url"
+                             data-viaServer="unVia"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页主图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="landing_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        channelId = facade.getUrlParam('channel_id');
+        $("#channel_id").val(channelId);
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/admin.channel_ldy_list/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

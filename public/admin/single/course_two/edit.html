@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑课程</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}"/>
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>商户</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="merchant_ids"
+                             data-sourceType="route"
+                             data-source="/admin.merchant/index?is_many_organization=4"
+                             data-textField="merchant_name_source"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="添加商户时，请选择一个站内商户"
+                             data-selected="{{=d.merchant_ids}}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>课程名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" maxlength="30" lay-verify="required|title" autocomplete="off" placeholder="请输入课程名称" class="layui-input" value="{{ d.title }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>应用</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_ids"
+                             data-sourceType="route"
+                             data-source="/admin.app/index?is_many_organization=4"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="应用"
+                             data-selected="{{=d.app_ids}}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>课程主题图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_cover_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-uploaded="{{ d.video_cover_image }}"
+                             data-uploadedId="{{ d.video_cover_image }}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>课程视频</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_url"
+                             data-accept="video"
+                             data-type="ali-oss-url"
+                             data-uploaded="{{ d.video_url }}"
+                             data-uploadedId="{{ d.video_url }}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>视频入口图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_entry_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-uploaded="{{ d.video_entry_image }}"
+                             data-uploadedId="{{ d.video_entry_image }}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>报名按钮图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="apply_btn_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-uploaded="{{ d.apply_btn_image }}"
+                             data-uploadedId="{{ d.apply_btn_image }}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>报名课程图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="apply_course_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-uploaded="{{ d.apply_course_image }}"
+                             data-uploadedId="{{ d.apply_course_image }}"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>售卖价</label>
+                    <div class="layui-input-block" style="display: flex">
+                        <input type="number" style="width: 50%" name="entry_fee" lay-verify="number|entry_fee" autocomplete="off" placeholder="请输入售卖价" class="layui-input" value="{{ d.entry_fee }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="上架" {{# if(d.status===1){ }}checked="checked" {{# } }}>
+                        <input type="radio" name="status" value="0" title="下架" {{# if(d.status===0){ }}checked="checked" {{# } }}>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit=""
+                    lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.form.verify({
+        //value：表单的值、item：表单的DOM对象
+        title: function (value, item) {
+            if (value.length > 30) {
+                return '课程名称不能大于30个字';
+            }
+        },
+        entry_fee: function (value, item) {
+            if (value < 0) {
+                return '课程价格不能小于0';
+            }
+        }
+    });
+
+    layui.use(['laytp'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if (!id) {
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.single.course_two/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                layui.laytpl($("#form").html()).render(res.data, function (string) {
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function (data) {
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route: '/admin.single.course_two/edit',
+                data: data.field
+            }).done(function (res) {
+                if (res.code === 0) {
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

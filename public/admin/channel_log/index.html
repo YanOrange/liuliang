@@ -1,0 +1,1573 @@
+<html>
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <title>Element Plus demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #eee;
+        }
+
+        #app {
+            height: 800px;
+            background-color: #fff;
+            border: 1px solid #fff;
+            font-size: 14px;
+        }
+
+        #app .top {
+            width: 100%;
+            height: 40px;
+            margin-top: 20px;
+            justify-content: space-around;
+            font-size: 13px !important;
+            color: #666;
+        }
+
+        #app .top .time {
+            width: 360px;
+            height: 40px;
+            float: left;
+        }
+
+        #app .top .time p:nth-child(1) {
+            float: left;
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        #app .top .time p:nth-child(2) {
+            float: left;
+            margin-left: 10px;
+            width: 220px;
+            height: 40px;
+        }
+
+        #app .top .search {
+            float: right;
+            width: 80px;
+            height: 40px;
+            margin-right: 20px;
+        }
+
+        #app .add {
+            height: 40px;
+            margin-top: 20px;
+            margin-left: 12px;
+        }
+
+        #app .form {
+            width: 100%;
+            height: 600px;
+            margin-top: 20px;
+            overflow-y: auto;
+        }
+
+        #app .form .title {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: space-around;
+            background-color: #FAFAFA;
+            font-size: 13px !important;
+            font-weight: bold;
+            color: #666666;
+        }
+
+        #app .form .title .title-item {
+            width: 14%;
+            text-align: center;
+        }
+
+        #app .form .list {
+            width: 100%;
+            height: auto;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            font-size: 13px !important;
+            color: #666;
+        }
+
+        #app .form .list .item {
+            width: 100%;
+            height: auto;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #app .form .list .item .log_list-item {
+            width: 14%;
+            text-align: center;
+            line-height: 40px;
+            border-right: 1px solid #eee;
+        }
+
+        #app .form .list .item .log_list-item:nth-child(2) {
+            border-left: 1px solid #eee;
+        }
+
+        #app .form .list .item .log_list-item:nth-child(3) {
+            width: 44%;
+            height: auto;
+        }
+
+        #app .form .list .item .log_list-item:nth-child(3) .card {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+        }
+
+        #app .form .list .item .log_list-item:nth-child(3) .card:last-child {
+            border: none;
+        }
+
+        #app .form .list .item .log_list-item:nth-child(3) .card .card-item {
+            width: 33%;
+            border-right: 1px solid #eee;
+        }
+
+        #app .form .list .item .log_list-item:nth-child(3) .card .card-item:last-child {
+            border: none;
+        }
+
+        .v-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: justify;
+        }
+
+        #app .pop {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        #app .pop .content {
+            position: absolute;
+            left: 5%;
+            top: 5%;
+            width: 90%;
+            height: 90%;
+            background-color: #fff;
+            overflow-y: auto;
+        }
+
+        #app .pop .content .content-title {
+            position: sticky;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            z-index: 1;
+            background: #36b368;
+            color: #fff;
+            border: none;
+        }
+
+        #app .pop .content .content-title span:nth-child(1) {
+            float: left;
+            font-weight: bold;
+            margin-left: 20px;
+            font-size: 14px;
+            padding: 0 80px 0 20px;
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 1px solid #F0F0F0;
+            overflow: hidden;
+            border-radius: 2px 2px 0 0;
+        }
+
+        #app .pop .content .content-title span:nth-child(2) {
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        #app .pop .content .select {
+            width: 98%;
+            height: 340px;
+            margin: 40px auto;
+            display: flex;
+        }
+
+        #app .pop .content .select .left {
+            width: 200px;
+            height: 340px;
+        }
+
+        #app .pop .content .select .right {
+            flex: 1;
+            margin-left: 20px;
+            padding-left: 20px;
+            height: 340px;
+            background-color: #eee;
+            position: relative;
+        }
+
+        #app .pop .content .select .right .delete {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 30px;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        #app .pop .content .select .right .title {
+            width: 100%;
+            height: 40px;
+            margin-top: 20px;
+        }
+
+        #app .pop .content .select .right .text {
+            width: 90%;
+            height: 40px;
+        }
+
+        #app .pop .content .select .right .desc {
+            width: 100%;
+            height: 60px;
+            color: #9A9A9A;
+            cursor: pointer;
+        }
+
+        #app .pop .content .select .right .desc span {
+            line-height: 60px;
+        }
+
+        #app .pop .content .select .right .desc .showimg {
+            width: 60px;
+            height: 60px;
+            float: left;
+            margin-right: 5px;
+            position: relative;
+        }
+
+        #app .pop .content .select .right .desc .showimg img {
+            width: 60px;
+            height: 60px;
+        }
+
+        #app .pop .content .select .right .desc .showimg .delimg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 15px;
+            text-align: center;
+            height: 15px;
+            line-height: 15px;
+            font-size: 20px;
+            color: red;
+        }
+
+        #app .pop .content .bottom {
+            position: sticky;
+            width: 100%;
+            height: 240px;
+            left: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 100;
+        }
+
+        #app .pop .content .bottom .addvalue {
+            width: 90%;
+            height: 38px;
+            margin: 0 auto;
+            border: 1px solid #000;
+            text-align: center;
+            line-height: 38px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        #app .pop .content .bottom .timer {
+            width: 90%;
+            height: 40px;
+            margin: 20px auto;
+        }
+
+        #app .pop .content .bottom .timer-title {
+            line-height: 40px;
+            display: inline;
+        }
+
+        #app .pop .content .bottom .timer-list {
+            margin-left: 20px;
+            display: inline;
+        }
+
+        #app .pop .content .bottom .channel {
+            width: 90%;
+            height: 40px;
+            margin: 20px auto;
+        }
+
+        #app .pop .content .bottom .channel-title {
+            line-height: 40px;
+            display: inline;
+        }
+
+        #app .pop .content .bottom .channel-list {
+            margin-left: 40px;
+            display: inline;
+        }
+
+        #app .pop .content .bottom .btn {
+            width: 90%;
+            height: 40px;
+            margin: 0 auto;
+        }
+
+        #app .pop .content .bottom .btn p:nth-child(1) {
+            float: right;
+            margin-left: 20px;
+        }
+
+        #app .pop .content .bottom .btn p:nth-child(2) {
+            float: right;
+        }
+
+        #app .pop1 {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        #app .pop1 .content {
+            position: absolute;
+            left: 5%;
+            top: 5%;
+            width: 90%;
+            height: 90%;
+            background-color: #fff;
+            overflow-y: auto;
+        }
+
+        #app .pop1 .content .content-title {
+            position: sticky;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            z-index: 1;
+            background: #36b368;
+            color: #fff;
+            border: none;
+        }
+
+        #app .pop1 .content .content-title span:nth-child(1) {
+            float: left;
+            font-weight: bold;
+            margin-left: 20px;
+            font-size: 14px;
+            padding: 0 80px 0 20px;
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 1px solid #F0F0F0;
+            overflow: hidden;
+            border-radius: 2px 2px 0 0;
+        }
+
+        #app .pop1 .content .content-title span:nth-child(2) {
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        #app .pop1 .content .select {
+            width: 98%;
+            height: 340px;
+            margin: 40px auto;
+            display: flex;
+        }
+
+        #app .pop1 .content .select .left {
+            width: 200px;
+            height: 340px;
+        }
+
+        #app .pop1 .content .select .right {
+            flex: 1;
+            margin-left: 20px;
+            padding-left: 20px;
+            height: 340px;
+            background-color: #eee;
+            position: relative;
+        }
+
+        #app .pop1 .content .select .right .delete {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 30px;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        #app .pop1 .content .select .right .title {
+            width: 100%;
+            height: 40px;
+            margin-top: 20px;
+        }
+
+        #app .pop1 .content .select .right .text {
+            width: 90%;
+            height: 40px;
+        }
+
+        #app .pop1 .content .select .right .desc {
+            width: 100%;
+            height: 60px;
+            color: #9A9A9A;
+            cursor: pointer;
+        }
+
+        #app .pop1 .content .select .right .desc span {
+            line-height: 60px;
+        }
+
+        #app .pop1 .content .select .right .desc .showimg {
+            width: 60px;
+            height: 60px;
+            float: left;
+            margin-right: 5px;
+            position: relative;
+        }
+
+        #app .pop1 .content .select .right .desc .showimg img {
+            width: 60px;
+            height: 60px;
+        }
+
+        #app .pop1 .content .select .right .desc .showimg .delimg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 15px;
+            text-align: center;
+            height: 15px;
+            line-height: 15px;
+            font-size: 20px;
+            color: red;
+        }
+
+        #app .pop1 .content .bottom {
+            position: sticky;
+            width: 100%;
+            height: 240px;
+            left: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 100;
+        }
+
+        #app .pop1 .content .bottom .addvalue {
+            width: 90%;
+            height: 38px;
+            margin: 0 auto;
+            border: 1px solid #000;
+            text-align: center;
+            line-height: 38px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        #app .pop1 .content .bottom .timer {
+            width: 90%;
+            height: 40px;
+            margin: 20px auto;
+        }
+
+        #app .pop1 .content .bottom .timer-title {
+            line-height: 40px;
+            display: inline;
+        }
+
+        #app .pop1 .content .bottom .timer-list {
+            margin-left: 20px;
+            display: inline;
+        }
+
+        #app .pop1 .content .bottom .channel {
+            width: 90%;
+            height: 40px;
+            margin: 20px auto;
+        }
+
+        #app .pop1 .content .bottom .channel-title {
+            line-height: 40px;
+            display: inline;
+        }
+
+        #app .pop1 .content .bottom .channel-list {
+            margin-left: 40px;
+            display: inline;
+        }
+
+        #app .pop1 .content .bottom .btn {
+            width: 90%;
+            height: 40px;
+            margin: 0 auto;
+        }
+
+        #app .pop1 .content .bottom .btn p:nth-child(1) {
+            float: right;
+            margin-left: 20px;
+        }
+
+        #app .pop1 .content .bottom .btn p:nth-child(2) {
+            float: right;
+        }
+
+        #app .pop2 {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        #app .pop2 .content {
+            position: absolute;
+            left: 5%;
+            top: 5%;
+            width: 90%;
+            height: 90%;
+            background-color: #fff;
+            overflow-y: auto;
+        }
+
+        #app .pop2 .content .content-title {
+            position: sticky;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            z-index: 1;
+            background: #36b368;
+            color: #fff;
+            border: none;
+        }
+
+        #app .pop2 .content .content-title span:nth-child(1) {
+            float: left;
+            font-weight: bold;
+            margin-left: 20px;
+            font-size: 14px;
+            padding: 0 80px 0 20px;
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 1px solid #F0F0F0;
+            overflow: hidden;
+            border-radius: 2px 2px 0 0;
+        }
+
+        #app .pop2 .content .content-title span:nth-child(2) {
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        #app .pop2 .content .select {
+            width: 98%;
+            height: 340px;
+            margin: 40px auto;
+            display: flex;
+        }
+
+        #app .pop2 .content .select .left {
+            width: 200px;
+            height: 340px;
+        }
+
+        #app .pop2 .content .select .right {
+            flex: 1;
+            margin-left: 20px;
+            padding-left: 20px;
+            height: 340px;
+            background-color: #eee;
+        }
+
+        #app .pop2 .content .select .right .title {
+            width: 100%;
+            height: 40px;
+            margin-top: 20px;
+        }
+
+        #app .pop2 .content .select .right .text {
+            width: 90%;
+            height: 40px;
+        }
+
+        #app .pop2 .content .select .right .desc {
+            width: 100%;
+            height: 60px;
+            color: #9A9A9A;
+            cursor: pointer;
+        }
+
+        #app .pop2 .content .select .right .desc span {
+            line-height: 60px;
+        }
+
+        #app .pop2 .content .select .right .desc .showimg {
+            width: 60px;
+            height: 60px;
+            float: left;
+            margin-right: 5px;
+            position: relative;
+        }
+
+        #app .pop2 .content .select .right .desc .showimg img {
+            width: 60px;
+            height: 60px;
+        }
+
+        #app .pop2 .content .bottom {
+            position: sticky;
+            width: 100%;
+            height: 160px;
+            left: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 100;
+        }
+
+        #app .pop2 .content .bottom .timer {
+            width: 90%;
+            height: 40px;
+            margin: 0 auto;
+        }
+
+        #app .pop2 .content .bottom .timer-title {
+            line-height: 40px;
+            display: inline;
+        }
+
+        #app .pop2 .content .bottom .timer-list {
+            margin-left: 20px;
+            display: inline;
+        }
+
+        #app .pop2 .content .bottom .channel {
+            width: 90%;
+            height: 40px;
+            margin: 20px auto;
+        }
+
+        #app .pop2 .content .bottom .channel-title {
+            line-height: 40px;
+            display: inline;
+        }
+
+        #app .pop2 .content .bottom .channel-list {
+            margin-left: 40px;
+            display: inline;
+        }
+
+        #app .pop2 .content .bottom .btn {
+            width: 90%;
+            height: 40px;
+            margin: 0 auto;
+        }
+
+        #app .pop2 .content .bottom .btn p:nth-child(1) {
+            float: left;
+        }
+
+        #app .pop2 .content .bottom .btn p:nth-child(2) {
+            float: right;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <!-- 上边 -->
+    <div class="top">
+
+        <div class="time">
+            <p>更新时间 :</p>
+            <p>
+                <el-date-picker style="width: 100%;height: 40px;" v-model="last_update_time" type="datetimerange"
+                                range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间"/>
+            </p>
+        </div>
+
+        <div class="time">
+            <p>创建时间 :</p>
+            <p>
+                <el-date-picker style="width: 100%;height: 40px;" v-model="create_time" type="datetimerange"
+                                range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间"/>
+            </p>
+        </div>
+        <div class="time">
+            <p>渠道 :</p>
+            <p>
+                <el-select clearable="true" style="width: 100%;height: 40px;" v-model="searchChannelId" placeholder="请选择渠道"
+                           size="large">
+                    <el-option v-for="(item,index) in channelList" :key="item.id" :label="item.channel_name" :value="item.id"/>
+                </el-select>
+            </p>
+        </div>
+        <div class="time">
+            <p>更新类型 :</p>
+            <p>
+                <el-select clearable="true" style="width: 100%;height: 40px;" v-model="selectType" placeholder="请选择更新类型"
+                           size="large">
+                    <el-option v-for="(item,index) in updateType" :key="item.id" :label="item.name" :value="item.id"/>
+                </el-select>
+            </p>
+        </div>
+
+    </div>
+    <!-- 添加记录 -->
+    <div class="add">
+        <el-button style="background-color:#f6ad55;border: #f6ad55" type="success" @click="search">搜索</el-button>
+        <el-button style="" type="info" @click="resetForm(ruleFormRef)">重置</el-button>
+        <el-button style="background-color: #36b368" type="success" @click="showAddWin()" v-if="addBtnStatus">添加记录
+        </el-button>
+    </div>
+    <!-- 表格 -->
+    <div class="form">
+        <div class="title">
+            <div class="title-item">更新时间</div>
+            <div class="title-item">渠道名称</div>
+            <div class="title-item">更新类型</div>
+            <div class="title-item">当前内容</div>
+            <div class="title-item">之前内容</div>
+            <div class="title-item">操作人</div>
+            <div class="title-item">创建时间</div>
+            <div class="title-item">创建时间</div>
+        </div>
+        <div class="list">
+            <div class="item" v-for="(item,index) in logList" :key="index">
+                <div class="log_list-item v-center">{{item.last_update_time}}</div>
+                <div class="log_list-item v-center">{{item.channel.channel_name}}</div>
+                <div class="log_list-item">
+                    <div class="card" v-for="(m,n) in item.content" :key="n">
+                        <div class="card-item first">{{m.type_str}}</div>
+                        <div class="card-item">
+                            {{m.current_content}}
+                            <span v-if="m.current_img">
+                                    [图片]
+                                </span>
+                        </div>
+                        <div class="card-item">{{m.last_content}}
+                            <span v-if="m.last_img">
+                                    [图片]
+                                </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="log_list-item v-center">{{item.createUser.nickname}}</div>
+                <div class="log_list-item v-center">{{item.create_time}}</div>
+                <div class="log_list-item v-center" style="padding: 5px">
+                    <el-button style="background-color: #36b368!important" type="success" :icon="Edit"
+                               @click="showEditWin(item.id)" v-if="editBtnStatus">编辑
+                    </el-button>
+                    <el-button style="background-color: #36b368!important" type="success" :icon="Grid"
+                               @click="showDetailWin(item.id)">查看
+                    </el-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="demo-pagination-block " style="z-index:0">
+        <el-pagination
+                v-model:currentPage="page"
+                v-model:page-size="pageSize"
+                :page-sizes="[10, 30, 50, 100]"
+                :small="small"
+                :disabled="disabled"
+                :background="background"
+                layout="  prev, pager, next,sizes, total"
+                :total="totalRecord"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+        />
+    </div>
+
+    <!-- 添加弹窗 -->
+    <div class="pop" v-if="showAddWinStatus">
+        <!-- 主体 -->
+        <div class="content">
+            <!-- 标题 -->
+            <div class="content-title">
+                <span>添加记录</span>
+                <span @click="hideAddWin()"> × </span>
+            </div>
+            <!-- 下拉主体 -->
+            <div class="select" v-for="(m,n) in dataList" :key="n">
+                <!-- 左边 -->
+                <div class="left">
+                    <el-select style="width: 100%" clearable="true" v-model="m.type" placeholder="请选择"
+                               size="large">
+                        <el-option v-for="item in m.selectList" :key="item.id" :label="item.name" :value="item.id"/>
+                    </el-select>
+                </div>
+
+                <!-- 右边 -->
+                <div class="right">
+                    <p class="delete" @click="del(m)">
+                        ×
+                    </p>
+                    <div class="title">当前内容</div>
+                    <div class="text">
+                        <el-input clearable="true" v-model="m.current_content" placeholder="请输入文字"/>
+                    </div>
+                    <div class="desc">
+                        <!-- 删除图片 -->
+                        <template v-for="(item,index) in m.current_img" ::key="index">
+                                <span class="showimg">
+                                    <img :src="item" alt="" @click="showImg(item)">
+                                    <b @click="delCurrentImg(m,item,index)" class="delimg">
+                                        ×
+                                    </b>
+                                </span>
+                        </template>
+                        <el-upload action="/admin.common/upload" :headers="tokens" name="laytpUploadFile"
+                                   accept="image/*" :show-file-list="false" :file-list="productImgs"
+                                   :multiple="isMultiple" :on-preview="handlePictureCardPreview"
+                                   :on-remove="handleRemove"
+                                   :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload"
+                                   :on-exceed="handleExceed" :on-error="imgUploadError">
+                            <!-- 添加图片 -->
+                            <span @click="addCurrentImg(m)">添加图片</span>
+                        </el-upload>
+                    </div>
+                    <div class="title">之前内容</div>
+                    <div class="text">
+                        <el-input clearable="true" v-model="m.last_content" placeholder="请输入文字"/>
+                    </div>
+                    <div class="desc">
+                        <!-- 删除图片 -->
+                        <template v-for="(item,index) in m.last_img" ::key="index">
+                                <span class="showimg">
+                                    <img :src="item" alt="" @click="showImg(item)">
+                                    <b @click="delLastImg(m,item,index)" class="delimg">
+                                        ×
+                                    </b>
+                                </span>
+                        </template>
+                        <el-upload action="/admin.common/upload" :headers="tokens" name="laytpUploadFile"
+                                   accept="image/*" :show-file-list="false" :file-list="productImgs"
+                                   :multiple="isMultiple" :on-preview="handlePictureCardPreview"
+                                   :on-remove="handleRemove"
+                                   :on-success="handleAvatarSuccess1" :before-upload="beforeAvatarUpload1"
+                                   :on-exceed="handleExceed" :on-error="imgUploadError">
+                            <!-- 添加图片 -->
+                            <span @click="addLastImg(m)">添加图片</span>
+                        </el-upload>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 底部 -->
+            <div class="bottom">
+                <!-- 添加更新内容 -->
+                <div class="channel">
+                    <el-button @click="addOption()" type="primary">添加更新内容</el-button>
+                </div>
+                <!-- 选择渠道 -->
+                <div class="channel">
+                    <div class="channel-title">选择渠道 :</div>
+                    <div class="channel-list">
+                        <el-select clearable="true" filterable v-model="addChannelId" placeholder="选择渠道"
+                                   size="large">
+                            <el-option v-for="item in channelList" :key="item.id" :label="item.channel_name"
+                                       :value="item.id"/>
+                        </el-select>
+                    </div>
+                </div>
+                <!-- 选择时间 -->
+                <div class="timer">
+                    <div class="timer-title">选择更新时间 :</div>
+                    <div class="timer-list">
+                        <el-date-picker v-model="add_last_update_time" type="datetime"
+                                        placeholder="请选择更新时间"/>
+                    </div>
+                </div>
+                <!-- 按钮 -->
+                <div class="btn">
+                    <p>
+                        <el-button @click="hideAddWin()" type="info">取消</el-button>
+                    </p>
+                    <p>
+                        <el-button type="primary" @click="add()">确定</el-button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 查看弹窗 -->
+    <div class="pop2" v-if="showDetailWinStatus">
+        <!-- 主体 -->
+        <div class="content">
+            <!-- 标题 -->
+            <div class="content-title">
+                <span>查看记录</span>
+                <span @click="hideDetailWin()">×</span>
+            </div>
+            <!-- 下拉主体 -->
+            <div class="select" v-for="(m,n) in detail.content" :key="n">
+                <!-- 左边 -->
+                <div class="left">
+                    <el-select style="width: 100%" clearable="true" v-model="m.type" placeholder="请选择"
+                               size="large" disabled>
+                        <el-option v-for="item in updateType" :key="item.id" :label="item.name"
+                                   :value="item.id"/>
+                    </el-select>
+                </div>
+                <!-- 右边 -->
+                <div class="right">
+                    <div class="title">当前内容</div>
+                    <div class="text">
+                        <el-input clearable="true" v-model="m.current_content" placeholder="请输入文字" readonly/>
+                    </div>
+                    <div class="desc">
+                        <template v-for="(item,index) in m.current_img" ::key="index">
+                                <span class="showimg">
+                                    <img :src="item" alt="" @click="showImg(item)">
+                                </span>
+                        </template>
+                    </div>
+                    <div class="title">之前内容</div>
+                    <div class="text">
+                        <el-input clearable="true" v-model="m.last_content" placeholder="请输入文字" readonly/>
+                    </div>
+                    <div class="desc">
+                        <template v-for="(item,index) in m.last_img" ::key="index">
+                                <span class="showimg">
+                                    <img :src="item" alt="" @click="showImg(item)">
+                                </span>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <!-- 底部 -->
+            <div class="bottom">
+                <!-- 选择渠道 -->
+                <div class="channel">
+                    <div class="channel-title">渠道 :</div>
+                    <div class="channel-list">
+                        <el-select clearable="true" v-model="editChannelId" placeholder="选择渠道"
+                                   size="large" disabled>
+                            <el-option v-for="item in channelList" :key="item.id" :label="item.channel_name"
+                                       :value="item.id"/>
+                        </el-select>
+                    </div>
+                </div>
+                <!-- 更新时间 -->
+                <div class="timer">
+                    <div class="timer-title">更新时间 :</div>
+                    <div class="timer-list">{{detail.last_update_time}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 编辑弹窗 -->
+    <div class="pop1" v-if="showEditWinStatus">
+        <!-- 主体 -->
+        <div class="content">
+            <!-- 标题 -->
+            <div class="content-title">
+                <span>编辑记录</span>
+                <span @click="hideEditWin()">
+                        ×
+                    </span>
+            </div>
+
+            <!-- 下拉主体 -->
+            <div class="select" v-for="(m,n) in detail.content" :key="n">
+                <!-- 左边 -->
+                <div class="left">
+                    <el-select style="width: 100%" clearable="true" v-model="m.type" placeholder="请选择"
+                               size="large">
+                        <el-option v-for="item in updateType" :key="item.id" :label="item.name"
+                                   :value="item.id"/>
+                    </el-select>
+                </div>
+                <!-- 右边 -->
+                <div class="right">
+                    <p class="delete" @click="del1(m)">
+                        ×
+                    </p>
+                    <div class="title">当前内容</div>
+                    <div class="text">
+                        <el-input clearable="true" v-model="m.current_content" placeholder="请输入文字"/>
+                    </div>
+                    <div class="desc">
+                        <!-- 删除图片 -->
+                        <template v-for="(item,index) in m.current_img" ::key="index">
+                                <span class="showimg">
+                                    <img :src="item" alt="" @click="showImg(item)">
+                                    <b @click="delCurrentImg(m,item,index)" class="delimg">
+                                        ×
+                                    </b>
+                                </span>
+                        </template>
+                        <el-upload action="/admin.common/upload" :headers="tokens" name="laytpUploadFile"
+                                   accept="image/*" :show-file-list="false" :file-list="productImgs"
+                                   :multiple="isMultiple" :on-preview="handlePictureCardPreview"
+                                   :on-remove="handleRemove"
+                                   :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload"
+                                   :on-exceed="handleExceed" :on-error="imgUploadError">
+                            <!-- 添加图片 -->
+                            <span @click="addCurrentImg(m)">添加图片</span>
+                        </el-upload>
+                    </div>
+                    <div class="title">之前内容</div>
+                    <div class="text">
+                        <el-input clearable="true" v-model="m.last_content" placeholder="请输入文字"/>
+                    </div>
+                    <div class="desc">
+                        <!-- 删除图片 -->
+                        <template v-for="(item,index) in m.last_img" ::key="index">
+                                <span class="showimg">
+                                    <img :src="item" alt="" @click="showImg(item)">
+                                    <b @click="delLastImg(m,item,index)" class="delimg">
+                                        ×
+                                    </b>
+                                </span>
+                        </template>
+                        <el-upload action="/admin.common/upload" :headers="tokens" name="laytpUploadFile"
+                                   accept="image/*" :show-file-list="false" :file-list="productImgs"
+                                   :multiple="isMultiple" :on-preview="handlePictureCardPreview"
+                                   :on-remove="handleRemove"
+                                   :on-success="handleAvatarSuccess1" :before-upload="beforeAvatarUpload1"
+                                   :on-exceed="handleExceed" :on-error="imgUploadError">
+                            <!-- 添加图片 -->
+                            <span @click="addLastImg(m)">添加图片</span>
+                        </el-upload>
+                    </div>
+                </div>
+            </div>
+            <!-- 底部 -->
+            <div class="bottom">
+                <!-- 添加更新内容 -->
+                <div class="channel">
+                    <el-button @click="addOption1()" type="primary">添加更新内容</el-button>
+                </div>
+                <!-- 选择渠道 -->
+                <div class="channel">
+                    <div class="channel-title">选择渠道 :</div>
+                    <div class="channel-list">
+                        <el-select clearable="true" filterable v-model="editChannelId" placeholder="选择渠道"
+                                   size="large">
+                            <el-option v-for="item in channelList" :key="item.id" :label="item.channel_name"
+                                       :value="item.id"/>
+                        </el-select>
+                    </div>
+                </div>
+                <!-- 选择时间 -->
+                <div class="timer">
+                    <div class="timer-title">选择更新时间 :</div>
+                    <div class="timer-list">
+                            <span><el-date-picker v-model="edit_last_update_time" type="datetime"
+                                                  placeholder="请选择更新时间"/></span>
+                    </div>
+                </div>
+                <!-- 按钮 -->
+                <div class="btn">
+                    <p>
+                        <el-button @click="hideEditWin()" type="info">取消</el-button>
+                    </p>
+                    <p>
+                        <el-button type="primary" @click="edit()">确定</el-button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        //document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        //document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        //document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+
+
+</script>
+<script src="//unpkg.com/element-plus/dist/locale/zh-cn"></script>
+<script>
+    const App = {
+        data() {
+            return {
+                tokens: {
+                    'LayTp-Admin-Token': ''
+                },
+                id: 0,
+                piclimit: 10,
+                logList: [],
+                dataList: [],
+                editList: [],
+                detail: [],
+                addChannelId: '',
+                editChannelId: '',
+                channelList: [],
+
+                //搜索
+                last_update_time: '',
+                search_last_update_time: '',
+                create_time: '',
+                search_create_time: '',
+                searchChannelId: '',
+                updateType: [],
+                selectType: '',
+
+                //分页
+                page: 1,
+                pageSize: 10,
+
+                //添加弹框
+                showAddWinStatus: false,
+                showEditWinStatus: false,
+                showDetailWinStatus: false,
+
+                add_last_update_time: '',
+                edit_last_update_time: '',
+
+                m: '',
+                m1: '',
+
+                addBtnStatus: 0,
+                editBtnStatus: 0,
+            };
+        },
+        methods: {
+            showAddWin() {
+                this.showAddWinStatus = true;
+            },
+            hideAddWin() {
+                this.showAddWinStatus = false;
+            },
+            showEditWin(id) {
+                this.showEditWinStatus = true;
+                this.getDetail(id, 1);
+            },
+            hideEditWin() {
+                this.showEditWinStatus = false;
+            },
+            showDetailWin(id) {
+                this.showDetailWinStatus = true;
+                this.getDetail(id, 0);
+            },
+            hideDetailWin() {
+                this.showDetailWinStatus = false;
+            },
+            // 添加新增
+            addOption() {
+                this.newNum = this.dataList.length + 1
+                this.dataList.push(
+                    {
+                        id: this.newNum,
+                        type: "",
+                        current_content: "",
+                        current_img: [],
+                        last_content: "",
+                        last_img: [],
+                        selectList: this.updateType,
+                    }
+                )
+            },
+            // 添加新增
+            addOption1() {
+                this.newNum = this.editList.length + 1
+                this.editList.push(
+                    {
+                        id: this.newNum,
+                        type: "",
+                        current_content: "",
+                        current_img: [],
+                        last_content: "",
+                        last_img: [],
+                        selectList: this.updateType,
+                    }
+                )
+            },
+            // 删除新增
+            del(m) {
+                this.dataList.forEach((ele, index) => {
+                    if (ele.id == m.id) {
+                        this.dataList.splice(index, 1)
+                    }
+                })
+
+            },
+            // 删除新增
+            del1(m) {
+                this.editList.forEach((ele, index) => {
+                    if (ele.id == m.id) {
+                        this.editList.splice(index, 1)
+                    }
+                })
+            },
+            // 添加图片
+            addCurrentImg(m) {
+                this.m = m;
+            },
+            addLastImg(m) {
+                this.m = m;
+            },
+            // 添加图片后删除
+            delCurrentImg(m, item, index) {
+                m.current_img.splice(index, 1);
+            },
+            delLastImg(m, item, index) {
+                m.last_img.splice(index, 1);
+            },
+            //图片上传成功
+            handleAvatarSuccess(res, file) {
+                this.m.current_img.push(res.data.path);
+            },
+            handleAvatarSuccess1(res, file) {
+                this.m.last_img.push(res.data.path)
+            },
+            beforeAvatarUpload() {
+                if ((this.m.current_img.length + 1) > this.piclimit) {
+                    this.$message.error('最多上传' + this.piclimit + '张图片');
+                    return false;
+                }
+            },
+            beforeAvatarUpload1() {
+                if ((this.m.last_img.length + 1) > this.piclimit) {
+                    this.$message.error('最多上传' + this.piclimit + '张图片');
+                    return false;
+                }
+            },
+            add() {
+                let self = this;
+                if (!self.addChannelId) {
+                    self.$message.error('请选择关联的渠道');
+                    return;
+                }
+                let last_update_time;
+                if (this.add_last_update_time == '' || this.add_last_update_time == 'undefined') {
+                    self.$message.error('请选择更新时间');
+                    return;
+                }
+                if (this.add_last_update_time) {
+                    last_update_time = this.GMTToStr(this.add_last_update_time);
+                }
+                if (last_update_time == '' || last_update_time == 'undefined') {
+                    self.$message.error('请选择更新时间');
+                    return;
+                }
+                let postDataList = self.dataList;
+                if (postDataList == null || postDataList == '') {
+                    self.$message.error('请选择更新内容');
+                    return;
+                }
+                let hasType = 1;
+                for (let i = 0; i <postDataList.length; i++) {
+                    if(postDataList[i].type == '' || postDataList[i].type == null){
+                        hasType = 0;
+                        break;
+                    }
+                }
+                if(!hasType){
+                    self.$message.error('请选择更新类型');
+                    return;
+                }
+                $.ajax({
+                    url: "/admin.channel_log/add",
+                    type: 'post',
+                    data: {
+                        channel_id: self.addChannelId,
+                        content: self.dataList,
+                        last_update_time: last_update_time
+                    },
+                    success: function (res) {
+                        if (res.code === 0) {
+                            self.$message.success(res.msg);
+                            self.showAddWinStatus = false;
+                            self.getList();
+                        } else {
+                            self.$message.error(res.msg);
+                        }
+                    }
+                });
+            },
+            edit() {
+                let self = this;
+                if (!self.editChannelId) {
+                    self.$message.error('请选择关联的渠道');
+                    return;
+                }
+                let last_update_time;
+                if (this.edit_last_update_time == '' || this.edit_last_update_time == 'undefined') {
+                    self.$message.error('请选择更新时间');
+                    return;
+                }
+                if (this.edit_last_update_time) {
+                    last_update_time = this.GMTToStr(this.edit_last_update_time);
+                }
+                if (last_update_time == '' || last_update_time == 'undefined') {
+                    self.$message.error('请选择更新时间');
+                    return;
+                }
+                let postDataList = self.editList;
+                if (postDataList == null || postDataList == '') {
+                    self.$message.error('请选择更新内容');
+                    return;
+                }
+                let hasType = 1;
+                for (let i = 0; i <postDataList.length; i++) {
+                    if(postDataList[i].type == '' || postDataList[i].type == null){
+                        hasType = 0;
+                        break;
+                    }
+                }
+                if(!hasType){
+                    self.$message.error('请选择更新类型');
+                    return;
+                }
+                $.ajax({
+                    url: "/admin.channel_log/edit",
+                    type: 'post',
+                    data: {
+                        id: self.id,
+                        channel_id: self.editChannelId,
+                        content: self.editList,
+                        last_update_time: last_update_time
+                    },
+                    success: function (res) {
+                        if (res.code === 0) {
+                            self.$message.success(res.msg);
+                            self.showEditWinStatus = false;
+                            self.getList();
+                        } else {
+                            self.$message.error(res.msg);
+                        }
+                    }
+                });
+            },
+            getDetail(id, flag) {
+                let self = this;
+                $.ajax({
+                    url: "/admin.channel_log/info",
+                    type: 'post',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.code === 0) {
+                            self.detail = res.data;
+                            self.editChannelId = res.data.channel_id;
+                            if (flag) {
+                                self.id = res.data.id;
+                                self.editList = res.data.content;
+                                self.edit_last_update_time = res.data.last_update_time;
+                            }
+                        }
+                    }
+                });
+            },
+            showImg(url) {
+                window.open(url);
+            },
+            handleSizeChange(val) {
+                this.pageSize = val;
+                this.getList();
+            },
+            handleCurrentChange(val) {
+                this.page = val;
+                this.getList();
+            },
+            resetForm() {
+                this.last_update_time = '';
+                this.search_last_update_time = '';
+                this.create_time = '';
+                this.search_create_time = '';
+                this.selectType = '';
+                this.selectChannelId = '';
+                this.getList();
+            },
+            getChannelList() {
+                let self = this;
+                $.ajax({
+                    url: "/admin.channel/getChannelListBySource",
+                    type: 'post',
+                    data: {
+                        source: 1,
+                    },
+                    success: function (res) {
+                        if (res.code === 0) {
+                            self.channelList = res.data;
+                        }
+                    }
+                });
+            },
+            getType() {
+                let self = this;
+                $.ajax({
+                    url: "/admin.channel_log/getType",
+                    type: 'post',
+                    success: function (res) {
+                        if (res.code === 0) {
+                            self.updateType = res.data;
+                        }
+                    }
+                });
+            },
+            getList() {
+                let self = this;
+                $.ajax({
+                    url: "/admin.channel_log/index",
+                    type: 'post',
+                    data: {
+                        page: self.page,
+                        limit: self.pageSize,
+                        last_update_time: self.search_last_update_time,
+                        create_time: self.search_create_time,
+                        type_id: self.selectType,
+                        channel_id: self.searchChannelId,
+                    },
+                    success: function (res) {
+                        if (res.code === 0) {
+                            self.logList = res.data.data;
+                            self.totalRecord = res.data.total;
+                        }
+                    }
+                });
+            },
+            search() {
+                if (this.last_update_time) {
+                    this.search_last_update_time = this.GMTToStr(this.last_update_time[0]) + ' - ' + this.GMTToStr(this.last_update_time[1]);
+                } else {
+                    this.search_last_update_time = '';
+                }
+                if (this.create_time) {
+                    this.search_create_time = this.GMTToStr(this.create_time[0]) + ' - ' + this.GMTToStr(this.create_time[1]);
+                }else{
+                    this.search_create_time = '';
+                }
+                this.getList();
+            },
+            GMTToStr(time) {
+                let date = new Date(time)
+                let Str = date.getFullYear() + '-' +
+                    (date.getMonth() + 1) + '-' +
+                    date.getDate() + ' ' +
+                    date.getHours() + ':' +
+                    date.getMinutes() + ':' +
+                    date.getSeconds();
+                return Str
+            },
+            getToken() {
+                let cookieArr = document.cookie.split('; ');
+                if (cookieArr != null) {
+                    for (let i = 0; i < cookieArr.length; i++) {
+                        var c = cookieArr[i];
+                        while (c.charAt(0) == ' ') c = c.substring(1);
+                        if (c.indexOf('laytpAdminToken') != -1) {
+                            this.tokens = {
+                                'LayTp-Admin-Token': c.substring('laytpAdminToken'.length + 1, c.length)
+                            };
+                        }
+                    }
+                }
+            },
+            getAuth() {
+                let self = this;
+                layui.use(['laytp'], function () {
+                    if (facade.hasAuth("/admin.channel_log/add")) {
+                        self.addBtnStatus = 1;
+                    }
+                    if (facade.hasAuth("/admin.channel_log/edit")) {
+                        self.editBtnStatus = 1;
+                    }
+                });
+            },
+            getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+                if (r != null) return unescape(r[2]);
+                return null; //返回参数值
+            }
+        },
+        mounted: function () {
+            this.getChannelList();
+            let channel_id = this.getUrlParam('channel_id');
+            if (channel_id) {
+                this.searchChannelId = parseInt(channel_id);
+            }
+            this.getAuth();
+            this.getToken();
+            this.getType();
+            this.getList();
+
+        }
+    };
+
+
+    const app = Vue.createApp(App);
+    app.use(ElementPlus, {
+        locale: ElementPlusLocaleZhCn,
+    });
+    app.mount("#app");
+
+
+</script>
+</body>
+
+</html>

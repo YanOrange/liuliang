@@ -1,0 +1,39 @@
+<?php
+
+namespace {%controllerNamespace%};
+
+use laytp\controller\Backend;
+use laytp\library\CommonFun;{%useAdminUserServiceFacade%}{%uploadDomainPackage%}
+
+/**
+ * {%tableComment%}
+ */
+class {%controllerClassName%} extends Backend
+{
+
+    /**
+     * {%modelName%}模型对象
+     * @var \{%modelNamespace%}\{%modelClassName%}
+     */
+    protected $model;{%hasSoftDel%}
+
+    protected $noNeedLogin = []; // 无需登录即可请求的方法
+    protected $noNeedAuth = ['index', 'info']; // 无需鉴权即可请求的方法
+
+    public function _initialize()
+    {
+        $this->model = new \{%modelNamespace%}\{%modelClassName%}();
+    }
+
+    {%indexFunction%}
+
+    {%addFunction%}
+
+    {%infoFunction%}
+
+    {%editFunction%}
+
+    {%recycleFunction%}
+
+    {%tableEditFunction%}
+}

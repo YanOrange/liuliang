@@ -1,0 +1,6 @@
+/runtime/*
+/public/static/storage/*
+.user.ini
+.env
+.htaccess
+.idea

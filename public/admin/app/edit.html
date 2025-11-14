@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑应用</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>应用名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="app_name" value="{{ d.app_name }}" lay-verify="required" autocomplete="off" placeholder="请输入应用名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>应用分类</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_class_id"
+                             data-sourceType="route"
+                             data-source="/admin.app_class/index"
+                             data-radio="true"
+                             data-textField="app_class_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.app_class_id}}"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">安卓包名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="android_bundle_id"  autocomplete="off" placeholder="请输入安卓" class="layui-input" value="{{ d.android_bundle_id }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">ios包名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ios_bundle_id"  autocomplete="off" placeholder="请输入ios包名" class="layui-input" value="{{ d.ios_bundle_id }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信小程序标识</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wxmini_bundle_id"  autocomplete="off" placeholder="请输入微信小程序标识" class="layui-input" value="{{ d.wxmini_bundle_id }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">支付宝appid</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="alipay_app_id"  autocomplete="off" placeholder="请输入支付宝appid" class="layui-input" value="{{ d.alipay_app_id }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">支付宝支付网关地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="alipay_api_domain"  autocomplete="off" placeholder="请输入支付宝支付网关地址" class="layui-input" value="{{ d.alipay_api_domain }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">支付宝私钥</label>
+                    <div class="layui-input-block">
+                        <textarea name="alipay_private_key" class="layui-textarea">{{ d.alipay_private_key }}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">支付宝公钥</label>
+                    <div class="layui-input-block">
+                        <textarea name="alipay_public_key" class="layui-textarea">{{ d.alipay_public_key }}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信appid</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wxpay_app_id"  autocomplete="off" placeholder="请输入微信appid" class="layui-input" value="{{ d.wxpay_app_id }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信商户号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wxpay_mch_id"  autocomplete="off" placeholder="请输入微信商户号" class="layui-input" value="{{ d.wxpay_mch_id }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信key</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wxpay_key"  autocomplete="off" placeholder="请输入微信商户号" class="layui-input" value="{{ d.wxpay_key }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信secret</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wxpay_app_secret"  autocomplete="off" placeholder="请输入微信secret" class="layui-input" value="{{ d.wxpay_app_secret }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信证书文件</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="wxpay_cert_path"
+                             data-uploaded="{{ d.wxpay_cert_path }}"
+                             data-uploadedId="{{ d.wxpay_cert_path }}"
+                             data-accept="file"
+                             data-type="local-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信私钥文件</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="wxpay_key_path"
+                             data-uploaded="{{ d.wxpay_key_path }}"
+                             data-uploadedId="{{ d.wxpay_key_path }}"
+                             data-accept="file"
+                             data-type="local-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信小程序原始id</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wxmini_original_id"  autocomplete="off" placeholder="请输入微信小程序原始id" class="layui-input" value="{{ d.wxmini_original_id }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">易盾业务id</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="yd_business_id"  autocomplete="off" placeholder="请输入易盾业务id" class="layui-input" value="{{ d.yd_business_id }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">启动app是否需要登录</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_login_show" value="1" title="开启" {{# if(d.is_login_show===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_login_show" value="0" title="关闭" {{# if(d.is_login_show===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否开启落地页</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_landing_page" value="1" title="开启" {{# if(d.is_landing_page===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_landing_page" value="0" title="关闭" {{# if(d.is_landing_page===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label">机构版本</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_many_organization" lay-filter="is_many_organization" value="1" title="单类目单机构" {{# if(d.is_many_organization===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_many_organization" lay-filter="is_many_organization" value="2" title="单类目多机构" {{# if(d.is_many_organization===2){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_many_organization" lay-filter="is_many_organization" value="3" title="多类目多机构" {{# if(d.is_many_organization===3){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_many_organization" lay-filter="is_many_organization" value="4" title="单机构2.0" {{# if(d.is_many_organization===4){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_many_organization" lay-filter="is_many_organization" value="5" title="单机构2.5" {{# if(d.is_many_organization===5){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="landing-page-image" {{# if(d.is_many_organization!==5){ }}style="display: none;"{{# } }}>
+                    <label class="layui-form-label">落地页图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="landing_page_image"
+                             data-accept="image"
+                             data-uploaded="{{ d.landing_page_image }}"
+                             data-uploadedId="{{ d.landing_page_image }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['form', 'layer', 'jquery'], function () {
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+        //监听多选框点击事件  主要是通过 lay-filter="sex"  来监听
+        form.on('radio(is_many_organization)', function (data) {
+            //console.log( data );　　//打印当前选择的信息
+            var value = data.value;   //  当前选中的value值
+            if (value == 5) {
+                $("#landing-page-image").show();
+            }else{
+                $("#landing-page-image").hide();
+            }
+        })
+    })
+
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.app/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.app/edit',
+                data:data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

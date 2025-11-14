@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>上包配置</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="channel_id" value="{{ d.channel_id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                 
+                 <div class="layui-form-item">
+                    <label class="layui-form-label">短信签名</label>
+                    <div class="layui-input-block" style="width:200px;">
+                        <div class="xmSelect"
+                             data-name="sms_id"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getSmsConfig"
+                             data-radio="true"
+                             data-textField="sign_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.sms_id}}"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">聊天页面</label>
+                    <div class="layui-input-block" style="width:200px;">
+                        <div class="xmSelect"
+                             data-name="chat_page"
+                             data-sourceType="data"
+                             data-radio="true"
+                              data-source="[{text:'cli_box',title:'系统默认页面红色'},{text:'cli_box1',title:'第二个聊天版本'},{text:'cli_box2',title:'第三个聊天版本'},{text:'cli_box3',title:'第四个聊天版本'},{text:'cli_box4',title:'第五个聊天版本'}]"
+                             data-textField="title"
+                             data-valueField="text"
+                             data-paging="true"
+                             data-selected="{{=d.chat_page}}"
+                        ></div>
+                    </div>
+                </div>
+                
+                 <div class="layui-form-item">
+                    <label class="layui-form-label">聊天页用户头像</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="chat_avatar"
+                             data-accept="image"
+                             data-uploaded="{{ d.chat_avatar }}"
+                             data-uploadedId="{{ d.chat_avatar }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">聊天页机器人头像</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="chat_robot_avatar"
+                             data-accept="image"
+                             data-uploaded="{{ d.chat_robot_avatar }}"
+                             data-uploadedId="{{ d.chat_robot_avatar }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">聊天页人工客服头像</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="chat_artificial_avatar"
+                             data-accept="image"
+                             data-uploaded="{{ d.chat_artificial_avatar }}"
+                             data-uploadedId="{{ d.chat_artificial_avatar }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item" >
+                    <label class="layui-form-label">聊天页客服昵称</label>
+                    <div class="layui-input-block" style="width:200px;">
+                        <input type="text" name="chat_nickname" value="{{ d.chat_nickname }}" autocomplete="off" placeholder="请输入聊天页客服昵称" class="layui-input" >
+                    </div>
+                </div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label">客服自动回复消息</label>
+                    <div class="layui-input-block">
+                        <textarea name="chat_autoreply_message" class="layui-textarea" rows="3" style="width: 400px;">{{ d.chat_autoreply_message }}</textarea>
+                    </div>
+                </div>
+                
+                <div class="layui-form-item" id="app_login_btn_color">
+                    <label class="layui-form-label">聊天页背景色</label>
+                    <div class="layui-input-block" style="width:200px;">
+                        <div class="colorPicker"
+                             data-id="color_picker"
+                             data-name="chat_backgroud_color"
+                             data-color="{{ d.chat_backgroud_color }}"
+                             data-format="hex"
+                             data-alpha="true"
+                             data-predefine="true"
+                             data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                        ></div>
+                    </div>
+                </div>
+                
+               
+                
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var channel_id = facade.getUrlParam('channel_id');
+        if(!channel_id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.channel/getChannelConfig",
+            data: {channel_id: channel_id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.channel/setChannelConfig',
+                data:data.field
+            }).done(function(res){
+                if(res. code=== 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

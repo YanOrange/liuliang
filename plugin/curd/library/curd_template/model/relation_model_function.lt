@@ -1,0 +1,3 @@
+public function {%relationFunctionName%}(){
+        return $this->{%relationType%}('{%relationModelName%}','{%foreignKey%}','{%localKey%}');
+    }

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加客服</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>客服名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="service_name" value="{{ d.service_name }}" autocomplete="off" placeholder="请输入客服名称" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联渠道</label>
+                    <div class="layui-input-block" id="app-list1">
+                        <div id="gather-channel-list" class="demo-tree1"></div>
+                        <input type="hidden" name="channel_ids" id="channel-list"/>
+                    </div>
+                </div>
+
+                {{# if(d.default_speech){ }}
+                {{# var key; for(key in d.default_speech){ }}
+                <div class="layui-form-item">
+                    {{# if(key == 0){ }}
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>默认话术</label>
+                    {{# }else{ }}
+                    <label class="layui-form-label"></label>
+                    {{# } }}
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <textarea name="default_speech[content][]" cols="30" rows="5" style="width:80%;border:1px solid #d9d9d9;">{{d.default_speech[key].content}}</textarea>
+                        &nbsp;推送时间&nbsp;<input style="width:5%;" type="number" name="default_speech[push_time][]" value="{{=d.default_speech[key].push_time}}" autocomplete="off" placeholder="请输入推送时间" class="layui-input">&nbsp;秒
+                        {{# if(key != 0){ }}
+                        &nbsp;<a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-delete delArrayItem" layer-tips="删除" title="删除"></a>
+                        {{# } }}
+                    </div>
+                </div>
+                {{# } }}
+                {{# }else{ }}
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>默认话术</label>
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <textarea name="default_speech[content][]" cols="30" rows="5" style="width:80%;border:1px solid #d9d9d9;"></textarea>
+                        &nbsp;推送时间&nbsp;<input style="width:5%;" type="number" name="default_speech[push_time][]" autocomplete="off" placeholder="请输入推送时间" class="layui-input">&nbsp;秒
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <textarea name="default_speech[content][]" cols="30" rows="5" style="width:80%;border:1px solid #d9d9d9;"></textarea>
+                        &nbsp;推送时间&nbsp;<input style="width:5%;" type="number" name="default_speech[push_time][]" autocomplete="off" placeholder="请输入推送时间" class="layui-input">&nbsp;秒
+                        &nbsp;<a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-delete delArrayItem" layer-tips="删除" title="删除"></a>
+                    </div>
+                </div>
+                {{# } }}
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-1 addArrayItem" title="追加">追加</a>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>底部跳微</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="bottom_jump_wechat" value="1" title="显示" {{# if(d.bottom_jump_wechat===1){ }} checked="checked" {{# } }}>
+                        <input type="radio" name="bottom_jump_wechat" value="0" title="隐藏" {{# if(d.bottom_jump_wechat===0){ }} checked="checked" {{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>转人工按钮</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="transfer_service_btn" value="1" title="显示" {{# if(d.transfer_service_btn===1){ }} checked="checked" {{# } }}>
+                        <input type="radio" name="transfer_service_btn" value="0" title="隐藏" {{# if(d.transfer_service_btn===0){ }} checked="checked" {{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>回复按钮</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="btn_reply_type" value="1" lay-filter="btn_reply_type" title="跳V" {{# if(d.btn_reply_type===1){ }} checked="checked" {{# } }}>
+                        <input type="radio" name="btn_reply_type" value="2" lay-filter="btn_reply_type" title="复制微信" {{# if(d.btn_reply_type===2){ }} checked="checked" {{# } }}>
+                        <input type="radio" name="btn_reply_type" value="3" lay-filter="btn_reply_type" title="表单"
+                               {{# if(d.btn_reply_type===3){ }} checked="checked" {{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="wechat_number" {{# if(d.btn_reply_type!=2){ }} style="display:none;" {{# } }}>
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>客服微信</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wechat_number" value="{{ d.wechat_number }}" autocomplete="off" placeholder="请输入客服微信" class="layui-input" style="width:50%;">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="prompt_text" {{# if(d.btn_reply_type!=3){ }} style="display:none;" {{# } }}>
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>文字提示</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="prompt_text" value="{{ d.prompt_text }}" autocomplete="off" placeholder="请输入文字提示" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>默认话术</label>
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <textarea name="auto_reply_content" cols="30" rows="5" style="width:80%;border:1px solid #d9d9d9;">{{ d.auto_reply_content }}</textarea>
+                        &nbsp;推送时间&nbsp;<input style="width:5%;" type="number" name="auto_push_time" value="{{ d.auto_push_time }}" autocomplete="off" placeholder="请输入推送时间" class="layui-input">&nbsp;秒
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>话术按钮</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="speech_btn_desc" value="{{ d.speech_btn_desc }}" autocomplete="off" placeholder="请输入文字提示" class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp','form', 'layer', 'jquery'],function(){
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+        form.on('radio(btn_reply_type)', function (data) {
+            //console.log( data );　　//打印当前选择的信息
+            var value = data.value;   //  当前选中的value值
+            if (value == 2) {
+                $("#wechat_number").show();
+                $("#prompt_text").hide();
+            } else if(value == 3) {
+                $("#prompt_text").show();
+                $("#wechat_number").hide();
+            }else{
+                $("#prompt_text").hide();
+                $("#wechat_number").hide();
+            }
+        });
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if (!id) {
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.online_service_wechat/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                layui.laytpl($("#form").html()).render(res.data, function (string) {
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                    getTree()
+
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function (data) {
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route: '/admin.online_service_wechat/edit',
+                data: data.field
+            }).done(function (res) {
+                if (res.code === 0) {
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    });
+
+    // class- channel
+    function getTree() {
+        $("#channel-list").val('')
+        var id = facade.getUrlParam('id');
+        let data11 = [];
+
+        $.ajax({
+            type: "post",
+            url: "/admin.advertising/getChannelTree",
+            data: {id: id, table: 'online_service_wechat'},
+            dataType: "json",
+            success: function (res) {
+                data11 = res.data;
+                let tree11 = layui.tree
+                    , layer = layui.layer
+                    , util = layui.util
+                    , list11 = []
+                    , str11 = ""
+                    , data22 = [];
+
+                //基本演示
+                tree11.render({
+                    elem: '#gather-channel-list'
+                    , data: data11
+                    , showCheckbox: true            //是否显示复选框
+                    , id: 'demoId22'
+                    , isJump: true                  //是否允许点击节点时弹出新窗口跳转
+                    , click: function (obj) {
+                        var data11 = obj.data22;    //获取当前点击的节点数据
+                        layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+                    }
+                });
+
+                //filter并非必须
+                layui.use(['form'], function () {
+                    let form11 = layui.form;
+                    form11.on('checkbox', function (data) {
+                        if (data.value.slice(data.value.length - 1) == "#") {   // 父级应用分类点击：全选
+                            data11.forEach(element => {
+                                if (data.value == element.id) {
+                                    element.children.forEach(ele => {
+                                        if ($(this).is(':checked')) {
+                                            list11.push(ele.id)
+                                        } else {
+                                            list11 = list11.filter((x) => x !== ele.id)
+                                        }
+                                    })
+                                }
+                            });
+                        } else {
+
+                            data11.forEach(element => {
+                                element.children.forEach(ele => {
+                                    if (data.value == ele.id) {             // 应用点击
+                                        if ($(this).is(':checked')) {
+                                            list11.push(ele.id)
+                                        } else {
+                                            list11 = list11.filter((x) => x !== ele.id)
+                                        }
+                                    } else {
+                                        ele.children.forEach(el => {        // 渠道点击
+                                            if (data.value == el.id) {
+                                                if ($(this).is(':checked')) {
+                                                    list11.push(el.id)
+                                                } else {
+                                                    list11 = list11.filter((x) => x !== el.id)
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
+                            });
+                        }
+
+                        str11 = ""
+                        list11.forEach(ele => {
+                            str11 += "," + ele
+                        })
+                        str11 = str11.slice(1)
+
+                        $("#channel-list").val(str11);
+                    })
+                })
+
+                //开启复选框
+                tree11.render({
+                    elem: '#gather-channel-list'
+                    , data: data11
+                    , showCheckbox: true
+                });
+            }
+        })
+    }
+</script>
+</body>
+</html>

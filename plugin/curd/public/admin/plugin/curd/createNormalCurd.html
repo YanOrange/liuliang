@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>生成常规CURD</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <div class="mainBox">
+        <div class="main-container">
+            <input type="hidden" name="table_id" value="{{d.id}}"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="使用Migrate">使用Migrate</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="create_table" id="create_table" value="1"
+                           {{# if(d.has_create_table=== 0){ }}checked="checked" {{# } }}
+                           title="创建(更新)数据表结构，并清空数据"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="是否生成菜单">是否生成菜单</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="create_menu" id="create_menu" value="1"
+                           {{# if(d.has_create_menu=== 0){ }}checked="checked" {{# } }}
+                           title="生成菜单"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" title="所属菜单">所属菜单</label>
+                <div class="layui-input-block">
+                    <div class="xmSelect"
+                         data-name="menu_id"
+                         data-sourceType="route"
+                         data-source="/admin.menu/index"
+                         data-params='{"search_param":{"is_menu":{"value":1,"condition":"="}}}'
+                         data-sourceTree="true"
+                         data-radio="true"
+                         data-textField="name"
+                         data-valueField="id"
+                    ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm submitCreateNormalCurdBtn" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+</body>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp','button'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var tableId = facade.getUrlParam('table_id');
+        if(!tableId){
+            facade.error('参数table_id不能为空');
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/plugin/curd/curd.table/info",
+            data: {id: tableId},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            var btnAnim = layui.button.load({elem: '.submitCreateNormalCurdBtn'});
+            facade.ajax({
+                route: '/plugin/curd/curd/createNormalCurd',
+                data: data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.parent.renderMenu();//重新渲染菜单
+                    parent.facade.success("生成成功");
+                }
+                btnAnim.stop();
+            }).fail(function(){
+                btnAnim.stop();
+            });
+            return false;
+        });
+    })
+</script>
+</html>

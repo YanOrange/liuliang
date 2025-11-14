@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">ID</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[id]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">渠道</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[channel_id]"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getChannelList"
+                             data-radio="true"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择渠道"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">应用</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[app_id]"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getAppList"
+                             data-radio="true"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择应用"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">应用分类</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[app_class_id]"
+                             data-sourceType="route"
+                             data-source="/admin.app_class/index"
+                             data-radio="true"
+                             data-textField="app_class_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择应用分类"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">昵称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[nickname]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[phone]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">是否测试</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[is_test]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">报名状态</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[is_apply]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">已报名</option>
+                            <option value="0">未报名</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">来源</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[source]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">app</option>
+                            <option value="2">H5投流</option>
+                            <option value="3">APP投流</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">账号状态</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[status]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate"
+                               id="create_time" name="search_param[create_time]"
+                               data-type="datetime" data-isRange="true" placeholder="请选择创建时间">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">未活跃用户时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate"
+                               id="lately_start_app_time" name="search_param[lately_start_app_time]"
+                               data-type="datetime" data-isRange="true" placeholder="请选择未活跃时间">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="default-toolbar">
+    <div class="dropdown-menu">
+        <button class="laytp-btn laytp-btn-primary laytp-btn-md">
+            <i class="layui-icon layui-icon-triangle-d"></i>
+            批量操作
+        </button>
+        <ul class="dropdown-menu-nav layui-anim-upbit dropdown-bottom-left layui-anim">
+            <div class="dropdown-anchor"></div>
+            {{# if(facade.hasAuth("/admin.user_list/del")){ }}
+            <li><a lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a></li>
+            {{# } }}
+        </ul>
+    </div>
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+    {{# if(facade.hasAuth("/admin.user_list/recycle")){ }}
+    <button class="laytp-btn laytp-btn-success laytp-btn-md" lay-event="recycle">
+        <i class="layui-icon layui-icon-delete"></i>
+        回收站
+    </button>
+    {{# } }}
+</script>
+
+<script type="text/html" id="default-bar">
+    {{# if(facade.hasAuth("/admin.user_list/del")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.user_list/detail")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="user_detail"><i class="layui-icon layui-icon-update"></i>详情</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.user_list/setBlock")){ }}
+    {{# if(d.status == 1){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="block"><i class="layui-icon layui-icon-close-fill"></i>拉黑</button>
+    {{# } }}
+    {{# } }}
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/user_list.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/user_list.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

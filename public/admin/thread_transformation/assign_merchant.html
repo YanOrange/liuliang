@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>创建用户</title>
+</head>
+<style>
+    .main{
+        width:80%;
+        margin-top:10px
+    }
+</style>
+<body>
+<form type="text/html" id="form" class="layui-form">
+    <input type="hidden" name="uid" value="{{ d.uid }}" />
+    <input type="hidden" name="merchant_id" value="{{ d.assign.merchant_id }}" />
+    <input type="hidden" name="customer_id" value="{{ d.assign.customer_id }}" />
+
+    <div class="main">
+        <div style="text-align: center;">
+            <span style="color:green;">①创建用户</span>
+            <span style="color:green;">---------------------------</span>
+            <span style="color:green;">②分配商户</span>
+        </div>
+    </div>
+
+    {{# if(!d.is_assign_flag){ }}
+    <div style="margin-top: 25px;margin-left: 20px;font-size: 16px;color:red;" id="no-merchant-data">暂无站外开户商户 </div>
+    {{# }else{ }}
+    <div class="main">
+        <div class="layui-form-item">
+            <label style="float: left;
+                display: block;
+                width:100px;
+                padding: 9px 15px;
+                font-weight: 400;
+                line-height: 20px;
+                text-align: center;">加微状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_discern_qrcode" value="1" title="是" checked>
+                <input type="radio" name="is_discern_qrcode" value="0" title="否" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label style="float: left;
+            display: block;
+            width:100px;
+            padding: 9px 15px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: center;">生成方式</label>
+            <div class="layui-input-block" style="width:50%;">
+                <input type="radio" name="build_mode" value="1" lay-filter="build_mode" title="二维码" checked>
+                <input type="radio" name="build_mode" value="2" lay-filter="build_mode" title="小程序链接" >
+            </div>
+        </div>
+    </div>
+    <div class="main" id="customer-qrcode">
+        <table class="layui-table" lay-skin="line" style="margin: 20px 20px;">
+            <tbody>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">分配商户</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22" id="merchant_name">{{d.assign.merchant_name}}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">分配客服</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22" id="customer_name">{{d.assign.customer_name}}</div>
+                </td>
+            </tr>
+
+            <tr id="tr-customer-qrcode-1">
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">客服二维码</div>
+                </td>
+                <td data-field="operation" colspan="3" data-key="4-0-22" align="center" data-off="true" style="height:100px;padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="laytable-cell-4-0-22">
+                        <img crossorigin="anonymous" id="customer_qr_code" src="{{d.assign.customer_qr_code}}" alt="" style="height:100px;">
+                        <input type="hidden" name="customer_qr_code" value="{{d.assign.customer_qr_code}}">
+                    </div>
+                </td>
+            </tr>
+            <tr id="tr-customer-qrcode-2" style="display:none;">
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">小程序链接</div>
+                </td>
+                <td data-field="operation" colspan="3" data-key="4-0-22" align="center" data-off="true" style="height:100px;padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="laytable-cell-4-0-22">
+                        <div id="customer-openlink-url">{{d.assign.customer_openlink_url}}</div>
+                        <div class="laytp-btn-primary" style="width:70px;cursor: pointer;" onClick="tapCopy('customer-openlink-url')">复制链接</div>
+                        <input type="hidden" id="customer-openlink-url-input" value="{{d.assign.customer_openlink_url}}">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{# } }}
+
+    <div style="width: 100%;
+    bottom: 0px;
+    left: 0px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #ECF0F1;
+    border-top: 1px solid #eee;">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="assign">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+
+<script>
+    //复制文本
+    function tapCopy(obj) {
+        selectText(obj);
+        document.execCommand('copy');
+    }
+    //选中文本
+    function selectText(element) {
+        var text = document.getElementById(element);
+        //做下兼容
+        if (document.body.createTextRange) {  //如果支持
+            var range = document.body.createTextRange(); //获取range
+            range.moveToElementText(text); //光标移上去
+            range.select();  //选择
+        } else if (window.getSelection) {
+            var selection = window.getSelection(); //获取selection
+            var range = document.createRange(); //创建range
+            range.selectNodeContents(text);  //选择节点内容
+            selection.removeAllRanges(); //移除所有range
+            selection.addRange(range);  //添加range
+        } else {
+            alert("复制失败");
+        }
+    }
+
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var uid = facade.getUrlParam('uid');
+        if(!uid){
+            facade.error('参数UID不能为空');
+            return false;
+        }
+
+        form.on('radio(build_mode)', function (data) {
+            var value = data.value;   //  当前选中的value值
+            console.log(value);
+            $("#tr-customer-qrcode-"+value).show();
+            if(value == 1){
+                $("#tr-customer-qrcode-2").hide();
+                $("#radio-1").show();
+                $("#radio-2").hide();
+            }else{
+                $("#tr-customer-qrcode-1").hide();
+                $("#radio-1").hide();
+                $("#radio-2").show();
+            }
+        });
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread_user_merchant/assignMerchantDetail",
+            data: {uid: uid},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        layui.form.on('submit(assign)', function(data){
+            //data = facade.setEditorField(data);
+            var uid = $("input[name=uid]").val();
+            var merchant_id = $("input[name=merchant_id]").val();
+            var customer_id = $("input[name=customer_id]").val();
+            var is_discern_qrcode = $("input[name=is_discern_qrcode]:checked").val();
+            facade.ajax({
+                route:'/admin.thread_user_merchant/assignThread',
+                data : {uid:uid,merchant_id:merchant_id,customer_id:customer_id,is_discern_qrcode:is_discern_qrcode}
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>阿里云STS配置</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="table-container">
+            </div>
+            <div class="bottom">
+                <div class="button-container">
+                    <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                        <i class="layui-icon layui-icon-ok"></i>
+                        保存配置
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-sm">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script id="confTableHtml" type="text/html">
+    <input type="hidden" name="group" id="group" value="{{=d.group}}"/>
+    <table class="layui-table" style="margin: 0;" lay-skin="nob">
+        <colgroup>
+            <col width="15%">
+            <col width="70%">
+            <col width="15%">
+        </colgroup>
+        <tbody>
+        <tr>
+            <td style="text-align:right;">
+                开关
+            </td>
+            <td>
+                <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                <input type="hidden" name="switch" value="2"/>
+                <input type="checkbox" name="switch" lay-skin="switch"
+                       lay-text="打开|关闭"
+                       value="1" {{# if(d.switch == 1){ }}checked="checked"{{# } }}
+                />
+                <input type="hidden" name="form_type[switch]" value="switch" />
+            </td>
+            <td>
+                <div class="conf-des layui-form-mid layui-word-aux">
+                    <label title="是否开启阿里云OSS存储的STS方式">是否开启阿里云OSS存储的STS方式</label>
+                    <br/>
+                    <code title="{{=d.group}}.switch">{{=d.group}}.switch</code>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                accessKeyID
+            </td>
+            <td>
+                <input autocomplete="off" type="text" name="accessKeyID" id="accessKeyID" value="{{=d.accessKeyID}}" placeholder="请输入accessKeyID" class="layui-input" lay-verify="required">
+                <input type="hidden" name="form_type[accessKeyID]" value="input" />
+            </td>
+            <td>
+                <div class="conf-des layui-form-mid layui-word-aux">
+                    <label title="拥有阿里云OSS相关权限STS账号的accessKeyID，STS推荐使用RAM子账号">拥有阿里云OSS相关权限STS账号的accessKeyID，STS推荐使用RAM子账号</label>
+                    <br/>
+                    <code title="{{=d.group}}.accessKeyID">{{=d.group}}.accessKeyID</code>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                accessKeySecret
+            </td>
+            <td>
+                <input autocomplete="off" type="text" name="accessKeySecret" id="accessKeySecret" value="{{=d.accessKeySecret}}" placeholder="请输入accessKeySecret" class="layui-input" lay-verify="required">
+                <input type="hidden" name="form_type[accessKeySecret]" value="input" />
+            </td>
+            <td>
+                <div class="conf-des layui-form-mid layui-word-aux">
+                    <label title="拥有阿里云OSS相关权限STS账号的accessKeySecret，STS推荐使用RAM子账号">拥有阿里云OSS相关权限STS账号的accessKeySecret，STS推荐使用RAM子账号</label>
+                    <br/>
+                    <code title="{{=d.group}}.accessKeySecret">{{=d.group}}.accessKeySecret</code>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                ARN
+            </td>
+            <td>
+                <input autocomplete="off" type="text" name="ARN" id="ARN" value="{{=d.ARN}}" placeholder="请输入ARN" class="layui-input" lay-verify="required">
+                <input type="hidden" name="form_type[ARN]" value="input" />
+            </td>
+            <td>
+                <div class="conf-des layui-form-mid layui-word-aux">
+                    <label title="STS账号的ARN">STS账号的ARN</label>
+                    <br/>
+                    <code title="{{=d.group}}.ARN">{{=d.group}}.ARN</code>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                bucket
+            </td>
+            <td>
+                <input autocomplete="off" type="text" name="bucket" id="bucket" value="{{=d.bucket}}" placeholder="请输入bucket" class="layui-input" lay-verify="required">
+                <input type="hidden" name="form_type[bucket]" value="input" />
+            </td>
+            <td>
+                <div class="conf-des layui-form-mid layui-word-aux">
+                    <label title="上面配置的STS账号拥有权限的阿里云OSS的bucket">上面配置的STS账号拥有权限的阿里云OSS的bucket</label>
+                    <br/>
+                    <code title="{{=d.group}}.bucket">{{=d.group}}.bucket</code>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                endpoint
+            </td>
+            <td>
+                <input autocomplete="off" type="text" name="endpoint" id="endpoint" value="{{=d.endpoint}}" placeholder="请输入endpoint" class="layui-input" lay-verify="required">
+                <input type="hidden" name="form_type[endpoint]" value="input" />
+            </td>
+            <td>
+                <div class="conf-des layui-form-mid layui-word-aux">
+                    <label title="bucket对应的endpoint">bucket对应的endpoint</label>
+                    <br/>
+                    <code title="{{=d.group}}.endpoint">{{=d.group}}.endpoint</code>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;">
+                domain
+            </td>
+            <td>
+                <input autocomplete="off" type="text" name="domain" id="domain" value="{{=d.domain}}" placeholder="请输入domain" class="layui-input" lay-verify="required">
+                <input type="hidden" name="form_type[domain]" value="input" />
+            </td>
+            <td>
+                <div class="conf-des layui-form-mid layui-word-aux">
+                    <label title="bucket对应的domain">bucket对应的domain</label>
+                    <br/>
+                    <code title="{{=d.group}}.domain">{{=d.group}}.domain</code>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+<script type="application/javascript">
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery.tablednd.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/jquery.tablednd.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        var group = "aliOss.sts";
+        // 先获取数据，渲染表单
+        // 渲染完表单之后，设置滚动条
+        facade.ajax({
+            route: "/admin.conf/getGroupConf",
+            data: {"group" : group},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                res.data.group = group;
+                layui.laytpl($("#confTableHtml").html()).render(res.data,function(string){
+                    $(".table-container").html(string);
+                    layui.laytpForm.render();
+                    layui.form.render();
+                    var windowHeight = $(window).height();
+                    var maxHeight = parseInt(windowHeight) - 86;
+                    var minHeight = parseInt(windowHeight) - 86;
+                    // 设置table-container的最大高度和超过高度后展示滚动条
+                    $(".table-container").css("margin-bottom", '40px');
+                    $(".table-container").css("max-height", maxHeight + 'px');
+                    $(".table-container").css("min-height", minHeight + 'px');
+                    $(".table-container").css("overflow-y", "auto");
+
+                    $('.bottom').css("background-color", "#f6f6f6");
+                });
+            }
+        });
+
+        layui.form.on('submit(add)', function(data){
+            data = facade.setEditorField(data);
+            data.field.group = group;
+            facade.ajax({
+                route:'/admin.conf/saveGroupConf',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

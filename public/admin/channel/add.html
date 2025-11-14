@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加渠道</title>
+    <style>
+        .img-src {
+            display: inline-block;
+            width: 100px;
+            height: 140px;
+            margin-top: 5px
+        }
+
+        .img-div {
+            display: inline-block;
+            margin-right: 30px;
+            width: 100px;
+            height: 180px;
+        }
+        .img-div .img-radio {
+            display: inline-block !important;
+            float: left;
+            zoom: 1.5;
+            margin-right: 1px;
+            transform: scale(0.7);
+
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="source" lay-filter="source" value="1" title="App渠道" checked>
+                        <input type="radio" name="source" lay-filter="source" value="2" title="第三方渠道">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        渠道名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="channel_name" autocomplete="off" lay-verify="required"
+                               placeholder="请输入渠道名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">渠道应用名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="channel_app_name" autocomplete="off" placeholder="请输入渠道应用名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        负责人</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="admin_user_id"
+                             data-sourceType="route"
+                             data-source="/admin.user/index"
+                             data-radio="true"
+                             data-textField="nickname"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关联应用</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_id"
+                             data-sourceType="route"
+                             data-source="/admin.app/index"
+                             data-radio="true"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="source_id"
+                             data-sourceType="route"
+                             data-source="/admin.source_channel/index"
+                             data-radio="true"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>投放方式</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="promotion_id"
+                             data-sourceType="route"
+                             data-source="/admin.channel/getPromotionMethod"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>投放平台</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="platform_id"
+                             data-sourceType="route"
+                             data-source="/admin.channel/getPromotionPlatform"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>投放模式</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="delivery_mode_id"
+                             data-sourceType="route"
+                             data-source="/admin.delivery_mode/index"
+                             data-sourceTree="true"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-layVerify="required"
+                             data-height="500px"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">新媒体账号</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="wx_official_id"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getNewMediaAccountList"
+                             data-radio="true"
+                             data-textField="account_name"
+                             data-subTextField = "platform.platform_name"
+                             data-valueField="id"
+                             data-paging="true"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        用户信息按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="user_material_btn_desc" value="开启学习之旅" lay-verify="required"
+                               autocomplete="off" placeholder="请输入按钮文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        微信授权按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wx_btn_desc" value="授权微信" lay-verify="required" autocomplete="off"
+                               placeholder="请输入微信授权按钮文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">启动app是否需要登录</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_login_show" value="1" title="开启" checked>
+                        <input type="radio" name="is_login_show" value="0" title="关闭">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否开启落地页</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_landing_page" value="1" title="开启" checked>
+                        <input type="radio" name="is_landing_page" value="0" title="关闭">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否需要微信授权</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_wx_auth" value="1" title="是" checked>
+                        <input type="radio" name="is_wx_auth" value="0" title="否">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">授权微信版本号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="auth_wx_version"  autocomplete="off" placeholder="请输入微信版本号" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">留资页位置</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="capital_page_position" value="1" title="登陆后" checked>
+                        <input type="radio" name="capital_page_position" value="2" title="落地页报名">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">未满十八岁是否可以报名</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_under_eighteen_apply" value="1" title="是" checked>
+                        <input type="radio" name="is_under_eighteen_apply" value="0" title="否">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否显示文章</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_article_show" value="1" title="是" checked>
+                        <input type="radio" name="is_article_show" value="0" title="否">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关联收集信息</label>
+                    <div class="layui-input-block">
+                        <div id="gather-info-list" class="demo-tree"></div>
+                        <input type="hidden" name="gather_ids" id="gather-list"/>
+                        <!--                        <div class="xmSelect"-->
+                        <!--                             data-name="gather_id"-->
+                        <!--                             data-sourceType="route"-->
+                        <!--                             data-sourceTree="true"-->
+                        <!--                             data-treeType="tree"-->
+                        <!--                             data-source="/admin.channel/getTree"-->
+                        <!--                             data-textField="name"-->
+                        <!--                             data-valueField="id"-->
+                        <!--                             data-paging="true"-->
+                        <!--                        ></div>-->
+                        <!--                        <div id="treeview" class="laytp-tree-horizontal layui-form-mid"><i-->
+                        <!--                                class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>-->
+                        <!--                        </div>-->
+                        <!--                        <input type="hidden" name="menu_ids" id="node_list"/>-->
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        留资页文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="retention_page_desc[]" value="花七秒钟让我们了解你" lay-verify="required"
+                               autocomplete="off" placeholder="请输入留资页文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="text" name="retention_page_desc[]" value="以便帮你推荐合适的教学老师" lay-verify="required"
+                               autocomplete="off" placeholder="请输入留资页文案" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        首页好课推荐标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="show_course_title" value="好课推荐"
+                               autocomplete="off" placeholder="请输入首页好课推荐标题" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        首页推荐阅读标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="show_article_title" value="推荐阅读"
+                               autocomplete="off" placeholder="请输入首页推荐阅读标题" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        成本价</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="cost_price" lay-verify="number" autocomplete="off"
+                               class="layui-input" value="0" lay-verify="required">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">启动图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="startup_page_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        登录首页文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="app_home_desc[]" value="边学习边赚钱" lay-verify="required"
+                               autocomplete="off" placeholder="请输入登录首页文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="text" name="app_home_desc[]" value="推荐兼职 高薪副业 注册领取新人大礼包" lay-verify="required"
+                               autocomplete="off" placeholder="请输入登录首页文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">逾期版本1首页主文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="overdue_version_home_desc[]" value="" autocomplete="off"
+                               placeholder="请输入首页主文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">逾期版本1首页主副文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="overdue_version_home_desc[]" value="" autocomplete="off"
+                               placeholder="请输入首页副文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">逾期版本2首页图片1</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="overdue_version_home_image1"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">逾期版本2首页图片2</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="overdue_version_home_image2"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否显示昵称</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_show_nickname" value="1" title="是" checked>
+                        <input type="radio" name="is_show_nickname" value="0" title="否">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否跳转微信小程序</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_jump_miniprogram" value="1" title="是" checked>
+                        <input type="radio" name="is_jump_miniprogram" value="0" title="否" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">跳转微信小程序版本号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="jump_wechat_version"  autocomplete="off" placeholder="请输入应用版本号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否马甲包</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_vest_bag" value="1" title="是">
+                        <input type="radio" name="is_vest_bag" value="0" title="否" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">马甲包版本号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="app_version" autocomplete="off" placeholder="请输入应用版本号"
+                               class="layui-input">
+                        <text title="必填项" style="color:red;">多个版本号用“,”拼接，示例：1.0.1,1.0.2</text>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">0元留资落地页二次确认页面</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="free_landing_page_affirm" value="1" title="开启" checked>
+                        <input type="radio" name="free_landing_page_affirm" value="0" title="关闭" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">一分留资落地页二次确认页面</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="pay_landing_page_affirm" value="1" title="开启" checked>
+                        <input type="radio" name="pay_landing_page_affirm" value="0" title="关闭" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">0元课程落地页二次确认页面</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="course_free_landing_page_affirm" value="1" title="开启" checked>
+                        <input type="radio" name="course_landing_page_affirm" value="0" title="关闭" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">一分课程落地页二次确认页面</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="course_pay_landing_page_affirm" value="1" title="开启" checked>
+                        <input type="radio" name="course_pay_landing_page_affirm" value="0" title="关闭" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">莓茶h5地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="mc_h5_url"  autocomplete="off" placeholder="请输入莓茶h5地址" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">首页加微跳转在线客服</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_jump_online_service" value="1" title="是" checked>
+                        <input type="radio" name="is_jump_online_service" value="0" title="否" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">应用页面展示类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_part_job_menu_show" value="1" title="兼职包页面" >
+                        <input type="radio" name="is_part_job_menu_show" value="0" title="垂直包页面" checked>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否展示培训模块</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_cultivate_menu_show" value="1" title="是" >
+                        <input type="radio" name="is_cultivate_menu_show" value="0" title="否" checked>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否展示个人信息声明</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_show_personal_statement" value="1" title="是" checked>
+                        <input type="radio" name="is_show_personal_statement" value="0" title="否" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">兼职包版本号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="part_version"  autocomplete="off" placeholder="请输入兼职包版本号" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登录按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="app_login_btn_desc"  autocomplete="off" placeholder="请输入登录按钮文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="app_login_btn_color">
+                    <label class="layui-form-label">登录按钮背景颜色</label>
+                    <div class="layui-input-block">
+                        <div class="colorPicker"
+                             data-id="color_picker"
+                             data-name="app_login_btn_color"
+                             data-color="#000"
+                             data-format="hex"
+                             data-alpha="true"
+                             data-predefine="true"
+                             data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">逾期app版本类型</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="overdue_app_version_type"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getOverdueAppVersionTypeList"
+                             data-radio="true"
+                             data-textField="title"
+                             data-valueField="field"
+                             data-paging="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>微信小程序路径</label>
+                    <div class="layui-input-block">
+                        <div id="path"></div>
+                        <input type="hidden" name="wxmini_path_ids" id="path_ids"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>假首页</label>
+                    <div class="layui-input-block">
+                        <div id="page-path"></div>
+                        <input type="hidden" name="front_page_id" id="front_page_id"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'], function () {
+
+        layui.form.on('submit(add)', function (data) {
+            facade.ajax({
+                route: '/admin.channel/add',
+                data: data.field
+            }).done(function (res) {
+                if (res.code === 0) {
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+
+    layui.use(['laytp', 'tree', 'util'], function () {
+        let data1 = [];
+        //获取数据，渲染到对应的节点上
+        $.ajax({
+            type: "post",
+            url: "/admin.channel/getTree",
+            data: {},
+            dataType: "json",
+            success: function (res) {
+                data1 = res.data;
+                var tree = layui.tree
+                    , layer = layui.layer
+                    , util = layui.util
+                    // 最后数据
+                    , list = []
+                    , str = ""
+                    //模拟数据2
+                    , data2 = [];
+
+                //基本演示
+                tree.render({
+                    elem: '#gather-info-list'
+                    , data: data2
+                    , showCheckbox: true  //是否显示复选框
+                    , id: 'demoId1'
+                    , isJump: true //是否允许点击节点时弹出新窗口跳转
+                    , click: function (obj) {
+                        var data = obj.data2;  //获取当前点击的节点数据
+                        layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+                    }
+                });
+
+                //filter并非必须
+                layui.use(['form'], function () {
+                    var form = layui.form;
+                    //元素没有设置lay-filter属性时,默认监听所有checkbox
+                    form.on('checkbox', function (data) {
+                        let bool = false;
+                        // 父子iD个位数
+                        if (data.value.slice(data.value.length - 1) == "#") {
+                            // console.log(true)
+                            //默认数据
+                            data1.forEach(element => {
+                                // console.log(element)
+                                // 子集ID
+                                if (data.value == element.id) {
+                                    // 子集children
+                                    element.children.forEach(ele => {
+                                        // 最后的数据
+                                        list.forEach((item, index) => {
+                                            if (item == ele.id) {
+                                                console.log(item, index)
+                                                list.splice(index, 1)
+                                                bool = true
+                                                return
+
+                                            }
+                                        })
+
+                                    })
+                                }
+                            });
+                            if (!bool) {
+                                data1.forEach(element => {
+                                    // 子集ID
+                                    if (element.id == data.value) {
+                                        // 子集children
+                                        element.children.forEach(ele => {
+                                            list.push(ele.id)
+                                        })
+                                    }
+                                });
+                            }
+
+                            str = ""
+                            list.forEach(ele => {
+                                str += "," + ele
+                            })
+                            str = str.slice(1)
+                        } else {
+                            let num = 1
+                            list.forEach((ele, index) => {
+                                if (data.value == ele) {
+                                    console.log(index);
+                                    list.splice(index, 1)
+                                    num = 0
+                                }
+                            })
+                            if (num) {
+                                list.push(data.value)
+                            }
+                            str = ""
+                            list.forEach(ele => {
+                                str += "," + ele
+                            })
+                            str = str.slice(1)
+                        }
+                        $("#gather-list").val(str);
+
+                    })
+
+                    //开启复选框
+                    tree.render({
+                        elem: '#gather-info-list'
+                        , data: data1
+                        , showCheckbox: true
+                    });
+
+                    // @date 22.10.18 获取微信路径
+                    let $ = layui.jquery;
+                    facade.ajax({
+                        route: "/admin.wx_mini_program/getWxPath",
+                        data: {id: 0},
+                        successAlert: false,
+                        showLoading: true
+                    }).done(function (res) {
+                        if (res.code === 0) {
+                            var str = '';
+                            layui.laytpl($("#path").html()).render(res.data, function (string) {
+                                let data = res.data;
+                                for (var i = 0; i < data.length; i++) {
+                                    str += '<div class="img-div">' +
+                                        '<label><input type="radio" name="pathid" class="img-radio" onclick="path(this)" value="' + data[i]['id'] + '" />' + data[i]['title'] + '</label>' +
+                                        '<a href="' + data[i]['src'] + '"><img src="' + data[i]['src'] + '" class="img-src" /></a>' +
+                                        '</div>';
+                                }
+                                $("#path").html(str);
+                            });
+                        }
+                    });
+
+                    // 获取假首页
+                    facade.ajax({
+                        route: "/admin.false_front_page/getFrontPage",
+                        data: {id: 0},
+                        successAlert: false,
+                        showLoading: true
+                    }).done(function (res) {
+                        console.log(res);
+                        if (res.code === 0) {
+                            var str = '';
+                            layui.laytpl($("#page-path").html()).render(res.data, function (string) {
+                                let data = res.data;
+                                for (var i = 0; i < data.length; i++) {
+                                    str += '<div class="img-div">' +
+                                        '<label><input type="radio" name="front_page_id" class="img-radio" onclick="pagePath(this)" value="' + data[i]['id'] + '" />' + data[i]['title'] + '</label>' +
+                                        '<a href="' + data[i]['src'] + '"><img src="' + data[i]['src'] + '" class="img-src" /></a>' +
+                                        '</div>';
+                                }
+                                $("#page-path").html(str);
+                            });
+                        }
+                    });
+                })
+            }
+        })
+    });
+
+    function path(obj)
+    {
+        let _this = $(obj);
+        let _val = _this.val()
+        if (_this.is(":checked")) {
+            $("#path_ids").val(_val);
+        } else {
+            $("#path_ids").val();
+        }
+    }
+
+    function pagePath(obj)
+    {
+        let _this = $(obj);
+        let _val = _this.val()
+        if (_this.is(":checked")) {
+            $("#front_page_id").val(_val);
+        } else {
+            $("#front_page_id").val();
+        }
+    }
+</script>
+</body>
+</html>

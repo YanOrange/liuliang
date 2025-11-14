@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>新增课程评价</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>评价课程</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="be_evaluated_id"
+                             data-sourceType="route"
+                             data-source="/admin.single.course/index"
+                             data-textField="title"
+                             data-valueField="id"
+                             data-radio="true"
+                             data-paging="true"
+                             data-placeholder="请选择评价课程"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>用户昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="nickname"  lay-verify="required" autocomplete="off" placeholder="请输入用户昵称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>手机号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="phone"  lay-verify="required" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>用户头像</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="avatar"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">
+                            <text style="color:red;">*</text>评分</label>
+                        <div class="layui-input-block">
+                            <select name="score" class="layui-select" lay-verify="required"
+                                    lay-filter="select-data-type" lay-search="true">
+                                <option value="">请选择评分</option>
+                                <option value="5">5星</option>
+                                <option value="4">4星</option>
+                                <option value="3">3星</option>
+                                <option value="2">2星</option>
+                                <option value="1">1星</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>评价内容</label>
+                    <div class="layui-input-block">
+                        <textarea type="textarea" name="content"  lay-verify="required"  class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort"  lay-verify="required" autocomplete="off" placeholder="请设置排序" class="layui-input" value="0">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>设置评论时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input laydate" name="evaluate_time"
+                               data-type="datetime" data-isRange="false" placeholder="请选择评论时间" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="显示" checked>
+                        <input type="radio" name="status" value="0" title="隐藏" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        layui.form.on('submit(add)', function(data){
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route:'/admin.single.course_evaluate/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

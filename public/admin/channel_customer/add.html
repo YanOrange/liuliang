@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加信息</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>渠道商名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="merchant_trade_name"  autocomplete="off" placeholder="请输入渠道商名" class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="channel_id"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getChannelList"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                             data-placeholder="选择渠道"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>销售配置</label>
+                    <div class="layui-input-block" style="display: flex; align-self: self-start;">
+                        <div class="layui-input-block" style="width: 100%; margin-left: 0px;">
+                            <div class="xmSelect"
+                                 data-name="customer"
+                                 data-sourceType="route"
+                                 data-source="/admin.ChannelCustomer/getCustomerList"
+                                 data-textField="nickname"
+                                 data-valueField="id"
+                                 data-paging="true"
+                                 data-radio="false"
+                                 data-placeholder="请选择销售"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/admin.channel_customer/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

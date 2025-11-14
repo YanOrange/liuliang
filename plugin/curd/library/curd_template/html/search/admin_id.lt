@@ -1,0 +1,11 @@
+<div class="xmSelect"
+                        data-name="search_param[{%field%}][value]"
+                        data-sourceType="route"
+                        data-source="/admin.user/index"
+                        data-sourceTree="false"
+                        data-paging="true"
+                        data-valueField="id"
+                        data-textField="nickname"
+                        data-placeholder="请选择{%comment%}"
+                    ></div>
+                    <input type="hidden" name="search_param[{%field%}][condition]" value="FIND_IN_SET">

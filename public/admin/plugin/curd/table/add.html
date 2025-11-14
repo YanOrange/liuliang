@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加数据表</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        表名 <text style="color:red;">*</text></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="table" placeholder="请输入表名，表前缀可输可不输" class="layui-input" lay-verify="required"
+                               autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        表注释 <text style="color:red;">*</text></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="comment" placeholder="请输入表注释" class="layui-input" lay-verify="required"
+                               autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        存储引擎 <text style="color:red;">*</text></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="engine" placeholder="请输入存储引擎，例：InnoDB，MySIAM" class="layui-input"
+                               lay-verify="required" value="InnoDB">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" title="字符集(排序规则)">
+                        字符集（排序规则）<text style="color:red;">*</text></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="collation" placeholder="请输入字符集(排序规则)，例：utf8mb4_general_ci" class="layui-input"
+                               lay-verify="required" value="utf8mb4_general_ci">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" title="其他设置">
+                        其他设置</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="is_hide_pk" id="is_hide_pk" value="1"
+                               title="隐藏主键列"/>
+                        <input type="checkbox" name="is_create_number" id="is_create_number" value="1"
+                               title="生成序号列"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/plugin/curd/curd.table/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("database-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

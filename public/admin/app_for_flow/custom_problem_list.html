@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../../static/component/layui/layui.js?v=2.0.101.Release"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+
+<div id="app">
+
+    <div class="app_box" v-for="(item, index) in counter" v-if="counter.length">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>排序</label>
+            <div class="layui-input-block" style="width: 100px;">
+                <input style="height: 30px" type="number" name="sort_json[custom_problem]"  lay-verify="number" autocomplete="off" placeholder="请输入排序" class="layui-input" v-model="item.sort">
+            </div>
+        </div>
+        <div class="aaa">
+            <textarea class="weui_text" maxlength="200" placeholder="请输入具体内容" v-model="item.content"></textarea>
+            <span class="Remove" @click="Remove(index)" v-if="counter.length >= 2">删除问题</span>
+        </div>
+        <div class="radio">问题类型:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <el-radio-group v-model="item.type">
+                <el-radio :label="1">文本框</el-radio>
+                <el-radio :label="2">单选</el-radio>
+            </el-radio-group>
+        </div>
+        <div @click="dele(index)">
+            <div v-show="item.type == 2" v-for="(ite, index) in counter[index].name">
+                <div class="inp_box">选项{{index + 1}}:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <el-input class="inp" v-model="ite.text" placeholder="请输入内容"></el-input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <el-popconfirm @confirm="Delete(index)" title="这是一段内容确定删除吗？" v-if="item.name.length >2">
+                        <el-button slot="reference">删除选项</el-button>
+                    </el-popconfirm>
+                </div>
+            </div>
+        </div>
+        <div class="add" style="margin-left: 200px;" v-show="item.type == 2" @click="add_Input(index)">添加选项</div>
+    </div>
+    <div class="add_but" @click="add">添加问题</div>
+    <el-button type="primary" class="Submit" @click="Submit">提交</el-button>
+</div>
+</body>
+<script>
+    function getUrlParam(name) {
+        let sear = window.location.search.substr(1);
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        let r = sear.match(reg);
+        return r ? sear.match(reg)[2] : "";
+    }
+    var vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                input: '',
+                id:'',
+                dele_index: '',
+                value:'',
+                counter:[
+                    {
+                        'content': '',
+                        'sort' : 0,
+                        'type': 1,
+                        'name': [{
+                            'text': ''
+                        }, {
+                            'text': ''
+                        }]
+                    }
+                ]
+
+            }
+        },
+        created() {
+            this.aa()
+        },
+        methods: {
+            aa() {
+                this.id = getUrlParam('id');
+                $.post("/admin.app_for_flow/info?id=" + getUrlParam('id'),
+                    function(data){
+                        if(data.data.custom_problem_json.length < 1) {
+                            vm.value = 0
+                            return;
+                        }else  {
+                            vm.counter[0].sort = data.data.sort_json.custom_problem;
+                            vm.counter = data.data.custom_problem_json;
+                        }
+                    }
+                )
+            },
+            add_Input(index) {
+                this.counter[index].name.push({
+                    text: ''
+                });
+            },
+            add() {
+                this.counter.push({
+                    'content': '',
+                    'sort' : 0,
+                    'type': 1,
+                    'name': [{
+                        'text': ''
+                    }, {
+                        'text': ''
+                    }]
+                })
+            },
+            dele(index) {
+                this.dele_index = index;
+                console.log(this.dele_index)
+            },
+            // 删除事件
+            Delete(index) {
+                this.counter[this.dele_index].name.splice(index, 1)
+            },
+            Remove(index) {
+                this.counter.splice(index, 1)
+            },
+            Submit() {
+                $.post("/admin.app_for_flow/editCustomProblem",
+                     {custom_problem_json : vm.counter, id : getUrlParam('id') , custom_problem:vm.value},
+                    function(data){
+                        if (data.code == 0) {
+                            layer.msg('操作成功', {icon: 6, time: 1500}, function () {
+                                var indexFrame = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(indexFrame);
+                                parent.location.reload();
+                            });
+                        } else {
+                            layer.msg(data.msg);
+                            return false;
+                        }
+
+                    })
+            }
+        }
+    })
+</script>
+<style>
+    #app {
+        margin-left: 30px;
+    }
+    .layui-form-label{
+        font-size: 15px;
+        font-weight: 700;
+    }
+    .aaa {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .layui-input-block {
+        margin-top: 10px;
+    }
+    .app_box {
+        margin-top: 30px;
+    }
+
+    .radio {
+        margin-top: 20px;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .weui_text {
+        padding: 20px;
+        width: 360px;
+        height: 60px;
+        resize: none;
+    }
+
+    .inp {
+        width: 200px;
+    }
+
+    .inp_box {
+        margin-top: 20px;
+    }
+
+    .add {
+        color: blue;
+        margin-top: 20px;
+        cursor: pointer;
+        margin-left: 300px;
+    }
+
+    .add_but {
+        width: 80px;
+        height: 30px;
+        color: black;
+        background-color: aquamarine;
+        margin-top: 20px;
+        cursor: pointer;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 5px;
+        margin-left: 10%;
+    }
+
+    .Remove {
+        cursor: pointer;
+        margin-left: 20px;
+        font-size: 10px;
+        color: red;
+    }
+
+    .Submit{
+        margin-left: 40%;
+        margin-top: 50px;
+    }
+    .layui-input, .layui-select, .layui-textarea {
+        height: 38px;
+        line-height: 1.3;
+        line-height: 38px\9;
+        border-width: 1px;
+        border-style: solid;
+        background-color: #fff;
+        color: rgba(0,0,0,.85);
+        border-radius: 2px;
+    }
+</style>
+
+</html>

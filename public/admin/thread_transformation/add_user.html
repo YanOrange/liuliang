@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+</head>
+<style>
+    .main{
+        width:80%;
+        margin-top:10px
+    }
+</style>
+<body>
+
+<form class="layui-form" lay-filter="layui-form" id="form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="main" style="margin-top:30px;">
+                    <div style="text-align: center;">
+                        <span style="color:green;">①创建用户</span>
+                        <span>---------------------------</span>
+                        <span>②分配商户</span>
+                    </div>
+                </div>
+                <div class="main" style="margin-top:30px;">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>来源渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             id="customerXmSelect"
+                             data-name="channel_id"
+                             data-sourceType="route"
+                             data-source="/admin.thread_user_merchant/channelList"
+                             data-radio="true"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-layVerify="required"
+                             data-placeholder="请选择渠道"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="nickname" autocomplete="off" placeholder="请输入用户昵称" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>手机号</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="phone" lay-verify="required" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wx_nickname" autocomplete="off" placeholder="请输入微信昵称" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户年龄</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="age_range_id"
+                             data-sourceType="route"
+                             data-source="/admin.thread_user_merchant/ageRange"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择年龄"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户身份</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="identify_id"
+                             data-sourceType="route"
+                             data-source="/admin.thread_user_merchant/identify"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择身份"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户学历</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="education_id"
+                             data-sourceType="route"
+                             data-source="/admin.thread_user_merchant/education"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择学历"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户性别</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="sex"
+                             data-sourceType="data"
+                             data-source="[{name:'男',value:'1'},{name:'女',value:'2'}]"
+                             data-radio="true"
+                             data-paging="true"
+                             data-placeholder="请选择性别"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">债务类型</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="zhaiwu_leixing"
+                             data-sourceType="route"
+                             data-source="/admin.thread_user_merchant/zhaiwuLeixingList"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择债务类型"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">债务金额</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="zhaiwu_monney"
+                             data-sourceType="route"
+                             data-source="/admin.thread_user_merchant/zhaiwuMoneyList"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择债务金额"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                下一步
+            </button>
+            <button class="laytp-btn laytp-btn-sm" onclick="cancel()">
+                <i class="layui-icon layui-icon-close"></i>
+                取消
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        merchantId = facade.getUrlParam('merchant_id');
+        layui.laytpl($("#form").html()).render({id: merchantId},function(string){
+            $("form").html(string);
+            layui.laytpForm.render();
+
+        });
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/admin.thread_user_merchant/addUser',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    facade.popupDiv({
+                        title: "分配线索"
+                        , path: "/admin/thread_transformation/assign_merchant.html?uid="+res.data.uid
+                    });
+                    //parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+
+    function cancel()
+    {
+        parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>基础配置</title>
+</head>
+<body class="laytp-container">
+<form class="layui-form" lay-filter="layui-form" id="form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">减少社区渠道加V系数</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="ratio"  autocomplete="off" placeholder="请输入减少社区渠道加V系数" class="layui-input" value="{{ d.ratio }}">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">%</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">保底数量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="minNumber"  autocomplete="off" placeholder="请输入保底数量" class="layui-input" value="{{ d.minNumber }}">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">当第三方社区数量渠道线索综合小于该值时，则不乘“减少社区渠道加V系数”</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                保存配置
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script type="application/javascript">
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['form','laytp' ,'layer', 'jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let group = "add_wechat_ratio";
+        // 先获取数据，渲染表单
+        // 渲染完表单之后，设置滚动条
+        facade.ajax({
+            route: "/admin.add_wechat_statistical/getRatioSetting",
+            data: {"group": group},
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                res.data.group = group;
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        layui.form.on('submit(add)', function (data) {
+            data = facade.setEditorField(data);
+            data.field.group = group;
+            facade.ajax({
+                route: '/admin.add_wechat_statistical/saveRatioSetting',
+                data: data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    setTimeout(function(){
+                        location.reload();
+                    },3000);
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

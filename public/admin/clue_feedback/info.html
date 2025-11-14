@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>线索详情</title>
+</head>
+<style>
+    .main{
+        width:80%;
+    }
+    #mask {
+        margin: 0;
+        padding: 0;
+        border: none;
+        width: 100%;
+        height: 100%;
+        background: #333;
+        opacity: 0.6;
+        filter: alpha(opacity=60);
+        z-index: 9999;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+    }
+
+    #big {
+        width: 100%;
+        height: 100%;
+        display: block;
+
+    }
+
+    #bigimg {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 999999;
+        transform: translate(-50%, -50%);
+        border: 20px black solid;
+    }
+
+    #tip {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 999999;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        color: white;
+    }
+
+    #tip>p {
+        background: #808080de;
+        width: 12rem;
+        height: 3rem;
+        padding-top: 1.5rem;
+    }
+
+    #x {
+        position: absolute;
+        color: white;
+        font-size: 21px;
+        cursor: pointer;
+        right: -50px;
+        top: -45px;
+        background: #808080c2;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+    }
+
+    .ims {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<body>
+<form type="text/html" id="form" class="layui-form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="main">
+        <div class="layui-table-cell laytable-cell-4-0-22">线索信息</div>
+        <table class="layui-table" lay-skin="line" style="margin: 20px 20px;">
+            <tbody>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">微信昵称</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{ d.userExternal.wx_nickname }}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">用户昵称</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{ d.userExternal.nickname }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">手机号</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{ d.userExternal.phone }}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">线索问题</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{ d.problem.title }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">线索创建时间</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{ d.threadExternal.create_time }}</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">提交时间</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{ d.create_time }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;background-color: #EFEFEF;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">提交人</div>
+                </td>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div class="layui-table-cell laytable-cell-4-0-22">{{ d.subMerchant.merchant_name }}</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="main">
+        <div class="layui-table-cell laytable-cell-4-0-22">问题截图</div>
+        <table class="layui-table" lay-skin="line" style="margin: 20px 20px;">
+            <tbody>
+            <tr>
+                {{# if(d.problem_attachment){ }}
+                <td data-field="operation" colspan="3" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <div style="display: flex; justify-content: space-around">
+                        {{# var key; for(key in d.problem_attachment){ }}
+                        <div class="laytable-cell-4-0-22 img-div" >
+                            <img src="{{=d.problem_attachment[key]}}" alt="" style="height:100px;" onclick="img(this.src)">
+                        </div>
+                        {{# } }}
+                    </div>
+                </td>
+
+                {{# } }}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="main">
+        <div class="layui-table-cell laytable-cell-4-0-22">审核操作</div>
+        <table class="layui-table" lay-skin="line" style="margin: 20px 20px;">
+            <tbody>
+            <tr>
+                <td data-field="operation" data-key="4-0-22">
+                    <div>
+                        <label class="layui-form-label">审核状态：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="feedback_status" value="20" title="已通过">
+                            <input type="radio" name="feedback_status" value="21" title="未通过" checked>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td data-field="operation" data-key="4-0-22" align="center" data-off="true" style="padding: 5px 15px;border-left:1px solid #eee;border-right:1px solid #eee;">
+                    <textarea name="refusal_reasons" cols="30" rows="6" style="width:100%;height:100%;border:1px solid #eee;">{{d.refusal_reasons}}</textarea>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form-cancel">
+                <i class="layui-icon layui-icon-cancel"></i>
+                知道了
+            </button>
+        </div>
+    </div>
+    </div>
+
+</form>
+
+<!-- 图片放大 阴影层 -->
+<div id="mask" style="display: none;">
+</div>
+<div id="bigimg" style="display: none">
+    <div id="x">X</div><img src="" alt="" id="big">
+</div>
+<div id="tip" style="display: none;">
+    <p>暂无图片</p>
+</div>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+
+</script>
+
+<script>
+    layui.use(['laytp'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        var id = facade.getUrlParam('id');
+        if (!id) {
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        facade.ajax({
+            route: "/admin.clue_feedback/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                layui.laytpl($("#form").html()).render(res.data, function (string) {
+                    $("form").html(string);
+                    layui.laytpForm.render();
+
+                    form.render();
+                });
+            }
+        });
+
+        layui.use(['laytp'], function () {
+            layui.form.on('submit(laytp-form-cancel)', function (data) {
+                parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                return false;
+            });
+        })
+    })
+
+    function img(src) {
+
+        //获取自定义属性///
+        ///onclick(this)///
+        //getAttribute(src.getAttribute('big'))//
+
+        var img = document.getElementById('big');
+        img.src = src;
+        if (img.src == undefined || src.length < 15) {
+            //图片没有的时候显示的提示语
+            document.getElementById('tip').style.display = 'block';
+            //延迟操作
+            setTimeout("document.getElementById('tip').style.display = 'none'", 1500);
+            return false;
+        }
+        var bigimg = document.getElementById('bigimg');
+        var mask = document.getElementById('mask');
+        var xx = document.getElementById('x');
+        if (getCss(bigimg, "display") == 'none' && getCss(mask, "display") == 'none') {
+            bigimg.setAttribute('style', 'display:block');
+        }
+        xx.onclick = function () {
+            bigimg.setAttribute('style', 'display:none');
+            img.src = '';
+        }
+    }
+
+    //获取样式
+    function getCss(curEle, attr) {
+        var val = null;
+        try { //兼容ie做法
+            val = window.getComputedStyle(curEle, null)[attr];
+        } catch (e) {
+            val = curEle.currentStyle[attr];
+        }
+        return val;
+    }
+</script>
+</body>
+</html>

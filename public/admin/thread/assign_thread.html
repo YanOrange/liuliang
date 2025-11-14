@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>分配线索</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">原商户</label>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>商户</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="origin_merchant_id"
+                             data-sourceType="route"
+                             data-source="/admin.merchant/index"
+                             data-radio="true"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="商户"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>线索数量</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="num" value="50" lay-verify="required" placeholder="请输入分配数量" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>添加时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate" style="width:160%;" lay-verify="required" name="origin_create_time" data-type="datetime" data-isRange="true" placeholder="请选择创建时间" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">目标商户</label>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>商户</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="target_merchant_id"
+                             data-sourceType="route"
+                             data-source="/admin.merchant/index"
+                             data-radio="true"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="商户"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>客服</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="customer_id"
+                             data-sourceType="route"
+                             data-source="/admin.customer/customerList"
+                             data-radio="true"
+                             data-textField="nickname"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="客服"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>线索价格</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="thread_price"  lay-verify="required" autocomplete="off" placeholder="请输入线索价格" class="layui-input" value="0">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>添加时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate" style="width:160%;" lay-verify="required" name="target_create_time" data-type="datetime" data-isRange="true" placeholder="请选择创建时间" >
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="assign">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        layui.form.on('submit(assign)', function(data){
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route:'/admin.thread/assignThread',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.msg(res.msg);
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

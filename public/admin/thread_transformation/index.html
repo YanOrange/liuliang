@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>线索列表</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">商户</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[merchant_id]"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getMerchantList"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择商户"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">课程</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[course_id]"
+                             data-sourceType="route"
+                             data-source="/admin.course/index?course_type=0"
+                             data-radio="true"
+                             data-textField="title"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择课程"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">客服</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[customer_id]"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getCustomerList"
+                             data-radio="true"
+                             data-textField="nickname"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择客服"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">渠道</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[channel_id]"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getChannelList"
+                             data-radio="true"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择渠道"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">应用</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[app_id]"
+                             data-sourceType="route"
+                             data-source="/admin.app/index"
+                             data-radio="true"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择应用"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">应用分类</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[app_class_id]"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getAppList"
+                             data-radio="true"
+                             data-textField="app_class_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择应用分类"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">线索状态</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[is_assign]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">已被分配</option>
+                            <option value="2">未分配</option>
+                            <option value="3">已分配</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">用户昵称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[user_nickname]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">用户微信</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[user_wx_nickname]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[phone]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">手机号后四位</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[phone_end_number]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">年龄</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[age_range]"
+                             data-sourceType="route"
+                             data-source="/admin.thread/ageRangeList"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="name"
+                             data-paging="true"
+                             data-placeholder="请选择年龄"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">身份</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[identity_id]"
+                             data-sourceType="route"
+                             data-source="/admin.thread/identifyList"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择身份"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">学历</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[education_id]"
+                             data-sourceType="route"
+                             data-source="/admin.thread/educationList"
+                             data-radio="true"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择学历"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">是否有电脑</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[is_has_computer_id]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="2">是</option>
+                            <option value="1">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">是否长按识别二维码</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[is_discern_qrcode]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">产品类型</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[thread_type]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">0元纯表单</option>
+                            <option value="2">1分纯表单</option>
+                            <option value="3">0元加微信</option>
+                            <option value="4">1分加微信</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">客服微信</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[cus_wechat_number]" class="layui-input" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">标签</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[thread_tag_ids]"
+                             data-sourceType="route"
+                             data-source="/admin.thread.thread_tag/index"
+                             data-radio="true"
+                             data-textField="title"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择标签"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline" style="width: 290px;">
+                        <input type="text" class="layui-input laydate"
+                               id="create_time" name="search_param[create_time]"
+                               data-type="datetime" data-isRange="true" placeholder="请选择创建时间" >
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline" >
+                    <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="default-toolbar">
+    {{# if(facade.hasAuth("/admin.thread_user_merchant/addUser")){ }}
+    <button class="laytp-btn laytp-btn-primary laytp-btn-md" lay-event="add-user">
+        <i class="layui-icon layui-icon-search"></i>
+        创建用户
+    </button>
+    {{# } }}
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+</script>
+
+<script type="text/html" id="default-bar">
+    {{# if(facade.hasAuth("/admin.thread_transformation/assign")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="assign-info"><i class="layui-icon layui-icon-update"></i>手动</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.thread_transformation/assignOne")){ }}
+    <button class="laytp-btn laytp-btn-normal laytp-btn-xs" lay-event="assign-one"><i class="layui-icon layui-icon-update"></i>自动一对一</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.thread_transformation/assignMore")){ }}
+    <button class="laytp-btn laytp-btn-success laytp-btn-xs" lay-event="assign-more"><i class="layui-icon layui-icon-update"></i>自动一对多</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.thread_transformation/assignSupplement")){ }}
+    <button class="laytp-btn laytp-btn-success laytp-btn-xs" lay-event="assign-supplement"><i class="layui-icon layui-icon-update"></i>客服补量</button>
+    {{# } }}
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/threadTransFormation.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/threadTransFormation.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

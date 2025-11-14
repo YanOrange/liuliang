@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>编辑用户</title>
+</head>
+
+<body>
+    <script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>渠道</label>
+                    <div class="layui-input-block">
+                        <input type="text" disabled name="platform" value="{{d.channel.channel_name}}" lay-verify="required" autocomplete="off" placeholder="请输入投放平台" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>投放平台</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="platform" value="{{d.platform}}" lay-verify="required" autocomplete="off" placeholder="请输入投放平台" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>投放日期</label>
+                    <div class="layui-input-block">
+                        <input data-type="data" type="text" value="{{d.plan_date}}" name="plan_date" lay-verify="required" autocomplete="off" placeholder="请选择投放日期" class="layui-input laydate">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>返点</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="point_rate" value="{{d.point_rate}}" lay-verify="required" autocomplete="off" placeholder="请输入返点" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>投放消耗</label>
+                    <div class="layui-input-block">
+                        <input type="number"  name="cost" value="{{d.cost}}" lay-verify="required" autocomplete="off" placeholder="请输入投放消耗" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>实际消耗</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="cost_back" value="{{d.cost_back}}" lay-verify="required" autocomplete="off" placeholder="请输入实际消耗" class="layui-input" readonly style="background-color: #f6f6f6">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>曝光量</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="expose" value="{{d.expose}}" lay-verify="required" autocomplete="off" placeholder="请输入曝光量" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>下载量</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="download" value="{{d.download}}" lay-verify="required" autocomplete="off" placeholder="请输入下载量" class="layui-input">
+                    </div>
+                </div>
+<!--                <div class="layui-form-item">-->
+<!--                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>下载成本</label>-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <input type="number" name="download_cost" value="{{d.download_cost}}" lay-verify="required" autocomplete="off" placeholder="请输入下载成本" class="layui-input">-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>点击数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="click" value="{{d.click}}" lay-verify="required" autocomplete="off" placeholder="请输入点击数" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>回传激活数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="convert_active" value="{{d.convert_active}}" lay-verify="required" autocomplete="off" placeholder="请输入回传激活数" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>回传注册数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="convert_register"  value="{{d.convert_register}}"lay-verify="required" autocomplete="off" placeholder="请输入回传注册数" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>加粉数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="jiaFenNum" value="{{d.jiaFenNum}}" lay-verify="required" autocomplete="off" placeholder="请输入加粉数" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+    <form class="layui-form" lay-filter="layui-form"></form>
+    <script>
+        if (localStorage.getItem("staticDomain")) {
+            document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+            document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        } else {
+            document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+            document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        }
+    </script>
+    <script>
+        layui.use(['laytp', 'form', 'jquery'], function () {
+            let form = layui.form;
+            let $ = layui.jquery;
+
+            //获取参数ID
+            var id = facade.getUrlParam('id');
+            if (!id) {
+                facade.error('参数ID不能为空');
+                return false;
+            }
+
+            //获取数据，渲染到对应的节点上
+            facade.ajax({
+                route: "/admin.OverviewOfLaunch/info",
+                data: { id: id },
+                successAlert: false,
+                showLoading: true
+            }).done(function (res) {
+                if (res.code === 0) {
+                    layui.laytpl($("#form").html()).render(res.data, function (string) {
+                        $("form").html(string);
+                        layui.laytpForm.render();
+                        form.render();
+                    });
+
+                    $('input[name="point_rate"]').on("change", function () {
+                        computeCostBack();
+                    })
+
+                    $('input[name="cost"]').on("change", function () {
+                        computeCostBack();
+                    })
+                }
+            });
+
+            form.on('submit(laytp-form)', function (data) {
+                facade.ajax({
+                    route: '/admin.OverviewOfLaunch/edit',
+                    data: data.field
+                }).done(function (res) {
+                    if (res.code === 0) {
+                        parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                        parent.layui.table.reload("laytp-table");
+                    }
+                });
+                return false;
+            });
+
+            function computeCostBack()
+            {
+                var pointRate = parseFloat($('input[name="point_rate"]').val()); // 获取返点值
+                var cost = parseFloat($('input[name="cost"]').val()); // 获取投放消耗值
+
+                // 计算实际消耗
+                var costBack = isNaN(pointRate) || isNaN(cost) ? 0 : cost / (1 + pointRate);
+
+                // 设置实际消耗值，限制小数点后两位
+                $('input[name="cost_back"]').val(costBack.toFixed(2));
+            }
+        })
+    </script>
+</body>
+
+</html>

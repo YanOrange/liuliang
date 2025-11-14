@@ -1,0 +1,2 @@
+<select name="{%field%}" id="{%field%}" lay-verify="{%verify%}" placeholder="请选择{%comment%}">
+{%options%}                        </select>

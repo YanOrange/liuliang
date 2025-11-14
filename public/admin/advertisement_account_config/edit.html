@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑投流账号</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>平台</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="platform_id"
+                             data-sourceType="route"
+                             data-source="/admin.channel/getPromotionPlatform"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.platform_id}}"
+                             data-placeholder="平台"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>账号ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="user_id"  lay-verify="required" autocomplete="off" placeholder="请输入账号ID/小米ID/广告主ID" class="layui-input" value="{{=d.user_id}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>用户名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="user_name"  lay-verify="required" autocomplete="off" placeholder="请输入用户名" class="layui-input" value="{{=d.user_name}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登录账号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="login_account" autocomplete="off" placeholder="请输入登录账号" class="layui-input" value="{{=d.login_account}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>登录密码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="pass_word"  lay-verify="required" autocomplete="off" placeholder="请输入密码" class="layui-input" value="{{=d.pass_word}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">子账号ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="user_id_sub" autocomplete="off" placeholder="请输入子账号ID" class="layui-input" value="{{=d.user_id_sub}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>返点</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="point_rate"  lay-verify="required" autocomplete="off" placeholder="请输入返点(保留四位小数)" class="layui-input" value="{{=d.point_rate}}">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>代理商</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="agent_id"
+                             data-sourceType="route"
+                             data-source="/admin.agent/index?all_data=1&&search_param[status][value]=1&search_param[status][condition]=="
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.agent_id}}"
+                             data-placeholder="代理商"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>渠道ID</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="channel_id"
+                             data-sourceType="route"
+                             data-source="/admin.channel/index"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.channel_id}}"
+                             data-placeholder="渠道"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">apiId</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="apiId" autocomplete="off" placeholder="请输入VIVO/OPPO渠道apiId" class="layui-input" value="{{=d.apiId}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">apiKey</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="apiKey" autocomplete="off" placeholder="请输入VIVO/OPPO渠道apiKey" class="layui-input" value="{{=d.apiKey}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">accessToken</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="accessToken" autocomplete="off" placeholder="请输入VIVO渠道accessToken" class="layui-input" value="{{=d.accessToken}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">accessTokenDate</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="accessTokendate" autocomplete="off" placeholder="请输入VIVO渠道accessTokendate" class="layui-input" value="{{=d.accessTokendate}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">refreshToken</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="refreshToken"  autocomplete="off" placeholder="请输入VIVO渠道refreshToken" class="layui-input" value="{{=d.refreshToken}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">refreshTokenDate</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="refreshTkoendate"  autocomplete="off" placeholder="请输入VIVO渠道refreshTkoendate" class="layui-input" value="{{=d.refreshTkoendate}}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="put_in_status" value="1" title="上架" {{# if(d.put_in_status===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="put_in_status" value="0" title="下架" {{# if(d.put_in_status===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.advertisement_account_config/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route:'/admin.advertisement_account_config/edit',
+                data:data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

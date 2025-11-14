@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑渠道</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="source" lay-filter="source" value="1" title="App渠道" {{# if(d.source===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="source" lay-filter="source" value="2" title="第三方渠道" {{# if(d.source===2){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>渠道名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="channel_name"  value="{{ d.channel_name }}" lay-verify="required" autocomplete="off" placeholder="请输入渠道名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关联应用</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_id"
+                             data-sourceType="route"
+                             data-source="/admin.app/index"
+                             data-radio="true"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.app_id}}"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="source_id"
+                             data-sourceType="route"
+                             data-source="/admin.source_channel/index"
+                             data-radio="true"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.source_id}}"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>用户信息按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="user_material_btn_desc" value="{{ d.user_material_btn_desc }}" lay-verify="required" autocomplete="off" placeholder="请输入按钮文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>微信授权按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wx_btn_desc" value="{{ d.wx_btn_desc }}" lay-verify="required" autocomplete="off" placeholder="请输入微信授权按钮文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">启动app是否需要登录</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_login_show" value="1" title="开启" {{# if(d.is_login_show===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="is_login_show" value="0" title="关闭" {{# if(d.is_login_show===0){ }}checked="checked"{{# } }} />
+
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否开启落地页</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_landing_page" value="1" title="开启" {{# if(d.is_landing_page===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_landing_page" value="0" title="关闭" {{# if(d.is_landing_page===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否需要微信授权</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_wx_auth" value="1" title="是" {{# if(d.is_wx_auth===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_wx_auth" value="0" title="否" {{# if(d.is_wx_auth===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">未满十八岁是否可以报名</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_under_eighteen_apply" value="1" title="是" {{# if(d.is_under_eighteen_apply===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_under_eighteen_apply" value="0" title="否" {{# if(d.is_under_eighteen_apply===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否显示文章</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_article_show" value="1" title="是" {{# if(d.is_article_show===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_article_show" value="0" title="否" {{# if(d.is_article_show===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关联收集信息</label>
+                    <div class="layui-input-block">
+                        <div id="gather-info-list-edit" class="demo-tree"></div>
+                        <input type="hidden" name="gather_ids" value="{{=d.gather_ids}}" id="gather-list-edit"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>留资页文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="retention_page_desc[]" value="{{=d.retention_page_desc[0]}}" lay-verify="required" autocomplete="off" placeholder="请输入留资页文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="text" name="retention_page_desc[]" value="{{=d.retention_page_desc[1]}}" lay-verify="required" autocomplete="off" placeholder="请输入留资页文案" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>成本价</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="cost_price" lay-verify="number" autocomplete="off" class="layui-input" value="{{=d.cost_price}}" lay-verify="required">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    var str2 = '';
+    var data_all = [];
+    layui.use(['laytp','tree', 'util'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.channel/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true,
+            async : false,
+        }).done(function(res){
+            if(res.code === 0){
+                str2 = res.data.gather_ids;
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        facade.ajax({
+            route: "/admin.channel/getTree?channel_id="+id,
+            successAlert: false,
+            showLoading: true,
+            async : false,
+        }).done(function(res){
+            if(res.code === 0){
+                data_all = res.data
+            }
+        });
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.channel/edit',
+                data:data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+
+
+
+        var tree = layui.tree
+            , layer = layui.layer
+            , util = layui.util
+            // 最后数据
+            , list = str2.split(",")
+            , str = str2
+            //模拟数据2
+            ,data2 = [];
+
+        //基本演示
+        tree.render({
+            elem: '#gather-info-list-edit'
+            , data: data2
+            , showCheckbox: true  //是否显示复选框
+            , id: 'demoId1'
+            , isJump: true //是否允许点击节点时弹出新窗口跳转
+            , click: function (obj) {
+                var data = obj.data2;  //获取当前点击的节点数据
+                layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+            }
+        });
+
+        //filter并非必须
+        layui.use(['form'], function () {
+            var form = layui.form;
+            //元素没有设置lay-filter属性时,默认监听所有checkbox
+            form.on('checkbox', function (data) {
+                let bool = false;
+                console.log(list)
+                // 父子iD个位数
+                if (data.value.slice(data.value.length-1) == "#") {
+                    // console.log(true)
+                    //默认数据
+                    data_all.forEach(element => {
+                        // console.log(element)
+                        // 子集ID
+                        if (data.value == element.id) {
+                            // 子集children
+                            element.children.forEach(ele => {
+                                // 最后的数据
+                                console.log(list)
+
+                                list.forEach((item, index) => {
+                                    if (item == ele.id) {
+                                        console.log(item,index)
+                                        list.splice(index, 1)
+                                        bool = true
+                                        return
+
+                                    }
+                                })
+
+                            })
+                        }
+                    });
+                    if (!bool) {
+                        data_all.forEach(element => {
+                            // 子集ID
+                            if (element.id == data.value) {
+                                // 子集children
+                                element.children.forEach(ele => {
+                                    list.push(ele.id)
+                                })
+                            }
+                        });
+                    }
+                    // console.log(data1);
+                    //console.log(list);
+                    str = ""
+                    list.forEach(ele => {
+                        str += "," + ele
+                    })
+                    str = str.slice(1)
+                    //console.log(str);
+                }else {
+                    // 子级ID三位数以上
+                    console.log(data.value);
+                    let num = 1
+                    list.forEach((ele, index) => {
+                        console.log(ele);
+                        if (data.value == ele) {
+                            console.log(index);
+                            list.splice(index, 1)
+                            num = 0
+                        }
+                    })
+                    if (num) {
+                        list.push(data.value)
+                    }
+                    //console.log(list);
+                    str = ""
+                    list.forEach(ele => {
+                        str += "," + ele
+                    })
+                    str = str.slice(1)
+                    //console.log(str);
+                }
+                $("#gather-list-edit").val(str);
+
+            })
+        })
+
+        //开启复选框
+        tree.render({
+            elem: '#gather-info-list-edit'
+            , data: data_all
+            , showCheckbox: true
+        });
+
+    })
+
+    /*layui.use(['laytp','tree', 'util'], function () {
+        console.log(data_all);
+        //获取数据，渲染到对应的节点上
+
+                var tree = layui.tree
+                    , layer = layui.layer
+                    , util = layui.util
+                    // 最后数据
+                    , list = str2.split(",")
+                    , str = str2
+                    //模拟数据2
+                    ,data2 = [];
+
+                //基本演示
+                tree.render({
+                    elem: '#gather-info-list-edit'
+                    , data: data2
+                    , showCheckbox: true  //是否显示复选框
+                    , id: 'demoId1'
+                    , isJump: true //是否允许点击节点时弹出新窗口跳转
+                    , click: function (obj) {
+                        var data = obj.data2;  //获取当前点击的节点数据
+                        layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+                    }
+                });
+
+                //filter并非必须
+                layui.use(['form'], function () {
+                    var form = layui.form;
+                    //元素没有设置lay-filter属性时,默认监听所有checkbox
+                    form.on('checkbox', function (data) {
+                        let bool = false;
+                        console.log(list)
+                        // 父子iD个位数
+                        if (data.value.slice(data.value.length-1) == "#") {
+                            // console.log(true)
+                            //默认数据
+                            data_all.forEach(element => {
+                                // console.log(element)
+                                // 子集ID
+                                if (data.value == element.id) {
+                                    // 子集children
+                                    element.children.forEach(ele => {
+                                        // 最后的数据
+                                        console.log(list)
+
+                                        list.forEach((item, index) => {
+                                            if (item == ele.id) {
+                                                console.log(item,index)
+                                                list.splice(index, 1)
+                                                bool = true
+                                                return
+
+                                            }
+                                        })
+
+                                    })
+                                }
+                            });
+                            if (!bool) {
+                                data_all.forEach(element => {
+                                    // 子集ID
+                                    if (element.id == data.value) {
+                                        // 子集children
+                                        element.children.forEach(ele => {
+                                            list.push(ele.id)
+                                        })
+                                    }
+                                });
+                            }
+                            // console.log(data1);
+                            //console.log(list);
+                            str = ""
+                            list.forEach(ele => {
+                                str += "," + ele
+                            })
+                            str = str.slice(1)
+                            //console.log(str);
+                        }else {
+                            // 子级ID三位数以上
+                            console.log(data.value);
+                            let num = 1
+                            list.forEach((ele, index) => {
+                                console.log(ele);
+                                if (data.value == ele) {
+                                    console.log(index);
+                                    list.splice(index, 1)
+                                    num = 0
+                                }
+                            })
+                            if (num) {
+                                list.push(data.value)
+                            }
+                            //console.log(list);
+                            str = ""
+                            list.forEach(ele => {
+                                str += "," + ele
+                            })
+                            str = str.slice(1)
+                            //console.log(str);
+                        }
+                        $("#gather-list-edit").val(str);
+
+                    })
+                })
+
+                //开启复选框
+                tree.render({
+                    elem: '#gather-info-list-edit'
+                    , data: data_all
+                    , showCheckbox: true
+                });
+
+    });*/
+</script>
+</body>
+</html>

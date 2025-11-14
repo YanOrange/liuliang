@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑app信息流</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>信息流名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="for_flow_title"  autocomplete="off" placeholder="请输入信息流名称" class="layui-input" lay-verify="required" value="{{ d.for_flow_title }}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联应用</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_ids"
+                             data-sourceType="route"
+                             data-source="/admin.app/index"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="应用"
+                             data-layVerify="required"
+                             data-selected="{{=d.app_ids}}"
+                        ></div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>开头话术</label>
+                    <div class="layui-input-block">
+                        <table class="layui-table"  lay-skin="line">
+                            <thead>
+                            <tr>
+                                <th>话术内容</th>
+                                <th>阅读时长</th>
+                                <th>排序</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            {{# if(d.header_official_json){ }}
+                            {{# var key; for(key in d.header_official_json){ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="header_official_json[content][]" value="{{=d.header_official_json[key]['content']}}" /></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="header_official_json[times][]" value="{{=d.header_official_json[key]['times']}}"/></td>
+                                <td style="padding: 4px 15px;width: 10%;"><input class="layui-input" type="number" name="header_official_json[sort][]" value="{{=d.header_official_json[key]['sort']}}"/></td>
+
+                                <td style="padding: 4px 15px;">
+                                    <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-delete delArrayItem" layer-tips="删除" title="删除"></a>
+                                </td>
+                            </tr>
+                            {{# } }}
+                            {{# }else{ }}
+                            <tr>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="text" name="header_official_json[content][]"  /></td>
+                                <td style="padding: 4px 15px;"><input class="layui-input" type="number" name="header_official_json[times][]"/></td>
+                                <td style="padding: 4px 15px;width: 10%;"><input class="layui-input" type="number" name="header_official_json[sort][]" value="0"/></td>
+
+                                <td style="padding: 4px 15px;">
+                                    <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-delete delArrayItem" layer-tips="删除" title="删除"></a>
+                                </td>
+                            </tr>
+
+                            {{# } }}
+                            <tr class='nodrop nodrag'>
+                                <td colspan="3" style="padding: 4px 15px;">
+                                    <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-1 addArrayItem" title="追加">追加</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>收集信息设置</label>
+                    <div style="margin-left: 70px;">
+                        <div class="layui-form-item" >
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-block" style="display: flex;align-items: center">
+                                <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                                <input type="hidden" name="gather_info_set_json[0][is_nickname]" value="0"/>
+                                <input type="checkbox" name="gather_info_set_json[0][is_nickname]"  lay-skin="switch" lay-text="是|否" value="1"
+                                        {{# if(d.gather_info_set_json[0]['is_nickname']==1){}}checked="checked"{{#}}} />
+                                <input class="layui-input" type="number" name="gather_info_set_json[0][sort]" style="width:100px;margin-left: 20px" value="{{ d.gather_info_set_json[0]['sort'] }}"/>
+
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">年龄</label>
+                            <div class="layui-input-block" style="display: flex;align-items: center">
+                                <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                                <input type="hidden" name="gather_info_set_json[1][is_age]" value="0"/>
+                                <input type="checkbox" name="gather_info_set_json[1][is_age]"  lay-skin="switch" lay-text="是|否" value="1"
+                                       {{# if(d.gather_info_set_json[1]['is_age']==1){}}checked="checked"{{#}}} />
+                                <input class="layui-input" type="number" name="gather_info_set_json[1][sort]" style="width:100px;margin-left: 20px" value="{{ d.gather_info_set_json[1]['sort'] }}"/>
+
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">学历</label>
+                            <div class="layui-input-block" style="display: flex;align-items: center">
+                                <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                                <input type="hidden" name="gather_info_set_json[2][is_education]" value="0"/>
+                                <input type="checkbox" name="gather_info_set_json[2][is_education]"  lay-skin="switch" lay-text="是|否" value="1"
+                                       {{# if(d.gather_info_set_json[2]['is_education']==1){}}checked="checked"{{#}}} />
+                                <input class="layui-input" type="number" name="gather_info_set_json[2][sort]" style="width:100px;margin-left: 20px" value="{{ d.gather_info_set_json[2]['sort'] }}"/>
+
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">身份</label>
+                            <div class="layui-input-block" style="display: flex;align-items: center">
+                                <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                                <input type="hidden" name="gather_info_set_json[3][is_identity]" value="0"/>
+                                <input type="checkbox" name="gather_info_set_json[3][is_identity]"  lay-skin="switch" lay-text="是|否" value="1"
+                                       {{# if(d.gather_info_set_json[3]['is_identity']==1){}}checked="checked"{{#}}} />
+                                <input class="layui-input" type="number" name="gather_info_set_json[3][sort]" style="width:100px;margin-left: 20px" value="{{ d.gather_info_set_json[3]['sort'] }}"/>
+
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">学习需求</label>
+                            <div class="layui-input-block" style="display: flex;align-items: center">
+                                <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                                <input type="hidden" name="gather_info_set_json[4][is_study_demand]" value="0"/>
+                                <input type="checkbox" name="gather_info_set_json[4][is_study_demand]"  lay-skin="switch" lay-text="是|否" value="1"
+                                       {{# if(d.gather_info_set_json[4]['is_study_demand']==1){}}checked="checked"{{#}}} />
+                                <input class="layui-input" type="number" name="gather_info_set_json[4][sort]" style="width:100px;margin-left: 20px" value="{{ d.gather_info_set_json[4]['sort'] }}"/>
+
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">是否有电脑</label>
+                            <div class="layui-input-block" style="display: flex;align-items: center">
+                                <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                                <input type="hidden" name="gather_info_set_json[5][is_has_computer]" value="0"/>
+                                <input type="checkbox" name="gather_info_set_json[5][is_has_computer]"  lay-skin="switch" lay-text="是|否" value="1"
+                                       {{# if(d.gather_info_set_json[5]['is_has_computer']==1){}}checked="checked"{{#}}} />
+                                <input class="layui-input" type="number" name="gather_info_set_json[5][sort]" style="width:100px;margin-left: 20px" value="{{ d.gather_info_set_json[5]['sort'] }}"/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="app"> </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>系统头像</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="system_avatar"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-layVerify="required"
+                             data-uploaded="{{ d.system_avatar }}"
+                             data-uploadedId="{{ d.system_avatar }}"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>按钮文案</label>
+                    <div style="margin-left: 70px;">
+                        <div class="layui-form-item" >
+                            <label class="layui-form-label">提示文案</label>
+                            <div class="layui-input-block" style="width: 300px;">
+                                <input type="text" name="hint_official" placeholder="请输入提示文案" class="layui-input" autocomplete="off" lay-verify="required" value="{{ d.hint_official }}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item" >
+                            <label class="layui-form-label">按钮文案</label>
+                            <div class="layui-input-block" style="width: 300px;">
+                                <input type="text" name="btn_desc" placeholder="请输入按钮文案" class="layui-input" autocomplete="off" lay-verify="required" value="{{ d.btn_desc }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                        <input type="hidden" name="status" value="0"/>
+                        <input type="checkbox" name="status"  lay-skin="switch" lay-text="启用|禁用" value="1"
+                               {{# if(d.status==1){}}checked="checked"{{#}}} />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.app_for_flow/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.app_for_flow/edit',
+                data:data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+
+</script>
+</body>
+</html>

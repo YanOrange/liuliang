@@ -1,0 +1,9 @@
+<div class="xmSelect"
+                        data-name="search_param[{%field%}][value]"
+                        data-sourceType="{%sourceType%}"
+                        data-source="{%source%}"
+                        data-sourceTree="{%sourceTree%}"
+                        data-paging="{%paging%}"
+                        data-valueField="id"{%textField%}{%subTextField%}{%iconField%}{%comment%}{%direction%}
+                    ></div>
+                    <input type="hidden" name="search_param[{%field%}][condition]" value="FIND_IN_SET">

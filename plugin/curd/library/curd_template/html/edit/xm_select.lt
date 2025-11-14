@@ -1,0 +1,10 @@
+<div class="xmSelect"
+                            data-name="{%field%}"
+                            data-sourceType="{%sourceType%}"
+                            data-source="{%source%}"
+                            data-sourceTree="{%sourceTree%}"
+                            data-paging="{%paging%}"
+                            data-radio="{%radio%}"
+                            data-valueField="id"
+                            data-selected="{{=d.{%field%}}}"{%max%}{%textField%}{%subTextField%}{%iconField%}{%comment%}{%layVerify%}{%direction%}
+                            ></div>

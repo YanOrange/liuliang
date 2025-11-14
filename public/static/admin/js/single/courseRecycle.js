@@ -1,0 +1,105 @@
+layui.use(['laytp'], function () {
+    const funRecycleController = {};
+    //静态页面地址前缀
+    window.htmlPrefix = facade.compatibleHtmlPath("/admin/course/");
+    //后端接口地址前缀
+    window.apiPrefix  = facade.compatibleApiRoute("/admin.single.course/");
+
+    //表格渲染
+    funRecycleController.tableRender = function (where, page) {
+        layui.table.render({
+            elem: "#laytp-recycle-table"
+            , id: "laytp-recycle-table"
+            , url: facade.url("/admin.single.course/recycle")
+            , toolbar: "#recycle-default-toolbar"
+            , defaultToolbar: [{
+                title: '刷新',
+                layEvent: 'recycle-refresh',
+                icon: 'layui-icon-refresh',
+            }, 'filter', 'print']
+            , where: where
+            , method: "GET"
+            , cellMinWidth: 80
+            , skin: 'line'
+            , loading: false
+            , page: {
+                curr: page
+            }
+            , parseData: function (res) { //res 即为原始返回的数据
+                return facade.parseTableData(res, true);
+            }
+            , cols: [[ //表头
+                {type: "checkbox"}
+                , {field: "id", title: "ID", align: "center", width: 80}
+                , {field: "title", title: "资源名称", align: "center",width: 180}
+                , {field: "merchant_names", title: "所属商户", align: "center",width: 180}
+                , {field: "app_names", title: "所属应用", align: "center",width: 180}
+                , {
+                    field: "course_type", title: "类型", align: "center", templet: function (d) {
+                        return laytp.tableFormatter.status('course_type', d.resource_type, {
+                            "value": ["1", "2"],
+                            "text": ["精选", "推荐"]
+                        }, true);
+                    },width: 80
+                }
+                ,{field:'virtual_apply_nums',title:'学习人数',align:'center', width: 100}
+                ,{field:'sort',title:'排序',align:'center', width: 100}
+                , {
+                    field: "status", title: "状态", align: "center", width: 120, templet: function (d) {
+                        return laytpForm.tableForm.switch("status", d, {
+                            "open": {"value": 1, "text": "启用"},
+                            "close": {"value": 0, "text": "禁用"}
+                        });
+                    }
+                }
+                , {field: "create_time", title: "创建时间", align: "center", width: 160}
+                , {field: "update_time", title: "修改时间", align: "center", width: 160}
+                , {
+                    field: 'operation',
+                    title: '操作',
+                    toolbar: '#recycle-default-bar',
+                    fixed: 'right',
+                    align: 'center',
+                    width: 140
+                }
+            ]]
+        });
+
+        //监听数据表格顶部左侧按钮点击事件
+        layui.table.on("toolbar(laytp-recycle-table)", function (obj) {
+            var defaultTableToolbar = layui.context.get("defaultTableToolbar");
+            if (defaultTableToolbar.indexOf(obj.event) !== -1) {
+                //默认按钮点击事件
+                laytp.tableToolbar(obj);
+            } else {
+                // //自定义按钮点击事件
+                // switch(obj.event){
+                // //自定义按钮点击事件
+                // case "":
+                //
+                //     break;
+                // }
+            }
+        });
+
+        //监听数据表格[操作列]按钮点击事件
+        layui.table.on('tool(laytp-recycle-table)', function (obj) {
+            var defaultTableTool = layui.context.get("defaultTableTool");
+            if (defaultTableTool.indexOf(obj.event) !== -1) {
+                laytp.tableTool(obj);
+            } else {
+                // //自定义按钮
+                // switch(obj.event){
+                // //自定义按钮点击事件
+                // case '':
+                //
+                //     break;
+                // }
+            }
+        });
+    };
+
+    funRecycleController.tableRender();
+
+    window.funRecycleController = funRecycleController;
+});

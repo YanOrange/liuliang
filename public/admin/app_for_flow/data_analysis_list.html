@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>app信息流列表</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="layui-form-item">
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">用户昵称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[nickname]" class="layui-input" autocomplete="off" placeholder="用户昵称" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[phone]" class="layui-input" autocomplete="off" placeholder="手机号"/>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">商户</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[merchant_id]"
+                             data-sourceType="route"
+                             data-source="/admin.merchant/index"
+                             data-radio="true"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择商户"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">应用</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[app_id]"
+                             data-sourceType="route"
+                             data-source="/admin.app/index"
+                             data-radio="true"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择应用"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">年龄</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[age_range_id]"
+                             data-sourceType="route"
+                             data-source="/admin.thread/ageRangeList"
+                             data-radio="true"
+                             data-textField="age_range"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择年龄"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">身份</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[identity_id]"
+                             data-sourceType="route"
+                             data-source="/admin.thread/identifyList"
+                             data-radio="true"
+                             data-textField="identity"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择身份"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">学历</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[education_id]"
+                             data-sourceType="route"
+                             data-source="/admin.thread/educationList"
+                             data-radio="true"
+                             data-textField="education"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择学历"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">学习需求</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[study_goal_id]"
+                             data-sourceType="route"
+                             data-source="/admin.thread/studyGoalList"
+                             data-radio="true"
+                             data-textField="is_has_computer"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择学习需求"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">是否有电脑</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[is_has_computer_id]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="2">是</option>
+                            <option value="1">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">是否长按识别二维码</label>
+                    <div class="layui-input-inline">
+                        <select name="search_param[is_discern_qrcode]" class="layui-select">
+                            <option value="">全部</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="default-toolbar">
+    <div class="dropdown-menu">
+
+    </div>
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+
+</script>
+
+<script type="text/html" id="default-bar">
+
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/dataAnalysisList.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/dataAnalysisList.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

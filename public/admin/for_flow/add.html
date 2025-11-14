@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加h5信息流</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        投流名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="for_flow_title" autocomplete="off" placeholder="请输入投流名称"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>选择类目</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_class_id"
+                             data-sourceType="route"
+                             data-source="/admin.app_class/index"
+                             data-textField="app_class_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="选择类目"
+                             data-layVerify="required"
+                             data-radio="true"
+                             data-onChange="changeAppClass"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>选择商户</label>
+                    <div class="layui-input-inline">
+                        <div id="merchant_ids"></div>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">选择商户时，需要选择一个内部商户</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        专题页名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="show_page_title" autocomplete="off" placeholder="请输入专题页名称"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>设置价格</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="price"  lay-verify="required|price" autocomplete="off" placeholder="请输入价格" class="layui-input" value="0">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">默认为0元，0元代表“免费”</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        专题主图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="show_page_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">招呼语</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="greeting" autocomplete="off" placeholder="请输入招呼语" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">报名数据设置</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_data" value="1" title="有数据报名" checked>
+                        <input type="radio" name="is_data" value="0" title="无数据报名" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 250px;">进入H5投流页直接跳转到小程序加微页面</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_no_data_jump_miniprogram" value="1" title="开启" >
+                        <input type="radio" name="is_no_data_jump_miniprogram" value="0" title="关闭" checked>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否显示昵称</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_nickname" value="1" title="显示">
+                        <input type="radio" name="is_nickname" value="0" title="不显示" checked>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否跳转微信小程序</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_jump_wx" value="1" title="是" checked>
+                        <input type="radio" name="is_jump_wx" value="0" title="否" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 230px;">不跳转微信小程序报名成功提示图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="not_jump_wx_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">同一浏览器报名间隔时间(单位/分)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="apply_interval_time" autocomplete="off" placeholder="报名间隔时间" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">H5使用场景</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="use_scene"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getNewMediaPlatformList"
+                             data-textField="platform_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="选择场景"
+                             data-radio="true"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="h5-gzh">
+                    <label class="layui-form-label">微信公众号入口</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="wxgzh_enter" value="1" title="私信入口" checked>
+                        <input type="radio" name="wxgzh_enter" value="2" title="菜单栏">
+                        <input type="radio" name="wxgzh_enter" value="3" title="阅读全文">
+                        <input type="radio" name="wxgzh_enter" value="4" title="文章图片">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">页面展示方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="page_type" value="1" lay-filter="page_type" title="图片类型" checked>
+                        <input type="radio" name="page_type" value="2" lay-filter="page_type" title="文章类型">
+                        <input type="radio" name="page_type" value="3" lay-filter="page_type" title="其他类型">
+                        <input type="radio" name="page_type" value="4" lay-filter="page_type" title="新+V类型">
+                        <input type="radio" name="page_type" value="5" lay-filter="page_type" title="咨询类型">
+                        <input type="radio" name="page_type" value="6" lay-filter="page_type" title="(新)咨询类型">
+                        <input type="radio" name="page_type" value="7" lay-filter="page_type" title="(新含终止)咨询类型">
+                    </div>
+                </div>
+                <div class="layui-form-item" id="h5-article" style="display:none;">
+                    <label class="layui-form-label">文章内容</label>
+                    <div class="layui-input-block">
+                        <span style="color:red;">多段文章列表“@@@@@@@@”符号分割</span>
+                        <iframe src="/admin/ueditor.html" class="editor" data-type="ueditor" data-id="content" style="width:90%;height:350px;border: 0"></iframe>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文章中间按钮图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="article_center_btn_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文章底部图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="h5_bottom_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">弹窗按钮名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="popup_flow_btn" autocomplete="off" placeholder="弹窗按钮名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">弹窗标题名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="popup_flow_title" autocomplete="off" placeholder="弹窗标题名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        专题页名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="show_page_title" autocomplete="off" placeholder="请输入专题页名称"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <text title="必填项" style="color:red;">*</text>
+                    其他信息设置</label>
+                <div style="margin-left: 110px;">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <text title="必填项" style="color:red;">*</text>
+                            跑马灯报名信息</label>
+                        <div class="layui-input-block">
+                            <!-- 隐藏域设置开关未选中时需要传递的参数值 -->
+                            <input type="hidden" name="other_info_set_json[0][is_horse_race_lamp]" value="0"/>
+                            <input type="checkbox" name="other_info_set_json[0][is_horse_race_lamp]"
+                                   lay-skin="switch" lay-text="是|否" value="1"
+                                   checked="checked"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标题名称</label>
+                        <div class="layui-input-block" style="width: 200px;">
+                            <input type="text" name="other_info_set_json[0][title]" placeholder="请输入标题名称"
+                                   class="layui-input" autocomplete="off" value="最新报名学员">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">专题详情图</label>
+                <div class="layui-input-block">
+                    <div class="laytpUpload"
+                         data-name="show_page_detail_images"
+                         data-accept="image"
+                         data-type="ali-oss-url"
+                         data-multi="true"
+                    ></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">专题视频</label>
+                <div class="layui-input-block">
+                    <div class="laytpUpload"
+                         data-name="show_page_video_url"
+                         data-accept="video"
+                         data-type="ali-oss-url"
+                         data-viaServer="unVia"
+                    ></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <text title="必填项" style="color:red;">*</text>
+                    按钮名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="btn_desc" autocomplete="off" placeholder="请输入按钮名称" class="layui-input"
+                           lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">主背景图</label>
+                <div class="layui-input-block">
+                    <div class="laytpUpload"
+                         data-name="back_image"
+                         data-accept="image"
+                         data-type="ali-oss-url"
+                    ></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">按钮背景图</label>
+                <div class="layui-input-block">
+                    <div class="laytpUpload"
+                         data-name="btn_back_image"
+                         data-accept="image"
+                         data-type="ali-oss-url"
+                    ></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证码背景图</label>
+                <div class="layui-input-block">
+                    <div class="laytpUpload"
+                         data-name="captcha_back_image"
+                         data-accept="image"
+                         data-type="ali-oss-url"
+                    ></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <text title="必填项" style="color:red;">*</text>是否需要手机号</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="is_need_phone" value="1" title="是" checked>
+                    <input type="radio" name="is_need_phone" value="0" title="否">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <text title="必填项" style="color:red;">*</text>是否需要验证码</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="is_need_captcha" value="1" title="是" checked>
+                    <input type="radio" name="is_need_captcha" value="0" title="否">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否隐藏提交按钮</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="is_hide_submit_btn" value="1" title="是">
+                    <input type="radio" name="is_hide_submit_btn" value="0" title="否" checked>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <text title="必填项" style="color:red;">*</text>页面领取方式</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="page_show_type" value="1" title="首页+留资" checked>
+                    <input type="radio" name="page_show_type" value="2" title="首页+弹窗留资">
+                    <input type="radio" name="page_show_type" value="3" title="首页无留资">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">指定获客链接</label>
+                <div class="layui-input-block">
+                    <input type="text" name="wecom_link" autocomplete="off" placeholder="指定获客链接" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>特殊指定分配</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="special_appoint" value="1" title="不指定" checked>
+                    <input type="radio" name="special_appoint" value="2" title="星之诺企微销售">
+                    <input type="radio" name="special_appoint" value="3" title="辉之光销售">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <text title="必填项" style="color:red;">*</text>
+                    状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" value="1" title="启用">
+                    <input type="radio" name="status" value="0" title="禁用" checked>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['form', 'layer', 'jquery'], function () {
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+        //监听多选框点击事件  主要是通过 lay-filter="sex"  来监听
+        form.on('radio(page_type)', function (data) {
+            //console.log( data );　　//打印当前选择的信息
+            var value = data.value;   //  当前选中的value值
+            if (value == 2) {
+                $("#h5-article").show();
+            } else {
+                $("#h5-article").hide();
+            }
+        });
+    })
+
+    layui.use(['form', 'layer', 'jquery'], function () {
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+        //监听多选框点击事件  主要是通过 lay-filter="sex"  来监听
+        form.on('radio(is_wx_gzh)', function (data) {
+            //console.log( data );　　//打印当前选择的信息
+            var value = data.value;   //  当前选中的value值
+            if (value == 1) {
+                $("#h5-gzh").show();
+            } else {
+                $("#h5-gzh").hide();
+            }
+        });
+    })
+
+    window.changeAppClass = function (params) {
+        let app_class_id = params.arr[0].id;
+        facade.ajax({
+            route: '/admin.merchant/getListByAppClassId',
+            data: {
+                all_data: 1,
+                app_class_id: app_class_id
+            }
+        }).done(function (res) {
+            if (res.code === 0) {
+                console.log(res.data)
+                if (res.data != null) {
+                    /*let list = res.data;
+                    let option_html = '<option value="">选择商户</option>';
+                    for (let i = 0; i < list.length; i++) {
+                        option_html += '<option value="' + list[i]['id'] + '">' + list[i]['merchant_name'] + '</option>';
+                    }
+                    $('#merchant_ids').append(option_html);*/
+                    layui.xmSelect.render({
+                        el: '#merchant_ids',
+                        tips: '请选择商户',
+                        empty: '暂无数据',
+                        filterable:true,    //是否开启搜索
+                        searchTips:'请在此搜索商户名称',
+                        paging:true,    //是否开启自定义分页
+                        pageSize:10,    //分页条数
+                        radio:false, //是否开启单选模式,默认false
+                        repeat:false,    //是否开启重复性模式,默认false
+                        clickClose:false,    //是否点击选项后自动关闭下拉框,默认false
+                        max:0,  //设置多选选中上限  0-不限制
+                        name: 'merchant_ids',
+                        data: res.data,
+                        textValue:'name',
+                        on: function(data){
+                            // //arr:  当前多选已选中的数据
+                            // var arr = data.arr;
+                            // //change, 此次选择变化的数据,数组
+                            // var change = data.change;
+                            // //isAdd, 此次操作是新增还是删除  true/false
+                            // var isAdd = data.isAdd;
+                        },
+                    });
+                }
+            }
+        });
+    }
+
+    layui.use(['laytp'], function () {
+        layui.form.on('submit(add)', function (data) {
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route: '/admin.for_flow/add',
+                data: data.field
+            }).done(function (res) {
+                if (res.code === 0) {
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<?php
+
+use think\migration\Migrator;
+
+class {%className%} extends Migrator
+{
+    public function change()
+    {
+        $table = $this->table('{%tableName%}', [
+            'engine' => '{%engine%}',
+            'comment' => '{%tableComment%}',
+            'collation' => '{%collation%}'
+        ]);
+
+        //删除表
+        if ($table->exists()) {
+            $table->drop();
+        }
+
+        $table
+            {%fields%}
+        ;
+
+        $table->create();
+    }
+}

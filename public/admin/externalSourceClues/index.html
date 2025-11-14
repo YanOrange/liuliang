@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>系统配置样例</title>
+</head>
+
+<body class="laytp-container">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form" lay-filter="layui-form">
+                <div class="table-container">
+                </div>
+                <div class="bottom">
+                    <div class="button-container">
+                        <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit=""
+                            lay-filter="add">
+                            <i class="layui-icon layui-icon-ok"></i>
+                            保存
+                        </button>
+                        <button type="reset" class="laytp-btn laytp-btn-sm">
+                            <i class="layui-icon layui-icon-refresh"></i>
+                            重置
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script id="confTableHtml" type="text/html">
+    <input type="hidden" name="group" id="group" value="{{=d.group}}"/>
+    <table class="layui-table" style="margin: 0;" lay-skin="nob">
+        <colgroup>
+            <col width="15%">
+            <col width="70%">
+            <col width="15%">
+        </colgroup>
+        <tbody>
+        <tr>
+            <td style="text-align:right;">
+                <text style="color: red;">*</text>
+                项目分类:
+            </td>
+            <td>
+                <div class="layui-input-inline">
+                    <select name="search_param[status]" class="layui-select">
+                        <option value="">全部</option>
+                        <option value="1">劳动仲裁</option>
+                        <option value="2">律所</option>
+                    </select>
+                </div>
+            </td> 
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label">
+                    <text style="color: red;">*</text>
+                    渠道来源
+                </label>
+            </td>
+            <td>
+                <div class="layui-input-inline">
+                    <select name="search_param[source_id]" class="layui-select">
+                        <option value="">全部</option>
+                        <option value="1">百度</option>
+                        <option value="2">高德</option>
+                        <option value="3">美团</option>
+                        <option value="4">法临</option>
+                        <option value="5">律图</option>
+                        <option value="6">律临</option>
+                        <option value="7">法律快车</option>
+                    </select>
+                </div>
+            </td> 
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label"> <text style="color: red;">*</text>手机号</label>
+            </td>
+            <td>
+                <div>
+                    <!-- <input type="text" name="phone" lay-verify="title" autocomplete="off" class="layui-input"> -->
+                    <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input"  placeholder="请输入手机号">
+                </div>
+            </td> 
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label"> <text style="color: red;">*</text>称呼</label>
+            </td>
+            <td>
+                <div>
+                    <input type="text" name="thread_user_name" lay-verify="required|thread_user_name" lay-verify="称呼必填" autocomplete="off" placeholder="请输入称呼" class="layui-input">
+                </div>
+            </td> 
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label"> <text style="color: red;">*</text>咨询类型</label>
+            </td>
+            <td>
+                <div>
+                    <input type="text" name="consulting_type" lay-verify="required|consulting_type" autocomplete="off" placeholder="请输入咨询类型" class="layui-input">
+                </div>
+            </td> 
+        </tr>
+    </table>
+</script>
+    <script type="application/javascript">
+        if (localStorage.getItem("staticDomain")) {
+            document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+            document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery.tablednd.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        } else {
+            document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+            document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+            document.write("<script src='/static/component/jquery.tablednd.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        }
+    </script>
+    <script>
+        layui.use(['laytp'], function () {
+            // var group = "system.demo";
+            // 先获取数据，渲染表单
+            // 渲染完表单之后，设置滚动条
+            facade.ajax({
+                route: "/admin.conf/getGroupConf",
+                // data: { "group": group },
+                successAlert: false,
+                showLoading: true
+            }).done(function (res) {
+                if (res.code === 0) {
+                    // res.data.group = group;
+                    layui.laytpl($("#confTableHtml").html()).render(res.data, function (string) {
+                        $(".table-container").html(string);
+                        layui.laytpForm.render();
+                        layui.form.render();
+                        var windowHeight = $(window).height();
+                        var maxHeight = parseInt(windowHeight) - 86;
+                        var minHeight = parseInt(windowHeight) - 86;
+                        // 设置table-container的最大高度和超过高度后展示滚动条
+                        $(".table-container").css("margin-bottom", '40px');
+                        $(".table-container").css("max-height", maxHeight + 'px');
+                        $(".table-container").css("min-height", minHeight + 'px');
+                        $(".table-container").css("overflow-y", "auto");
+
+                        $('.bottom').css("background-color", "#f6f6f6");
+                    });
+                }
+            });
+
+            layui.form.on('submit(add)', function (data) {
+                // data = facade.setEditorField(data);
+                // data.field.group = group;
+                console.log(data);
+                facade.ajax({
+                    route: '/admin.Thread/save',
+                    data: data.field
+                }).done(function (res) {
+                    if (res.code === 0) {
+                        location.reload();
+                    }
+                });
+                return false;
+            });
+        })
+    </script>
+</body>
+
+</html>

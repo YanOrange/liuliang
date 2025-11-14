@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑风采</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title"  value="{{ d.title }}" lay-verify="required" autocomplete="off" placeholder="请输入渠道名称" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>排序</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="weight"  lay-verify="number" autocomplete="off" placeholder="请输入排序" class="layui-input" value="{{ d.weight }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <text title="必填项" style="color:red;">*</text>
+                        风采图片(多张)</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="image_url"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                             data-layVerify="required"
+                             data-uploaded="{{ d.image_urls }}"
+                             data-uploadedId="{{ d.image_urls }}"
+                        ></div>
+                    </div>
+                </div>
+                {{# var key; for(key in d.imageDesc){ }}
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="display: flex;align-items: center;">
+                        <input type="text" name="image_desc[]" autocomplete="off" placeholder="图片介绍" class="layui-input"  value="{{=d.imageDesc[key]['image_desc']}}">
+                             <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-delete delArrayItem" layer-tips="删除" title="删除"></a>
+                    </div>
+                </div>
+                {{# } }}
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-1 addArrayItem" title="追加">追加</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+layui.use(['laytp'],function(){
+    let form = layui.form;
+    let $ = layui.jquery;
+    //获取参数ID
+    var id = facade.getUrlParam('id');
+    if(!id){
+        facade.error('参数ID不能为空');
+        return false;
+    }
+    //获取数据，渲染到对应的节点上
+    facade.ajax({
+        route: "/admin.website.website_style_show/info",
+        data: {id: id},
+        successAlert: false,
+        showLoading: true
+    }).done(function(res){
+        if(res.code === 0){
+            layui.laytpl($("#form").html()).render(res.data,function(string){
+                $("form").html(string);
+                layui.laytpForm.render();
+                form.render();
+            });
+        }
+    });
+    form.on('submit(laytp-form)', function(data){
+        data = facade.setEditorField(data);
+        facade.ajax({
+            route:'/admin.website.website_style_show/edit',
+            data:data.field
+        }).done(function(res){
+            if(res.code === 0){
+                parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                parent.layui.table.reload("laytp-table");
+            }
+        });
+        return false;
+    });
+})
+</script>
+</body>
+</html>

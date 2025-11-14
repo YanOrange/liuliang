@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加应用分类</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             id="selectChannel"
+                             data-name="channel_id"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getChannelList"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户行为</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="behavior_type"
+                             data-sourceType="data"
+                             data-source="[{name:'激活',value:'active'},{name:'注册',value:'register'},{name:'表单提交',value:'submit'},{name:'付费',value:'pay'}]"
+                             data-valueField="value"
+                             data-placeholder="请选择用户行为"
+                        ></div>
+                        <text title="必填项" style="color:red;">表单提交 和 付费 只能任选一项</text>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">归因方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="attributional_type" value="1" title="广告主归因" checked>
+                        <input type="radio" name="attributional_type" value="2" title="平台归因">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">回传方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="callback_type" value="1" title="生成线索" checked>
+                        <input type="radio" name="callback_type" value="2" title="识别二维码">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否回传</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_callback" value="1" title="是" checked>
+                        <input type="radio" name="is_callback" value="0" title="否">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/admin.advertiser_callback_channel/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

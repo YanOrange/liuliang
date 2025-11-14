@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .ant-modal-content {
+        position: relative;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 0;
+        border-radius: 0;
+        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+        pointer-events: auto;
+    }
+
+    .ant-modal-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 10;
+        padding: 0;
+        color: rgba(0,0,0,.45);
+        font-weight: 700;
+        line-height: 1;
+        text-decoration: none;
+        background: transparent;
+        border: 0;
+        outline: 0;
+        cursor: pointer;
+        transition: color .3s;
+    }
+
+    .ant-modal-close-x {
+        display: block;
+        width: 56px;
+        height: 56px;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 56px;
+        text-align: center;
+        text-transform: none;
+        text-rendering: auto;
+    }
+
+    .ant-modal-header {
+        padding: 16px 24px;
+        color: rgba(0,0,0,.65);
+        background: #fff;
+        border-bottom: 1px solid #e8e8e8;
+        border-radius: 0 0 0 0;
+    }
+
+    .ant-modal-body {
+        padding: 24px;
+        font-size: 12px;
+        line-height: 1.5;
+        word-wrap: break-word;
+    }
+
+    .manage-import-modal .import-content .login-form-item .left {
+        display: inline-block;
+        width: 30%;
+        padding-right: 10px;
+        text-align: right;
+    }
+
+    .download {
+        color: #2153d4;
+        cursor: pointer;
+    }
+
+    .ant-upload.ant-upload-drag {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background: #fafafa;
+        border: 1px dashed #d9d9d9;
+        border-radius: 0;
+        cursor: pointer;
+        transition: border-color .3s;
+    }
+
+    .ant-upload {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        color: rgba(0,0,0,.65);
+        font-size: 12px;
+        font-variant: tabular-nums;
+        line-height: 1.5;
+        list-style: none;
+        font-feature-settings: "tnum";
+        outline: 0;
+    }
+
+    .ant-modal-footer {
+        padding: 10px 16px;
+        text-align: center;
+        background: transparent;
+        border-top: 1px solid #e8e8e8;
+        border-radius: 0 0 0 0;
+    }
+</style>
+<head>
+    <meta charset="utf-8">
+    <title>应用分类列表</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">应用分类名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[channel][value]" class="layui-input" autocomplete="off" />
+                        <input type="hidden" name="search_param[channel][condition]" value="LIKE">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate"
+                               id="create_time" name="search_param[create_time][value]"
+                               data-type="datetime" data-isRange="true" placeholder="请选择创建时间" >
+                        <input type="hidden" name="search_param[create_time][condition]" value="BETWEEN">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="default-toolbar">
+    <div class="dropdown-menu">
+        <button class="laytp-btn laytp-btn-primary laytp-btn-md">
+            <i class="layui-icon layui-icon-triangle-d"></i>
+            批量操作
+        </button>
+        <ul class="dropdown-menu-nav layui-anim-upbit dropdown-bottom-left layui-anim">
+            <div class="dropdown-anchor"></div>
+            {{# if(facade.hasAuth("/admin.plan_consume_check/edit")){ }}
+            <li><a lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a></li>
+            {{# } }}
+            {{# if(facade.hasAuth("/admin.plan_consume_check/del")){ }}
+            <li><a lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a></li>
+            {{# } }}
+        </ul>
+    </div>
+    {{# if(facade.hasAuth("/admin.plan_consume_check/add")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-md" lay-event="add">
+        <i class="layui-icon layui-icon-add-1"></i>
+        新增
+    </button>
+    {{# } }}
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+    <button onClick="tankuang()" id="uploadExcelBtn" class="laytp-btn laytp-btn-normal laytp-btn-md">
+        <i class="layui-icon layui-icon-upload-drag"></i>
+        导入
+    </button>
+</script>
+
+<script type="text/html" id="default-bar">
+    {{# if(facade.hasAuth("/admin.plan_consume_check/edit")){ }}
+    <button class="laytp-btn laytp-btn-primary laytp-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/admin.plan_consume_check/del")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+    {{# } }}
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/planConsumeCheck.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/planConsumeCheck.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(["form","layer", "upload","jquery"], function() {
+        $ = layui.jquery;
+        var form = layui.form;
+        // 选择渠道获取类目
+        var upload = layui.upload;
+        upload.render({
+            elem: '#uploadExcel'
+            ,url: '/admin.PlanConsumeCheck/upload'
+            ,size: '800'
+            ,accept: "file"
+            ,exts: 'xls|xlsx'
+            ,before: function () {
+                console.log(1)
+                layer.load();
+            }
+            ,done: function (result) {
+                $("#tankuang").hide();
+                console.log(2)
+                if (result.code === 0) {
+                    layer.msg(result.msg, {icon: 1, time: 25000}, function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.$('.layui-laypage-btn').click();
+                    });
+                    parent.layui.table.reload("laytp-table");
+                } else if (result.code === 1) {
+                    layer.msg(result.msg, {icon: 5, time: 10000}, function () {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.$('.layui-laypage-btn').click();
+                    });
+                }
+                layer.closeAll('loading');
+                console.log(3)
+            }
+            ,error: function(error) {
+                console.log("error" + error)
+            }
+        });
+    });
+
+    function tankuang()
+    {
+        $("#tankuang").show();
+    }
+
+    function close1()
+    {
+        $("#tankuang").hide();
+    }
+</script>
+<div class="ant-modal-content" id="tankuang" style="display:none;position:absolute;left: 50%;top: 100px;width:600px;margin-left: -300px; z-index: 10000;">
+    <button id="tankuang_close" onClick="close1()" type="button" aria-label="Close" class="ant-modal-close">
+        <span class="ant-modal-close-x">
+            <i aria-label="图标: close" class="anticon anticon-close ant-modal-close-icon">
+                <svg viewBox="64 64 896 896" focusable="false" class="" data-icon="close" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                    <path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z" data-spm-anchor-id="0.0.0.i18.65174666bJxUat">
+
+                    </path>
+                </svg>
+            </i>
+        </span>
+    </button>
+    <div class="ant-modal-header">
+        <div class="ant-modal-title" id="rcDialogTitle0" data-spm-anchor-id="0.0.0.i16.65174666bJxUat">批量导入数据</div>
+    </div>
+    <div class="ant-modal-body" style="min-height: 200px; padding-bottom: 0px;">
+        <div class="import-content" style="font-size:14px;">
+            <div class="login-form-item" data-spm-anchor-id="0.0.0.i36.65174666bJxUat">
+                <label class="left name" data-spm-anchor-id="0.0.0.i30.65174666bJxUat">上传文件要求：</label>
+                <div>
+                    <div data-spm-anchor-id="0.0.0.i31.65174666bJxUat">1. 表头不能为空，不能存在合并的单元格</div>
+                    <!--<div data-spm-anchor-id="0.0.0.i32.65174666bJxUat">2. 请使用chrome浏览器上传文件</div>-->
+                    <div>2. 仅支持（*.xls和*.xlsx）文件</div>
+                    <div data-spm-anchor-id="0.0.0.i34.65174666bJxUat">3. 第A列渠道 第B列总消耗 第C列计划时间</div>
+                    <div data-spm-anchor-id="0.0.0.i34.65174666bJxUat">4. Excel时间格式如2022/11/2,不能有中文字符</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ant-modal-footer">
+        <button onClick="close1()" type="button" style="width:60px;height:30px;float: left;" class="ant-btn">
+            <span>取 消</span>
+        </button>
+        <button type="button" class="ant-btn" style="width:60px;height:30px;" id="uploadExcel">
+            <span>导入</span>
+        </button>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加图文</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form" id="form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联渠道</label>
+                    <div class="layui-input-block" id="app-list1">
+                        <div id="gather-channel-list" class="demo-tree1"></div>
+                        <input type="hidden" name="channel_ids" id="channel-list"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>bannner</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="banner"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>头部图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="top_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>导航图文</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="navigation"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="text" name="navigation_desc" value="" lay-verify="required"
+                               autocomplete="off" placeholder="请输入导航文字(用逗号分隔)" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>副图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="sub_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp','form', 'layer', 'jquery'],function(){
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+        form.on('radio(btn_reply_type)', function (data) {
+            //console.log( data );　　//打印当前选择的信息
+            var value = data.value;   //  当前选中的value值
+            if (value == 2) {
+                $("#wechat_number").show();
+                $("#prompt_text").hide();
+            } else if(value == 3) {
+                $("#prompt_text").show();
+                $("#wechat_number").hide();
+            }else{
+                $("#prompt_text").hide();
+                $("#wechat_number").hide();
+            }
+        });
+
+        layui.use(['laytp'], function () {
+            getTree();
+        });
+
+        // class - channel
+        function getTree() {
+            $("#channel-list").val('')
+            let data11 = [];
+
+            //获取数据，渲染到对应的节点上
+            $.ajax({
+                type: "post",
+                url: "/admin.advertising/getChannelTree",
+                data: {id: 0, table: 'course'},
+                dataType: "json",
+                success: function (res) {
+                    data11 = res.data;
+                    let tree11 = layui.tree
+                        , layer = layui.layer
+                        , util = layui.util
+                        , list11 = []
+                        , str11 = ""
+                        , data22 = [];
+
+                    //基本演示
+                    tree11.render({
+                        elem: '#gather-channel-list'
+                        , data: data11
+                        , showCheckbox: true            //是否显示复选框
+                        , id: 'demoId22'
+                        , isJump: true                  //是否允许点击节点时弹出新窗口跳转
+                        , click: function (obj) {
+                            var data11 = obj.data22;    //获取当前点击的节点数据
+                            layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+                        }
+                    });
+
+                    //filter并非必须
+                    layui.use(['form'], function () {
+                        let form11 = layui.form;
+                        form11.on('checkbox()', function (data) {
+
+                            if (data.value.slice(data.value.length - 1) == "#") {   // 父级应用分类点击：全选
+                                data11.forEach(element => {
+                                    if (data.value == element.id) {
+                                        element.children.forEach(ele => {
+                                            if ($(this).is(':checked')) {
+                                                list11.push(ele.id)
+                                            } else {
+                                                list11 = list11.filter((x) => x !== ele.id)
+                                            }
+                                        })
+                                    }
+                                });
+                            } else {
+
+                                data11.forEach(element => {
+                                    element.children.forEach(ele => {
+                                        if (data.value == ele.id) {             // 应用点击
+                                            if ($(this).is(':checked')) {
+                                                list11.push(ele.id)
+                                            } else {
+                                                list11 = list11.filter((x) => x !== ele.id)
+                                            }
+                                        } else {
+                                            ele.children.forEach(el => {        // 渠道点击
+                                                if (data.value == el.id) {
+                                                    if ($(this).is(':checked')) {
+                                                        list11.push(el.id)
+                                                    } else {
+                                                        list11 = list11.filter((x) => x !== el.id)
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    })
+                                });
+                            }
+
+                            str11 = ""
+                            list11.forEach(ele => {
+                                str11 += "," + ele
+                            })
+                            str11 = str11.slice(1)
+
+                            $("#channel-list").val(str11);
+                        })
+                    })
+
+                    //开启复选框
+                    tree11.render({
+                        elem: '#gather-channel-list'
+                        , data: data11
+                        , showCheckbox: true
+                    });
+                }
+            })
+        }
+
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/admin.channel_home_config/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

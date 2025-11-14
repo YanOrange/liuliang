@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="search-form" style="margin-bottom:0px;">
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="ID">ID</label>
+                <div class="layui-input-inline">
+                    <input autocomplete="off" type="text" id="id" name="search_param[id][value]" id="id"
+                           placeholder="请输入ID" class="layui-input">
+                    <input type="hidden" name="search_param[id][condition]" value="=">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="标题">标题</label>
+                <div class="layui-input-inline">
+                    <input autocomplete="off" type="text" id="title" name="search_param[title][value]"
+                           placeholder="请输入标题" class="layui-input">
+                    <input type="hidden" name="search_param[title][condition]" value="LIKE">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="描述">描述</label>
+                <div class="layui-input-inline">
+                    <input autocomplete="off" type="text" id="des" name="search_param[des][value]" placeholder="请输入描述"
+                           class="layui-input">
+                    <input type="hidden" name="search_param[des][condition]" value="LIKE">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="创建时间">创建时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input laydate"
+                           id="create_time" name="search_param[create_time][value]"
+                           data-type="datetime" data-isRange="true" placeholder="请选择创建时间">
+                    <input type="hidden" name="search_param[create_time][condition]" value="BETWEEN">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="default-toolbar">
+    <div class="dropdown-menu">
+        <button class="laytp-btn laytp-btn-primary laytp-btn-md">
+            <i class="layui-icon layui-icon-triangle-d"></i>
+            批量操作
+        </button>
+        <ul class="dropdown-menu-nav layui-anim-upbit dropdown-bottom-left layui-anim">
+            <div class="dropdown-anchor"></div>
+            {{# if(facade.hasAuth("/plugin/apidoc/index/edit")){ }}
+            <li><a lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a></li>
+            {{# } }}
+            {{# if(facade.hasAuth("/plugin/apidoc/index/del")){ }}
+            <li><a lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a></li>
+            {{# } }}
+        </ul>
+    </div>
+    {{# if(facade.hasAuth("/plugin/apidoc/index/add")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-md" lay-event="add">
+        <i class="layui-icon layui-icon-add-1"></i>
+        新增
+    </button>
+    {{# } }}
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+    {{# if(facade.hasAuth("/plugin/apidoc/index/recycle")){ }}
+    <button class="laytp-btn laytp-btn-success laytp-btn-md" lay-event="recycle">
+        <i class="layui-icon layui-icon-delete"></i>
+        回收站
+    </button>
+    {{# } }}
+    {{# if(facade.hasAuth("/plugin/apidoc/index/create")){ }}
+    <button class="laytp-btn laytp-btn-default laytp-btn-md"lay-event="create">
+        <i class="layui-icon layui-icon-tabs"></i>
+        生成Api文档
+    </button>
+    {{# } }}
+    {{# if(facade.hasAuth("/plugin/apidoc/index/create")){ }}
+    <button class="laytp-btn laytp-btn-primary laytp-btn-md fa fa-binoculars"
+       lay-event="open">&nbsp;查看Api文档
+    </button>
+    {{# } }}
+</script>
+
+<script type="text/html" id="default-bar">
+    {{# if(facade.hasAuth("/plugin/apidoc/index/edit")){ }}
+    <button class="laytp-btn laytp-btn-primary laytp-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
+    {{# } }}
+    {{# if(facade.hasAuth("/plugin/apidoc/index/del")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+    {{# } }}
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/plugin/apidoc/js/index.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/plugin/apidoc/js/index.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

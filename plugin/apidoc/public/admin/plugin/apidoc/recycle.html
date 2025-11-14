@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Api文档回收站</title>
+</head>
+<body class="laytp-container-recycle">
+<div class="layui-card" id="recycle-search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="search-form" style="margin-bottom:0px;">
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="ID">ID</label>
+                <div class="layui-input-inline">
+                    <input autocomplete="off" type="text" id="id" name="search_param[id][value]" id="id"
+                           placeholder="请输入ID" class="layui-input">
+                    <input type="hidden" name="search_param[id][condition]" value="=">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="标题">标题</label>
+                <div class="layui-input-inline">
+                    <input autocomplete="off" type="text" id="title" name="search_param[title][value]"
+                           placeholder="请输入标题" class="layui-input">
+                    <input type="hidden" name="search_param[title][condition]" value="LIKE">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="描述">描述</label>
+                <div class="layui-input-inline">
+                    <input autocomplete="off" type="text" id="des" name="search_param[des][value]" placeholder="请输入描述"
+                           class="layui-input">
+                    <input type="hidden" name="search_param[des][condition]" value="LIKE">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label" title="创建时间">创建时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input laydate"
+                           id="create_time" name="search_param[create_time][value]"
+                           data-type="datetime" data-isRange="true" placeholder="请选择创建时间">
+                    <input type="hidden" name="search_param[create_time][condition]" value="BETWEEN">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-recycle-search-form">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="laytp-btn laytp-btn-md laytp-recycle-search-form-reset">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-recycle-table" lay-filter="laytp-recycle-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="recycle-default-toolbar">
+    <button class="laytp-btn laytp-btn-primary laytp-btn-md" lay-event="restore">
+        <i class="laytp-icon laytp-icon-back"></i>
+        还原
+    </button>
+    <button class="laytp-btn laytp-btn-danger laytp-btn-md" lay-event="true-del">
+        <i class="layui-icon layui-icon-delete"></i>
+        删除
+    </button>
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="recycle-search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+</script>
+
+<script type="text/html" id="recycle-default-bar">
+    <button class="laytp-btn laytp-btn-primary laytp-btn-xs" lay-event="restore"><i class="laytp-icon laytp-icon-back"></i>还原</button>
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="true-del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/plugin/curd/js/apidocRecycle.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/plugin/curd/js/apidocRecycle.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

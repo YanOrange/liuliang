@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加微信</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信号</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="wechat_number" name="wechat_number" placeholder="请填写微信号" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="wechat_nickname" name="wechat_nickname" placeholder="请填写微信昵称" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="phone" name="phone" placeholder="请填写手机号" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="channel_id"
+                             data-sourceType="route"
+                             data-source="/admin.Channel/index?search_param[platform_id]=17"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商户</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="merchant_id"
+                             data-sourceType="route"
+                             data-source="/admin.wx_user_thread_bzhan/merchantList"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                             data-onChange="xmcb"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">客服</label>
+                    <div class="layui-input-block">
+                        <select name="customer_id" id="customer_id" lay-verify="required"></select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">债务类型</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="zhaiwu_leixing"
+                             data-sourceType="route"
+                             data-source="/admin.wx_user_thread/zhaiwuLeixingList"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">债务金额</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="zhaiwu_money"
+                             data-sourceType="route"
+                             data-source="/admin.wx_user_thread/zhaiwuMoneyList"
+                             data-textField="name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-radio="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否逾期</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_be_overdue" value="1" title="是" >
+                        <input type="radio" name="is_be_overdue" value="0" title="否" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">逾期平台个数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="be_overdue_nums" value="0" autocomplete="off" placeholder="请输入逾期平台个数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关键信息截图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="media_images"
+                             data-accept="image"
+                             data-multi="true"
+                             data-type="ali-oss-url"
+                             data-uploadedCallback="uploadMediaImageSuccess"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>创建时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate" id="response_time" name="response_time"
+                               data-type="datetime" lay-verify="required" placeholder="请选择回复时间" >
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp','form', 'layer', 'jquery'],function(){
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+        window.uploadMediaImageSuccess = function(params){
+            $.post('/admin.common_api/ocrImageToText', {imageUrl : params.path}, function(res){
+                if (res.code != 0) {
+                    facade.error(res.msg, "失败提示");
+                }
+                if (res.data.phone) {
+                    $("#phone").val(res.data.phone);
+                }
+                if (res.data.wxNickname) {
+                    $("#wechat_nickname").val(res.data.wxNickname);
+                }
+                if (res.data.channelName) {
+                    alert(res.data.channelName);
+                }
+            });
+        }
+        window.xmcb = function(params){
+            var merchant_id;
+            var  arr = params.arr
+            for (var a in arr) {
+                merchant_id = arr[a]['id']
+            }
+            console.log(arr);
+            // 选择商店获取渠道
+            $.ajax({
+                type: "post",
+                url: "/admin.wx_user_thread/customerList",
+                data: {merchant_id: merchant_id},
+                dataType: "json",
+                success: function (res) {
+                    if (res.code == 0) {
+                        $('#customer_id').html("")
+                        console.log(res);
+
+                        $('#customer_id').append(new Option("请选择", 0));
+                        $.each(res.data.data, function (index, item) {
+                            $('#customer_id').append(new Option(item.nickname, item.id));
+                        })
+                        form.render();
+                    }
+                }
+            })
+        }
+        layui.form.on('submit(add)', function(data){
+            console.log(1111);
+            var button = $(this); // 保存按钮引用
+
+            button.attr('disabled', true);
+            button.attr('style', 'background-color: #c2c2c2 !important;');
+            button.text('提交中，请勿着急...');
+
+            facade.ajax({
+                route:'/admin.wx_user_thread_bzhan/add',
+                data : data.field
+            }).done(function(res){
+                button.attr('disabled', false);
+                button.attr('style', 'background-color: #36b368 !important;');
+                button.html('<i class="layui-icon layui-icon-ok"></i>提交');
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                // 失败处理
+                button.attr('disabled', false);
+                button.attr('style', 'background-color: #36b368 !important;');
+                button.html('<i class="layui-icon layui-icon-ok"></i>提交');
+
+                // 可根据需要处理错误，比如显示错误信息
+                console.error('AJAX 请求失败：', textStatus, errorThrown);
+                layui.layer.msg('请求失败，请稍后重试', {icon: 5});
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

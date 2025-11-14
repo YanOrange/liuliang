@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>线索详情</title>
+    <style>
+        .title {
+            height: 40px;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .nickname {
+            height: 40px;
+            padding: 5px;
+        }
+
+        .user-base-info div:nth-child(2n){
+            line-height: 40px;
+            padding: 5px;
+            background: whitesmoke;
+        }
+        .user-base-info div:nth-child(2n) span:nth-child(1){
+            width: 120px;
+            text-align: right;
+        }
+        .user-base-info div:nth-child(2n) span:nth-child(2){
+            text-align: left;
+        }
+        .user-base-info div:nth-child(2n-1){
+            line-height: 40px;
+            padding: 5px;
+            background: white;
+        }
+        .user-base-info div:nth-child(2n-1) span:nth-child(1){
+            width: 120px;
+            text-align: right;
+        }
+        .user-base-info div:nth-child(2n-1) span:nth-child(2){
+            text-align: left;
+        }
+
+        .status {
+            border-bottom: 2px dashed #bdb8b8;
+            height: 15px;
+        }
+
+        .active {
+            color: #0E9A00
+        }
+
+        .active-line {
+            border-bottom: 2px dashed #0E9A00;
+            height: 15px;
+        }
+
+        .log_list_select {
+            text-align: right;
+            margin: 0 10px 10px;
+        }
+
+        .thread_log {
+            padding: 1px;
+        }
+
+        .thread_log ul {
+            margin: 5px;
+            background: #d3cfcf;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .thread_log ul li {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 30px;
+        }
+
+        .thread_log ul li .operation_user {
+            width: 15%;
+            font-weight: bold;
+        }
+
+        .thread_log ul li .operation_time {
+            width: 70%;
+        }
+
+        .thread_log ul li .operation_type {
+            width: 15%;
+        }
+
+        .thread_log ul li .operation_content_title {
+            font-weight: bold;
+        }
+
+        .thread_log ul li .operation_remark_title {
+            font-weight: bold;
+        }
+
+
+        .transact_listening_list {
+            padding: 1px;
+        }
+
+        .transact_listening_list ul {
+            margin: 5px;
+            background: #d3cfcf;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .transact_listening_list ul li {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 30px;
+        }
+
+        .transact_listening_list ul li .operation_user {
+            width: 15%;
+            font-weight: bold;
+        }
+
+        .transact_listening_list ul li .operation_time {
+            width: 70%;
+        }
+
+        .transact_listening_list ul li .operation_title {
+            width: 15%;
+            font-weight: bold;
+        }
+
+        .transact_listening_list ul li .operation_text {
+            width: 35%;
+        }
+
+
+        .transact_applyfee_list {
+            padding: 1px;
+        }
+
+        .transact_applyfee_list ul {
+            margin: 5px;
+            background: #d3cfcf;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .transact_applyfee_list ul li {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 30px;
+        }
+
+        .transact_applyfee_list ul li .operation_user {
+            width: 15%;
+            font-weight: bold;
+        }
+
+        .transact_applyfee_list ul li .operation_time {
+            width: 70%;
+        }
+
+        .transact_applyfee_list ul li .operation_title {
+            width: 15%;
+            font-weight: bold;
+        }
+
+        .transact_applyfee_list ul li .operation_text {
+            width: 35%;
+        }
+
+        .user-status .user-status-info {
+            line-height: 40px;
+        }
+
+        .user-status .user-status-info .user-status-info-title {
+            width: 120px;
+            text-align: right;
+        }
+
+        .user-tags-title {
+            line-height: 40px;
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        .user-tags-text {
+            line-height: 40px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body class="laytp-container">
+<div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md3">
+            <div class="layui-card top-panel">
+                <div class="layui-card-header">基本信息</div>
+                <div class="layui-card-body" style="height: 820px">
+                    <div class="layui-col-xs12 layui-col-md12">
+                        <img id="avatar" width="100" height="100">
+                    </div>
+                    <div class="layui-col-xs12 layui-col-md12 nickname" id="nickname">测试用户</div>
+                    <div class="user-base-info">
+                        <div class="layui-col-xs12 layui-col-md12 ">
+                            <span class="layui-col-xs5 ">来源：</span>
+                            <span class="" id="source_title">-</span>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-md12 title">原始数据</div>
+                    <div class="user-base-info">
+                        <div class="layui-col-xs12 layui-col-md12 ">
+                            <span class="layui-col-xs5 ">手机号：</span>
+                            <span class="" id="phone">-</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-md12 1">
+                            <span class="layui-col-xs5 ">年龄：</span>
+                            <span class="" id="age_range_desc">-</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-md12 ">
+                            <span class="layui-col-xs5 ">身份：</span>
+                            <span class="" id="identity_desc">-</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-md12 1">
+                            <span class="layui-col-xs5 ">学历：</span>
+                            <span class="" id="education_desc">-</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-md12 ">
+                            <span class="layui-col-xs5 ">地区：</span>
+                            <span class="" id="area">-</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-md12 1">
+                            <span class="layui-col-xs5 ">微信昵称：</span>
+                            <span class="" id="wx_nickname">-</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-md12 ">
+                            <span class="layui-col-xs5 ">是否长按二维码：</span>
+                            <span class="" id="is_discern_qrcode">-</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-md12 1">
+                            <span class="layui-col-xs5 ">创建时间：</span>
+                            <span class="" id="thraed_create_time">-</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9" style="height: 820px">
+            <div class="layui-card top-panel">
+                <div class="layui-card-body" id="not_giveup">
+                    <div class="layui-col-xs1 layui-col-md1">
+                        <i class="layui-icon layui-icon-circle-dot" style="color: #0E9A00" id="following"></i></br>
+                        <span>跟进中</span>
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        <div class="status" id="following_line"></div>
+                    </div>
+                    <div class="layui-col-xs1 layui-col-md1">
+                        <i class="layui-icon layui-icon-circle" id="transform"></i></br>
+                        <span>转化中</span>
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        <div class="status" id="transform_line"></div>
+                    </div>
+                    <div class="layui-col-xs1 layui-col-md1">
+                        <i class="layui-icon layui-icon-circle" id="success"></i></br>
+                        <span>已成功</span>
+                    </div>
+                </div>
+                <div class="layui-card-body" id="giveup" style="display: none">
+                    <div class="layui-col-xs5 layui-col-md5">
+                        <div class="status" id="giveup_left_line"></div>
+                    </div>
+                    <div class="layui-col-xs2 layui-col-md2">
+                        <i class="layui-icon layui-icon-face-cry"></i></br>
+                        <span>已放弃</span>
+                    </div>
+                    <div class="layui-col-xs5 layui-col-md5">
+                        <div class="status" id="giveup_right_line"></div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="thread_id" value="0">
+            <input type="hidden" id="source_id" value="0">
+            <div class="layui-card top-panel">
+                <div class="layui-card-body" style="height: 790px;">
+                    <div class="layui-col-xs8 layui-col-md8">
+                        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">动态信息</li>
+                                <li>试听课程</li>
+                                <li>缴费信息</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="log_list_select">
+                                        <div class="xmSelect"
+                                             data-placeholder="请选择动态类型"
+                                             data-name="singleSelect"
+                                             data-sourceType="data"
+                                             data-radio="true"
+                                             data-size="1"
+                                             data-source="[
+                                             {name:'全部动态',value:'0'},
+                                             {name:'跟进记录',value:'1'},
+                                             {name:'用户状态',value:'2'},
+                                             {name:'用户标签',value:'3'},
+                                             {name:'转让记录',value:'4'},
+                                             {name:'放弃记录',value:'5'},
+                                             {name:'修改来源信息',value:'6'},
+                                             {name:'分配记录',value:'7'},
+                                             {name:'删除记录',value:'8'},
+                                             {name:'基本信息',value:'9'},
+                                             ]"
+                                             data-onchange="changeType"
+                                        ></div>
+                                    </div>
+                                    <div class="thread_log">
+
+                                    </div>
+                                    <div id="operation_page" class="page"></div>
+                                </div>
+
+                                <div class="layui-tab-item ">
+                                    <div class="transact_listening_list">
+
+                                    </div>
+                                    <div id="listening_page" class="page"></div>
+                                </div>
+                                <div class="layui-tab-item ">
+                                    <div >
+                                        <button class="layui-btn" id="collection_add">
+                                            <i class="layui-icon">&#xe608;</i> 收款添加
+                                        </button>
+
+<!--                                        <button class="layui-btn" id="collection_reflash" title="数据未更新可点击刷新"><i class="layui-icon">&#xe63d;</i></button>-->
+                                    </div>
+
+                                    <div class="transact_applyfee_list">
+
+                                    </div>
+                                    <div id="applyfee_page" class="page"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4 layui-col-md4">
+                        <div class="layui-col-xs12 layui-col-md12 title">用户状态</div>
+                        <div class="user-status">
+                        </div>
+
+                        <div class="layui-col-xs12 layui-col-md12 title">用户标签</div>
+                        <div class="user-tags">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/static/qrcode/jquery.min.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/static/qrcode/jquery.qrcode.min.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/qrcode/jquery.min.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/qrcode/jquery.qrcode.min.js?v=" + localStorage.getItem("version") + "'><\/script>");
+
+    }
+</script>
+<script>
+    window.changeType = function (params) {
+        getThreadLogList($('#thread_id').val(), params.arr[0].value)
+    }
+
+    function getThreadLogList(id, operation_type = 0, page = 1, pagesize = 10) {
+        let data = {
+            id: id,
+            page: page,
+            pagesize: pagesize
+        };
+        if (operation_type) {
+            data.operation_type = operation_type;
+        }
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread.thread_log/getThreadLogList",
+            data: data,
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                let list = res.data.data;
+                let thread_log = '';
+                if (list.length > 0) {
+                    for (let i = 0; i < list.length; i++) {
+                        thread_log += '';
+                        thread_log += '<ul>';
+                        thread_log += '<li>';
+                        thread_log += '<div class="operation_user">' + list[i].admin_username + '</div>';
+                        thread_log += '<div class="operation_time">' + list[i].update_time + '</div>';
+                        thread_log += '<div class="operation_type">' + list[i].operation_type_text + '</div>';
+                        thread_log += '</li>';
+                        thread_log += '<li>';
+                        thread_log += '<div class="operation_content_title">操作内容：</div>';
+                        thread_log += '<div class="operation_content">';
+                        let operation_content = list[i].operation_content;
+                        if (operation_content.length > 0) {
+                            for (let j = 0; j < operation_content.length; j++) {
+                                thread_log += operation_content[j] + '<br/>';
+                            }
+                        }
+                        thread_log += '</div>';
+                        thread_log += '</li>';
+                        thread_log += '<li>';
+                        thread_log += '<div class="operation_remark_title">' + list[i].operation_remark_text + '：</div>';
+                        thread_log += '<div class="operation_remark">' + ((list[i].operation_remark === null) ? '-' : list[i].operation_remark) + '</div>';
+                        thread_log += '</li>';
+                        thread_log += '</ul>';
+                    }
+                }
+                $('.thread_log').html(thread_log);
+
+                var laypage = layui.laypage;
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'operation_page' //注意，这里的 test1 是 ID，不用加 # 号
+                    , count: res.data.total //数据总数，从服务端得到
+                    , layout: ['count', 'prev', 'page', 'next']
+                    , curr: res.data.current_page
+                    , jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数，比如：
+                        //首次不执行
+                        if (!first) {
+                            getThreadLogList(id, operation_type, obj.curr, obj.limit);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function getThreadTransactListening(id, page = 1, pagesize = 10) {
+        let data = {
+            id: id,
+            page: page,
+            pagesize: pagesize
+        };
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread.thread_transact_listening/getThreadTransactListening",
+            data: data,
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                let list = res.data.data;
+                let thread_log = '';
+                if (list.length > 0) {
+                    for (let i = 0; i < list.length; i++) {
+                        thread_log += '';
+                        thread_log += '<ul>';
+                        thread_log += '<li>';
+                        thread_log += '<div class="operation_user">' + list[i].admin_username + '</div>';
+                        thread_log += '<div class="operation_time">' + list[i].update_time + '</div>';
+                        thread_log += '</li>';
+                        thread_log += '<li>';
+                        thread_log += '<div class="operation_title">试听状态：</div>';
+                        thread_log += '<div class="operation_text">' + list[i].status_text + '</div>';
+                        thread_log += '<div class="operation_title">课程名称：</div>';
+                        thread_log += '<div class="operation_text">' + list[i].title + '</div>';
+                        thread_log += '</li>';
+                        thread_log += '<li>';
+                        thread_log += '<div class="operation_title">开始时间：</div>';
+                        thread_log += '<div class="operation_text">' + list[i].listeningCourse.start_time_text + '</div>';
+                        thread_log += '<div class="operation_title">结束时间：</div>';
+                        thread_log += '<div class="operation_text">' + list[i].listeningCourse.end_time_text + '</div>';
+                        thread_log += '</li>';
+                        thread_log += '<li>';
+                        thread_log += '<div class="operation_title">授课时间：</div>';
+                        thread_log += '<div class="operation_text">' + list[i].listeningCourse.lecture_start_time + ' - ' + list[i].listeningCourse.lecture_end_time + '</div>';
+                        thread_log += '<div class="operation_title">限制人数：</div>';
+                        thread_log += '<div class="operation_text">' + list[i].listeningCourse.restrictions_num + '</div>';
+                        thread_log += '</li>';
+                        if (list[i].status == 0) {
+                            thread_log += '<li>';
+                            thread_log += '<div class="operation_title">取消原因：</div>';
+                            thread_log += '<div class="operation_text">' + list[i].cancel_reason + '</div>';
+                            thread_log += '</li>';
+                        }
+                        thread_log += '</ul>';
+                    }
+                }
+                $('.transact_listening_list').html(thread_log);
+
+                var laypage = layui.laypage;
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'listening_page' //注意，这里的 test1 是 ID，不用加 # 号
+                    , count: res.data.total //数据总数，从服务端得到
+                    , layout: ['count', 'prev', 'page', 'next']
+                    , curr: res.data.current_page
+                    , jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数，比如：
+                        //首次不执行
+                        if (!first) {
+                            getThreadTransactListening(id, obj.curr, obj.limit);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function getThreadTransactApplyfee(id, page = 1, pagesize = 10) {
+        let data = {
+            id: id,
+            page: page,
+            pagesize: pagesize
+        };
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread.thread_transact_payfee/getThreadTransactPayfeeList",
+            data: data,
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                let list = res.data.data;
+                let thread_log = `<table class="layui-table">
+                  <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th>收款类型</th>
+                      <th>收款金额</th>
+                      <th>收费状态</th>
+                      <th>支付时间</th>
+                      <th>有效时间</th>
+                      <th>订单编号</th>
+                      <th>订单生成时间</th>
+                      <th >操作</th>
+                    </tr>
+                  </thead><tbody>`;
+                if (list.length > 0) {
+                    for (let i = 0; i < list.length; i++) {
+                        thread_log += `
+                                        <tr>
+                                          <td>在线收费</td>
+                                          <td>`+ list[i].fee_amount +`</td>
+                                          <td>`+list[i].order_status_text +`</td>
+                                          <td>`+list[i].pay_time +`</td>
+                                          <td>长期有效</td>
+                                          <td>`+list[i].order_sn +`</td>
+                                          <td>`+list[i].create_time +`</td>
+                                          <td >
+                                            <div class="layui-btn-group">
+                                              <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="zhifuOpenFrom(`+list[i].thread_id+`,`+list[i].id +`,`+ list[i].fee_amount +`)">
+                                                <i class="layui-icon">&#xe642;</i>
+                                              </button>
+                                              <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="zhifuthreadQRCode('`+list[i].pay_bg_img_url +`','`+list[i].pay_img_url +`','`+list[i].fee_amount +`','长期有效')" data-id="`+list[i].thread_id +`">
+                                                <i class="layui-icon">&#xe64a;</i>
+                                              </button>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                    `;
+
+                    }
+                }
+                thread_log +=`</tbody></table>`
+                $('.transact_applyfee_list').html(thread_log);
+
+                var laypage = layui.laypage;
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'applyfee_page' //注意，这里的 test1 是 ID，不用加 # 号
+                    , count: res.data.total //数据总数，从服务端得到
+                    , layout: ['count', 'prev', 'page', 'next']
+                    , curr: res.data.current_page
+                    , jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数，比如：
+                        //首次不执行
+                        if (!first) {
+                            getThreadTransactApplyfee(id, obj.curr, obj.limit);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function getThreadUserStatus(id) {
+        let data = {
+            id: id,
+            source_id: $('#source_id').val()
+        };
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread.thread_user_status/getThreadUserStatus",
+            data: data,
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                let list = res.data;
+                let thread_log = '';
+                if (list.length > 0) {
+                    for (let i = 0; i < list.length; i++) {
+                        thread_log += '';
+                        thread_log += '<div class="layui-col-xs12 layui-col-md12 user-status-info">';
+                        thread_log += '<div class="layui-col-xs5  user-status-info-title">' + list[i].title + '：</div>';
+                        let children = list[i].children;
+                        if (children.length > 0) {
+                            let select_text = ' - ';
+                            for (let j = 0; j < children.length; j++) {
+                                if (children[j]['is_select']) {
+                                    select_text = children[j]['title'];
+                                    break;
+                                }
+                            }
+                            thread_log += '<div class="">' + select_text + '</div>';
+                        } else {
+                            thread_log += '<div class=""> - </div>';
+                        }
+                        thread_log += '</div>';
+                    }
+                }
+                $('.user-status').html(thread_log);
+            }
+        });
+    }
+
+    function getThreadTagList(id) {
+        let data = {
+            id: id,
+            source_id: $('#source_id').val()
+        };
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread.thread_tag_external/getThreadTagList",
+            data: data,
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                let list = res.data;
+                let thread_log = '';
+                if (list.length > 0) {
+                    for (let i = 0; i < list.length; i++) {
+                        thread_log += '';
+                        thread_log += '<div class="layui-col-xs12 layui-col-md12">';
+                        thread_log += '<div class="layui-col-xs12 layui-col-md12 user-tags-title">' + list[i].title + '：</div>';
+                        let children = list[i].children;
+                        if (children.length > 0) {
+                            thread_log += '<div class="layui-col-xs12 layui-col-md12 ">'
+                            for (let j = 0; j < children.length; j++) {
+                                if (children[j]['is_selected']) {
+                                    thread_log += '<div class="layui-col-xs12 layui-col-md12 user-tags-text">' + children[j]['title'] + '</div>';
+                                }
+                            }
+                            thread_log += '</div>';
+                        } else {
+                            thread_log += '<div class="layui-col-xs12 layui-col-md12 user-tags-text"> - </div>';
+                        }
+                        thread_log += '</div>';
+                    }
+                }
+                $('.user-tags').html(thread_log);
+            }
+        });
+    }
+
+
+    layui.use(['laytp', 'laypage', 'element','layer','form'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if (!id) {
+            facade.error('参数ID不能为空');
+            return false;
+        }
+        $('#thread_id').val(id);
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.thread_external/getThreadUserInfo",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function (res) {
+            if (res.code === 0) {
+                $('#avatar').attr('src', res.data.base_info.avatar);
+                $('#nickname').html(res.data.base_info.nickname);
+                $('#age_range_desc').html(res.data.base_info.age);
+                $('#identity_desc').html(res.data.base_info.identity);
+                $('#education_desc').html(res.data.base_info.education);
+                $('#is_discern_qrcode').html(res.data.base_info.is_discern_qrcode);
+                $('#source_title').html(res.data.base_info.source_title);
+                $('#thraed_create_time').html(res.data.base_info.thread_create_time);
+                $('#phone').html(res.data.base_info.phone);
+                $('#wx_nickname').html(res.data.base_info.wx_nickname);
+                $('#area').html(res.data.base_info.province + res.data.base_info.city);
+                if (res.data.base_info.thread_status == 2) {
+                    $('#giveup').hide()
+                    $('#not_giveup').show()
+                    $('#following_line').removeClass('status').addClass('active-line');
+                    $('#transform').removeClass('layui-icon-circle').addClass('active').addClass('layui-icon-circle-dot');
+                } else if (res.data.base_info.thread_status == 3) {
+                    $('#giveup').hide()
+                    $('#not_giveup').show()
+                    $('#following_line').removeClass('status').addClass('active-line');
+                    $('#transform').removeClass('layui-icon-circle').addClass('active').addClass('layui-icon-circle-dot');
+                    $('#transform_line').removeClass('status').addClass('active-line');
+                    $('#success').removeClass('layui-icon-circle').addClass('active').addClass('layui-icon-circle-dot');
+                } else if (res.data.base_info.thread_status == 99) {
+                    $('#giveup').show()
+                    $('#not_giveup').hide()
+                } else {
+                    $('#giveup').hide()
+                    $('#not_giveup').show()
+                }
+                $('#source_id').val(res.data.base_info.thread_source_id);
+            }
+        });
+
+        getThreadLogList(id);
+        getThreadUserStatus(id);
+        getThreadTagList(id);
+
+        let element = layui.element;
+        element.on('tab', function (elem) {
+            if (elem.index == 1) {
+                getThreadTransactListening(id);
+            } else if (elem.index == 2) {
+                getThreadTransactApplyfee(id)
+            } else {
+                getThreadLogList(id);
+            }
+        });
+
+    })
+
+
+
+    layui.use(['laytp', 'element','layer','form'], function(){
+        var layer = layui.layer;
+        var form = layui.form;
+        var element = layui.element;
+
+        $("#collection_reflash").click(function (elem) {
+            console.log("shuaxin");
+            location.reload();
+        });
+
+
+        $("#collection_add").click('',function (elem) {
+            console.log(elem);
+            console.log(id);
+            console.log(element);
+            //iframe 层
+            var id = facade.getUrlParam('id');
+            if (!id) {
+                facade.error('参数ID不能为空');
+                return false;
+            }
+
+            id =  $('#thread_id').val();
+            layer.open({
+                type: 1,
+                title: '在线支付添加',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['80%', '90%'],//layui-form
+                content: ` <div id="zhifusubmit"><form class="layui-form" action="" onsubmit="">
+
+                        <div class="layui-form-item" style="width: 80%;height:70px;margin: 80px auto;padding-top: 60px;">
+                            <label class="layui-form-label" style="width: 66px;">收款金额</label>
+                            <div class="layui-input-inline">
+                              <input type="number" name="price" required lay-verify="required" placeholder="请输入收款金额" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">￥</div>
+                        </div>
+
+<!--                          <div class="layui-form-item"  style="width: 80%;height:50px;margin: 20px auto;">-->
+<!--                            <label class="layui-form-label" style="width: 66px;">支付方式</label>-->
+<!--                            <div class="layui-input-block">-->
+<!--                              <input type="radio" name="pay_type" value="1" title="微信" checked>-->
+<!--                              <input type="radio" name="pay_type" value="2" title="支付宝" >-->
+<!--                            </div>-->
+<!--                          </div>-->
+
+                        <div class="layui-form-item" style="display:block;position:absolute;bottom:10px;right:50px;margin-bottom: 10px;">
+                            <div class="layui-input-block">
+                              <button class="layui-btn" lay-submit lay-filter="zhifusubmit">立即提交</button>
+                              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                </form>
+                </div>
+
+                <div id="zhifuqrcode"></div>
+
+` //iframe的url
+            });
+
+            $("button[type='reset']").click();
+
+
+        });
+
+
+        form.on('submit(zhifusubmit)', function(data){
+            console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            console.log(data.field.pay_type) //当前容器的全部表单字段，名值对形式：{name: value}
+            console.log(data.field.price) //当前容器的全部表单字段，名值对形式：{name: value}
+
+            id =  $('#thread_id').val();
+
+            //获取数据，渲染到对应的节点上 controller/admin/collectionorder/ThreadOrder.php
+            facade.ajax({
+                route: "/admin.collectionorder.thread_order/createOrder",
+                data: {id: id,pay_type: data.field.pay_type,price: data.field.price },
+                successAlert: false,
+                showLoading: true
+            }).done(function (res) {
+                if (res.code === 0) {
+                        if(res.data){
+                            $('#zhifusubmit').hide();
+                            $('#zhifuqrcode').html(`
+
+
+                                            <div style="
+                                            width: 310px;
+                                            height: 450px;
+                                            margin-left: auto;
+                                            margin-right: auto;
+                                            margin-top: 10px;
+                                            padding-top: 1px;
+                                            background: url(`+ res.data.pay_bg_img_url +`) center center / cover no-repeat;
+                                            ">
+                                                <div id="qrcode" style="width: 200px;height: 200px;display: block; margin: 0 auto;margin-top: 135px;padding: 5px;border: 2px solid #c8b376;border-radius: 5px;" ></div>
+                                            </div>
+                                      <div id="qrcodefooter" style="width: 400px;height: 50px;font-size:17px;font-weight: 400;margin-top: 25px;margin-left: auto;margin-right: auto;">
+                                        <div style="float: left;width:170px;margin-left: 24px;"><p>收款金额：<span style="color:red;">`+ res.data.fee_amount +`</span></p></div>
+                                        <div style="float: left;width:166px;margin-left: 20px;"><p>有效时间：<span style="color:red;">`+ res.data.valid_time +`</span></p></div>
+                                      </div>
+
+
+                            `);
+                            $('#qrcode').qrcode({
+                                text: res.data.pay_img_url,
+                                width: 200,
+                                height: 200
+                            });
+                            getThreadTransactApplyfee(id)
+                        }
+                }else{
+                    layer.msg(res.msg, {icon: 5});
+                }
+            });
+
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+
+
+
+
+
+
+
+    function zhifuthreadQRCode(pay_bg_img_url,pay_img_url,pay_amount,valid_time='长期有效') {
+        //处理表格中数据点击弹出二维码
+        console.log(pay_img_url);
+        layer.open({
+            type: 1,
+            title: '在线支付二维码',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['80%', '90%'],//layui-form
+            content: `<div style="
+                                            width: 310px;
+                                            height: 450px;
+                                            margin-left: auto;
+                                            margin-right: auto;
+                                            margin-top: 10px;
+                                            padding-top: 1px;
+                                            background: url(`+ pay_bg_img_url +`) center center / cover no-repeat;
+                                            ">
+                                                <div id="qrcode" style="width: 200px;height: 200px;display: block; margin: 0 auto;margin-top: 135px;padding: 5px;border: 2px solid #c8b376;border-radius: 5px;" ></div>
+                                            </div>
+                                      <div id="qrcodefooter" style="width: 400px;height: 50px;font-size:17px;font-weight: 400;margin-top: 25px;margin-left: auto;margin-right: auto;">
+                                        <div style="float: left;width:170px;margin-left: 24px;"><p>收款金额：<span style="color:red;">`+ pay_amount +`</span></p></div>
+                                        <div style="float: left;width:166px;margin-left: 20px;"><p>有效时间：<span style="color:red;">`+ valid_time +`</span></p></div>
+                                      </div>`,
+            success: function (layero, index) {
+                // 生成二维码
+                $('#qrcode').qrcode({
+                    text: pay_img_url,
+                    width: 200,
+                    height: 200
+                });
+            }
+        });
+
+    }
+
+
+    function zhifuOpenFrom(id,orderid,fee_amount)
+    {
+        id =  $('#thread_id').val();
+        layer.open({
+            type: 1,
+            title: '在线支付修改',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['80%', '90%'],//layui-form
+            content: ` <div id="zhifusavesubmit"><form class="layui-form" action="" onsubmit="">
+
+                        <div class="layui-form-item" style="width: 80%;height:70px;margin: 80px auto;padding-top: 60px;">
+                            <label class="layui-form-label" style="width: 66px;">收款金额</label>
+                            <div class="layui-input-inline">
+                              <input type="number" name="price" required lay-verify="required" value="`+fee_amount+`" placeholder="请输入收款金额" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">￥</div>
+                        </div>
+
+<!--                          <div class="layui-form-item"  style="width: 80%;height:50px;margin: 20px auto;">-->
+<!--                            <label class="layui-form-label" style="width: 66px;">支付方式</label>-->
+<!--                            <div class="layui-input-block">-->
+<!--                              <input type="radio" name="pay_type" value="1" title="微信" checked>-->
+<!--                              <input type="radio" name="pay_type" value="2" title="支付宝" >-->
+<!--                            </div>-->
+<!--                          </div>-->
+
+                        <div class="layui-form-item" style="display:block;position:absolute;bottom:10px;right:50px;margin-bottom: 10px;">
+                            <div class="layui-input-block">
+                              <button class="layui-btn" lay-submit lay-filter="saveinfo">立即提交</button>
+                              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                </form>
+                </div>
+
+                <div id="zhifuqsavercode"></div>
+
+` //iframe的url
+        });
+
+        $("button[type='reset']").click();
+
+layui.use(['laytp', 'element','layer','form'], function(){
+    var layer = layui.layer;
+    var form = layui.form;
+    var element = layui.element;
+        form.on('submit(saveinfo)', function(data){
+            console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            console.log(data.field.pay_type) //当前容器的全部表单字段，名值对形式：{name: value}
+            console.log(data.field.price) //当前容器的全部表单字段，名值对形式：{name: value}
+
+            id =  $('#thread_id').val();
+
+            //获取数据，渲染到对应的节点上 controller/admin/collectionorder/ThreadOrder.php
+            facade.ajax({
+                route: "/admin.collectionorder.thread_order/editOrder",
+                data: {id: id,orderid:orderid,pay_type: data.field.pay_type,price: data.field.price },
+                successAlert: false,
+                showLoading: true
+            }).done(function (res) {
+                if (res.code === 0) {
+                    if(res.data){
+                        $('#zhifusavesubmit').hide();
+                        $('#zhifuqsavercode').html(`
+
+
+                                            <div style="
+                                            width: 310px;
+                                            height: 450px;
+                                            margin-left: auto;
+                                            margin-right: auto;
+                                            margin-top: 10px;
+                                            padding-top: 1px;
+                                            background: url(`+ res.data.pay_bg_img_url +`) center center / cover no-repeat;
+                                            ">
+                                                <div id="qrcode" style="width: 200px;height: 200px;display: block; margin: 0 auto;margin-top: 135px;padding: 5px;border: 2px solid #c8b376;border-radius: 5px;" ></div>
+                                            </div>
+                                      <div id="qrcodefooter" style="width: 400px;height: 50px;font-size:17px;font-weight: 400;margin-top: 25px;margin-left: auto;margin-right: auto;">
+                                        <div style="float: left;width:170px;margin-left: 24px;"><p>收款金额：<span style="color:red;">`+ res.data.fee_amount +`</span></p></div>
+                                        <div style="float: left;width:166px;margin-left: 20px;"><p>有效时间：<span style="color:red;">`+ res.data.valid_time +`</span></p></div>
+                                      </div>
+
+
+                            `);
+                        $('#qrcode').qrcode({
+                            text: res.data.pay_img_url,
+                            width: 200,
+                            height: 200
+                        });
+                        getThreadTransactApplyfee(id)
+                    }
+                }else{
+                    layer.msg(res.msg, {icon: 5});
+                }
+            });
+
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+});
+    }
+
+
+    // layui.use('form', function(){
+    //     var form = layui.form;
+    //
+    //     //监听提交
+    //     form.on('submit(formDemo)', function(data){
+    //         layer.msg(JSON.stringify(data.field));
+    //         return false;
+    //     });
+    // });
+
+    // layui.use(['layer', 'element'], function(){
+    //     var layer = layui.layer;
+    //     // 触发弹窗
+    //     layer.open({
+    //         type: 2,
+    //         title: '支付二维码',
+    //         area: ['350px', '520px'],
+    //         shadeClose: true,
+    //         skin: 'layui-layer-rim',
+    //         closeBtn: 1,
+    //         content: '',
+    //         success: function(layero, index){
+    //             // 生成二维码
+    //             $('#qrcode').qrcode({
+    //                 text: "http://jindo.dev.naver.com/collie",
+    //                 width: 200,
+    //                 height: 200
+    //             });
+    //         }
+    //     });
+    // });
+
+
+// function zhifucode(e){
+//     console.log(e);
+//     return false;
+// }
+
+
+
+
+
+
+</script>
+</body>
+</html>

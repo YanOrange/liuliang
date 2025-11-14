@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加记录</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container" id="form_list">
+                <div class="layui-form-item" id="form_list0">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择类目</label>
+                        <div class="layui-input-inline">
+                            <select name="interest" lay-filter="aihao">
+                                <option value="1" selected="">阅读</option>
+                                <option value="2">游戏</option>
+                                <option value="3">音乐</option>
+                                <option value="4">旅行</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">当前内容</label>
+                            <div class="layui-input-inline" style="display: flex;align-items: center;">
+                                <input type="text" name="content[current_content][]" autocomplete="off" placeholder="请输入当前内容" class="layui-input" style="width:100%;" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">上传图片</label>
+                                <div class="layui-input-block">
+                                    <div class="laytpUpload"
+                                         data-name="content[current_img][]"
+                                         data-accept="image"
+                                         data-type="ali-oss-url"
+                                         data-multi="true"
+                                         data-layVerify="required"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">当前内容</label>
+                            <div class="layui-input-inline" style="display: flex;align-items: center;">
+                                <input type="text" name="content[current_content][]" autocomplete="off" placeholder="请输入当前内容" class="layui-input" style="width:100%;" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">上传图片</label>
+                                <div class="layui-input-block">
+                                    <div class="laytpUpload"
+                                         data-name="content[last_img][]"
+                                         data-accept="image"
+                                         data-type="ali-oss-url"
+                                         data-multi="true"
+                                         data-layVerify="required"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a href="javascript:void(0);" class="layui-btn layui-btn-primary layui-btn-sm layui-icon layui-icon-add-1 addOptions" title="追加">追加</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+    // 初始数据
+    let arr = [
+        {
+            id: 1,
+            name: '修改APP名称'
+        },
+        {
+            id: 2,
+            name: '修改分类'
+        }
+    ];
+    let option = '';
+    for (let j = 0; j < arr.length; j++) {
+        option += '<option value="' + arr[j].id + '">' + arr[j].name + '</option>';
+    }
+    $('.li0 #channel_name_select').html(option);
+
+
+    $('.addOptions').click(function () {
+        let clickObj = $(this);
+        var itemHtml = clickObj.parent().parent().prev().prop("outerHTML");
+        let len = $('#form_list').children().length;
+        let id = 'form_list' + (len - 1);
+        console.log(itemHtml)
+        console.log(len)
+        console.log(id)
+        itemHtml = itemHtml.replace('form_list'+ (len),id);
+        clickObj.parent().parent().before(itemHtml);
+    })
+
+    layui.use(['laytp'],function(){
+
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/admin.channel_test_log/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

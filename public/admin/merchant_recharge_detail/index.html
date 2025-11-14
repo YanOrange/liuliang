@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>充值明细列表</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">请选择商户</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[merchant_id][value]"
+                             data-sourceType="route"
+                             data-source="/admin.common_api/getMerchantList"
+                             data-radio="true"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择商户"
+                        ></div>
+                    </div>
+                    <input type="hidden" name="search_param[merchant_id][condition]" value="=">
+                </div>
+                <div class="layui-form-item layui-inline" >
+                    <label class="layui-form-label" style="width:100px;">请选择操作人</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[operator_id][value]"
+                             data-sourceType="route"
+                             data-source="/admin.user/index"
+                             data-radio="true"
+                             data-textField="nickname"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-placeholder="请选择操作人"
+                        ></div>
+                    </div>
+                    <input type="hidden" name="search_param[operator_id][condition]" value="=">
+                </div>
+                <div class="layui-form-item layui-inline" >
+                    <label class="layui-form-label" style="width:100px;">充值类型</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[recharge_type][value]"
+                             data-sourceType="data"
+                             data-source="[{name:'正常打款',value:'1'},{name:'免测',value:'2'},{name:'赠送',value:'3'},{name:'补量',value:'4'},{name:'技术充值',value:'5'},{name:'系统预充值',value:'6'},{name:'补量充值',value:'7'}]"
+                             data-radio="true"
+                             data-textField="name"
+                             data-placeholder="请选择充值类型"
+                        ></div>
+                    </div>
+                    <input type="hidden" name="search_param[recharge_type][condition]" value="=">
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate"
+                               id="create_time" name="search_param[create_time][value]"
+                               data-type="datetime" data-isRange="true" placeholder="请选择创建时间" >
+                        <input type="hidden" name="search_param[create_time][condition]" value="BETWEEN_STRTOTIME">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-table" lay-filter="laytp-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="default-toolbar">
+    <div class="dropdown-menu">
+        <button class="laytp-btn laytp-btn-primary laytp-btn-md">
+            <i class="layui-icon layui-icon-triangle-d"></i>
+            批量操作
+        </button>
+        <ul class="dropdown-menu-nav layui-anim-upbit dropdown-bottom-left layui-anim">
+            <div class="dropdown-anchor"></div>
+            {{# if(facade.hasAuth("/admin.merchant_recharge_detail/del")){ }}
+            <li><a lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a></li>
+            {{# } }}
+        </ul>
+    </div>
+    {{# if(facade.hasAuth("/admin.merchant_recharge_detail/recharge")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-md" lay-event="recharge">
+        <i class="layui-icon layui-icon-recharge-1"></i>
+        充值
+    </button>
+    {{# } }}
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+    {{# if(facade.hasAuth("/admin.merchant_recharge_detail/recycle")){ }}
+    <button class="laytp-btn laytp-btn-success laytp-btn-md" lay-event="recycle">
+        <i class="layui-icon layui-icon-delete"></i>
+        回收站
+    </button>
+    {{# } }}
+</script>
+
+<script type="text/html" id="default-bar">
+    {{# if(facade.hasAuth("/admin.merchant_recharge_detail/del")){ }}
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+    {{# } }}
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/merchant_recharge_detail.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/merchant_recharge_detail.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

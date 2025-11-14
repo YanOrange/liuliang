@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>字段回收站</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="recycle-search-form" style="display:none;">
+    <div class="layui-card-body">
+        <form class="layui-form" lay-filter="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">所属数据表</label>
+                    <div class="layui-input-inline">
+                        <div class="xmSelect"
+                             data-name="search_param[table_id][value]"
+                             data-sourceType="route"
+                             data-source="/plugin/curd/curd/getTableList"
+                             data-textField="title"
+                             data-valueField="id"
+                             data-radio="true"
+                             data-placeholder="请选择所属数据表"
+                        ></div>
+                        <input type="hidden" name="search_param[table_id][condition]" value="=">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label" title="角色名">字段名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[field][value]" id="field" placeholder="请输入字段名称"
+                               class="layui-input" autocomplete="off">
+                        <input type="hidden" name="search_param[field][condition]" value="LIKE">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label" title="角色名">字段注释</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[comment][value]" id="comment" placeholder="请输入字段注释"
+                               class="layui-input" autocomplete="off">
+                        <input type="hidden" name="search_param[comment][condition]" value="LIKE">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label" title="角色名">表单元素</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="search_param[form_type][value]" id="form_type" placeholder="请输入字段注释"
+                               class="layui-input" autocomplete="off">
+                        <input type="hidden" name="search_param[form_type][condition]" value="LIKE">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-recycle-search-form">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button type="reset" class="laytp-btn laytp-btn-md laytp-recycle-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="laytp-recycle-field" lay-filter="laytp-recycle-field"></table>
+    </div>
+</div>
+
+<script type="text/html" id="recycle-default-toolbar">
+    <button class="laytp-btn laytp-btn-primary laytp-btn-md" lay-event="restore">
+        <i class="laytp-icon laytp-icon-back"></i>
+        还原
+    </button>
+    <button class="laytp-btn laytp-btn-danger laytp-btn-md" lay-event="true-del">
+        <i class="layui-icon layui-icon-delete"></i>
+        删除
+    </button>
+    <button class="laytp-btn laytp-btn-warming laytp-btn-md" lay-event="recycle-search">
+        <i class="layui-icon layui-icon-search"></i>
+        搜索
+    </button>
+</script>
+
+<script type="text/html" id="recycle-default-bar">
+    <button class="laytp-btn laytp-btn-primary laytp-btn-xs" lay-event="restore"><i class="laytp-icon laytp-icon-back"></i>还原</button>
+    <button class="laytp-btn laytp-btn-danger laytp-btn-xs" lay-event="true-del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/plugin/curd/js/fieldRecycle.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/plugin/curd/js/fieldRecycle.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+</body>
+</html>

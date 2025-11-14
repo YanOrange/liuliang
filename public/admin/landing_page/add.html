@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加落地页</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="landing_page_type" lay-filter="landing_page_type" value="1" title="课程落地页" checked lay-verify="require">
+                        <input type="radio" name="landing_page_type" lay-filter="landing_page_type" value="2" title="留资页落地页" lay-verify="require">
+                    </div>
+                </div>
+                <div id="keep_page" style="display: none;">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>是否付费</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_pay" lay-filter="is_pay" value="0" title="否" checked>
+                            <input type="radio" name="is_pay" lay-filter="is_pay" value="1" title="是">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>视频</label>
+                        <div class="layui-input-block">
+                            <div class="laytpUpload"
+                                 data-name="video_url"
+                                 data-accept="video"
+                                 data-type="ali-oss-url"
+                                 data-viaServer="unVia"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联应用</label>
+          <!--              <div class="layui-input-block">
+                            <div class="xmSelect"
+                                 data-name="app_id"
+                                 data-sourceType="route"
+                                 data-source="/admin.app/index"
+                                 data-textField="app_name"
+                                 data-valueField="id"
+                                 data-paging="true"
+                                 data-radio="true"
+                                 data-subTextField = "class.app_class_name"
+                                 data-placeholder="关联应用"
+                            ></div>
+                        </div>-->
+                        <div class="layui-input-block" id="app-list">
+                            <div id="gather-info-list" class="demo-tree"></div>
+                            <input type="hidden" name="app_id" id="gather-list"/>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>曝光周期</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="expose_period_num"  lay-verify="number" autocomplete="off" placeholder="请输入曝光周期" class="layui-input" value="1">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>权重</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="weight"  lay-verify="number" autocomplete="off" placeholder="请输入权重" class="layui-input" value="1">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>按钮名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="btn_desc"  autocomplete="off" placeholder="请输入按钮名称" class="layui-input" value="立即抢占限量名额">
+                        </div>
+                    </div>
+                </div>
+                <div id="course">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联渠道</label>
+                        <!--    <div class="layui-input-block">
+                                <div class="xmSelect"
+                                     data-name="channel_ids"
+                                     data-sourceType="route"
+                                     data-source="/admin.channel/index"
+                                     data-textField="channel_name"
+                                     data-valueField="id"
+                                     data-paging="true"
+                                     data-subTextField = "app.app_name"
+                                     data-placeholder="请选择关联渠道"
+                                ></div>
+                            </div>-->
+                            <div class="layui-input-block" id="app-list1">
+                                <div id="gather-channel-list" class="demo-tree1"></div>
+                                <input type="hidden" name="channel_ids" id="channel-list"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>课程</label>
+                            <div class="layui-input-block">
+                                <div class="xmSelect"
+                                     data-name="course_id"
+                                     data-sourceType="route"
+                                     data-source="/admin.common_api/getCourseList"
+                                     data-radio="true"
+                                     data-textField="course_merchant_name"
+                                     data-subTextField = "merchant.merchant_name"
+                                     data-valueField="id"
+                                     data-paging="true"
+                                     data-placeholder="请选择课程"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>是否开启报名跑马灯</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_lamp" lay-filter="is_lamp" value="1" title="开启" >
+                        <input type="radio" name="is_lamp" lay-filter="is_lamp" value="0" title="关闭" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页主图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="landing_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="desc_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div id="not_wx">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">落地页主图(不加微)</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="not_wx_landing_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述图片(不加微)</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="not_wx_desc_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                </div>
+                <div class="layui-form-item" id="lamp_back_image" style="display: none;">
+                    <label class="layui-form-label">跑马灯背景图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="lamp_back_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="end_image" style="display: none;">
+                    <label class="layui-form-label">落地页尾图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="end_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div id="ldy_btn_desc" class="layui-form-item" style="display: none;">
+                    <label class="layui-form-label">落地页按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ldy_btn_desc" autocomplete="off" placeholder="请输入落地页按钮文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div id="ldylz_option_btn_desc" class="layui-form-item" style="display: none;">
+                    <label class="layui-form-label">留资页选项按钮文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ldylz_option_btn_desc" autocomplete="off" placeholder="请输入留资页选项按钮文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="video_cover_image" style="display: none;">
+                    <label class="layui-form-label">视频背景图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="video_cover_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="btn_gif" style="display: none;">
+                    <label class="layui-form-label">按钮gif动图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="btn_gif"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="ldylz_btn_color" style="display: none;">
+                    <label class="layui-form-label">留资页按钮背景色</label>
+                    <div class="layui-input-block">
+                        <div class="colorPicker"
+                             data-id="color_picker1"
+                             data-name="ldylz_btn_color"
+                             data-color="#000"
+                             data-format="hex"
+                             data-alpha="true"
+                             data-predefine="true"
+                             data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="ldylz_option_color" style="display: none;">
+                    <label class="layui-form-label">留资页选项背景色</label>
+                    <div class="layui-input-block">
+                        <div class="colorPicker"
+                             data-id="color_picker2"
+                             data-name="ldylz_option_color"
+                             data-color="#000"
+                             data-format="hex"
+                             data-alpha="true"
+                             data-predefine="true"
+                             data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="lamp_font_color" style="display: none;">
+                    <label class="layui-form-label">跑马灯字体颜色</label>
+                    <div class="layui-input-block">
+                        <div class="colorPicker"
+                             data-id="color_picker"
+                             data-name="lamp_font_color"
+                             data-color="#000"
+                             data-format="hex"
+                             data-alpha="true"
+                             data-predefine="true"
+                             data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>曝光次数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="expose_num"  lay-verify="number" autocomplete="off" placeholder="请输入曝光次数" class="layui-input" value="1">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>AB方案</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_abscheme" lay-filter="is_abscheme" value="0" title="关闭" checked>
+                        <input type="radio" name="is_abscheme" lay-filter="is_abscheme" value="1" title="开启" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>留资方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="retention_method" lay-filter="retention_method" value="1" title="弹窗留资页" checked>
+                        <input type="radio" name="retention_method" lay-filter="retention_method" value="2" title="嵌入留资页" >
+                    </div>
+                </div>
+
+                <div id="external_copy" class="layui-form-item" style="display: none;">
+                    <label class="layui-form-label">外部描述文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="external_copy" autocomplete="off" placeholder="请输入外部描述文案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>是否获取手机号</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_region" lay-filter="is_region" value="1" title="是" checked>
+                        <input type="radio" name="is_region" lay-filter="is_region" value="0" title="否" >
+                    </div>
+                </div>
+
+            <div style="display: none;" id="is_ab">
+                <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>A方案</label>
+                <div class="layui-form-item" id="a_video_url" style="display: none;">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>视频</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="a_video_url"
+                             data-accept="video"
+                             data-type="ali-oss-url"
+                             data-viaServer="unVia"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>是否开启报名跑马灯</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="a_is_lamp" lay-filter="a_is_lamp" value="1" title="开启" >
+                        <input type="radio" name="a_is_lamp" lay-filter="a_is_lamp" value="0" title="关闭" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页主图(可上传多张)</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="a_landing_images"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div style="display: none;" id="a_lamp">
+                    <div class="layui-form-item" id="a_lamp_back_image" >
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>跑马灯背景图</label>
+                        <div class="layui-input-block">
+                            <div class="laytpUpload"
+                                 data-name="a_lamp_back_image"
+                                 data-accept="image"
+                                 data-type="ali-oss-url"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="a_end_image" >
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页尾图</label>
+                        <div class="layui-input-block">
+                            <div class="laytpUpload"
+                                 data-name="a_end_image"
+                                 data-accept="image"
+                                 data-type="ali-oss-url"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="a_font_color_lamp">
+                        <label class="layui-form-label">跑马灯字体颜色</label>
+                        <div class="layui-input-block">
+                            <div class="colorPicker"
+                                 data-id="a_lamp_font_color"
+                                 data-name="a_lamp_font_color"
+                                 data-color="#000"
+                                 data-format="hex"
+                                 data-alpha="true"
+                                 data-predefine="true"
+                                 data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="a_desc_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>B方案</label>
+                <div class="layui-form-item" id="b_video_url" style="display: none;">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>视频</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="b_video_url"
+                             data-accept="video"
+                             data-type="ali-oss-url"
+                             data-viaServer="unVia"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>是否开启报名跑马灯</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="b_is_lamp" lay-filter="b_is_lamp" value="1" title="开启" >
+                        <input type="radio" name="b_is_lamp" lay-filter="b_is_lamp" value="0" title="关闭" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页主图(可上传多张)</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="b_landing_images"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div style="display: none;" id="b_lamp">
+                    <div class="layui-form-item" id="b_lamp_back_image" >
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>跑马灯背景图</label>
+                        <div class="layui-input-block">
+                            <div class="laytpUpload"
+                                 data-name="b_lamp_back_image"
+                                 data-accept="image"
+                                 data-type="ali-oss-url"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="b_end_image" >
+                        <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>落地页尾图</label>
+                        <div class="layui-input-block">
+                            <div class="laytpUpload"
+                                 data-name="b_end_image"
+                                 data-accept="image"
+                                 data-type="ali-oss-url"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" id="b_font_color_lamp" >
+                        <label class="layui-form-label">跑马灯字体颜色</label>
+                        <div class="layui-input-block">
+                            <div class="colorPicker"
+                                 data-id="b_lamp_font_color"
+                                 data-name="b_lamp_font_color"
+                                 data-color="#000"
+                                 data-format="hex"
+                                 data-alpha="true"
+                                 data-predefine="true"
+                                 data-colors="['#ff4500','#1e90ff','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)']"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述图片</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="b_desc_image"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+                <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>设置分流方案</label>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>A方案比例</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="a_expose_num"  lay-verify="number" autocomplete="off" placeholder="A方案比例" class="layui-input" value="1">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>B方案比例</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="b_expose_num"  lay-verify="number" autocomplete="off" placeholder="B方案比例" class="layui-input" value="1">
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+
+    layui.use(['form', 'layer', 'jquery'], function () {
+        $ = layui.jquery;
+        var layer = layui.layer,
+            form = layui.form;
+        //监听多选框点击事件  主要是通过 lay-filter="sex"  来监听
+        form.on('radio(is_lamp)', function (data) {
+            var value = data.value;   //  当前选中的value值
+            if (value == 1) {
+                $("#lamp_back_image").show();
+                $("#end_image").show();
+                $("#lamp_font_color").show();
+            } else {
+                $("#lamp_back_image").hide();
+                $("#end_image").hide();
+                $("#lamp_font_color").hide();
+            }
+        });
+        form.on('radio(landing_page_type)', getTree);
+        form.on('radio(a_is_lamp)', function (data) {
+            var value = data.value;   //  当前选中的value值
+            if (value == 1) {
+                $("#a_lamp").show();
+            } else {
+                $("#a_lamp").hide();
+            }
+        });
+        form.on('radio(b_is_lamp)', function (data) {
+            var value = data.value;   //  当前选中的value值
+            if (value == 1) {
+                $("#b_lamp").show();
+            } else {
+                $("#b_lamp").hide();
+            }
+        });
+
+        form.on('radio(is_abscheme)', function (data) {
+            var value = data.value;   //  当前选中的value值
+            console.log(data);
+          //  $$('input[name="a_is_lamp"]:checked').val();
+            if (value == 1) {
+                $("#is_ab").show();
+            } else {
+                $("#is_ab").hide();
+            }
+        });
+
+    });
+
+    function getTree(data) {
+        var value = data.value;   //  当前选中的value值
+        if (value == 1) {
+            $("#keep_page").hide();
+            $("#course").show();
+            $("#a_video_url").hide();
+            $("#b_video_url").hide();
+            $("#ldy_btn_desc").hide();
+            $("#ldylz_option_btn_desc").hide();
+            $("#ldylz_btn_color").hide();
+            $("#ldylz_option_color").hide();
+            $("#video_cover_image").hide();
+            $("#btn_gif").hide();
+            $("#retention_method").hide();
+            $("#external_copy").hide();
+            $("#is_region").hide();
+            $("#end_image").hide();
+            // class - app - channel
+            layui.use(['laytp', 'tree', 'util'], function () {
+                $("#channel-list").val('')
+                let data11 = [];
+
+                //获取数据，渲染到对应的节点上
+                $.ajax({
+                    type: "post",
+                    url: "/admin.app/getChannelTree",
+                    data: {id: 0},
+                    dataType: "json",
+                    success: function (res) {
+                        data11 = res.data;
+                        let tree11 = layui.tree
+                            , layer = layui.layer
+                            , util = layui.util
+                            , list11 = []
+                            , str11 = ""
+                            , data22 = [];
+
+                        //基本演示
+                        tree11.render({
+                            elem: '#gather-channel-list'
+                            , data: data11
+                            , showCheckbox: true            //是否显示复选框
+                            , id: 'demoId22'
+                            , isJump: true                  //是否允许点击节点时弹出新窗口跳转
+                            , click: function (obj) {
+                                var data11 = obj.data22;    //获取当前点击的节点数据
+                                layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+                            }
+                        });
+
+                        //filter并非必须
+                        layui.use(['form'], function () {
+                            let form11 = layui.form;
+                            form11.on('checkbox', function (data) {
+                                if (data.value.slice(data.value.length - 1) == "#") {   // 父级应用分类点击：全选
+                                    data11.forEach(element => {
+                                        if (data.value == element.id) {
+                                            element.children.forEach(ele => {
+                                                if ($(this).is(':checked')) {
+                                                    ele.children.forEach(el => {
+                                                        list11.push(el.id)
+                                                    })
+                                                } else {
+                                                    ele.children.forEach(el => {
+                                                        list11 = list11.filter((x) => x !== el.id)
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    });
+                                } else {
+
+                                    data11.forEach(element => {
+                                        element.children.forEach(ele => {
+                                            if (data.value == ele.id) {             // 应用点击
+                                                if ($(this).is(':checked')) {
+                                                    ele.children.forEach(el => {
+                                                        list11.push(el.id)
+                                                    })
+                                                } else {
+                                                    ele.children.forEach(el => {
+                                                        list11 = list11.filter((x) => x !== el.id)
+                                                    })
+                                                }
+                                            } else {
+                                                ele.children.forEach(el => {        // 渠道点击
+                                                    if (data.value == el.id) {
+                                                        if ($(this).is(':checked')) {
+                                                            list11.push(el.id)
+                                                        } else {
+                                                            list11 = list11.filter((x) => x !== el.id)
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    });
+                                }
+
+                                str11 = ""
+                                list11.forEach(ele => {
+                                    str11 += "," + ele
+                                })
+                                str11 = str11.slice(1)
+
+                                $("#channel-list").val(str11);
+                            })
+                        })
+
+                        //开启复选框
+                        tree11.render({
+                            elem: '#gather-channel-list'
+                            , data: data11
+                            , showCheckbox: true
+                        });
+                    }
+                })
+            });
+        } else {
+            $("#keep_page").show();
+            $("#course").hide();
+            $("#a_video_url").show();
+            $("#b_video_url").show();
+            $("#not_wx").show();
+            $("#ldy_btn_desc").show();
+            $("#ldylz_option_btn_desc").show();
+            $("#ldylz_btn_color").show();
+            $("#ldylz_option_color").show();
+            $("#video_cover_image").show();
+            $("#btn_gif").show();
+            $("#retention_method").show();
+            $("#external_copy").show();
+            $("#is_region").show();
+            $("#end_image").show();
+            // class - app
+            layui.use(['laytp', 'tree', 'util'], function () {
+                $("#gather-list").val('')
+                let data1 = [];
+
+                $.ajax({
+                    type: "post",
+                    url: "/admin.app/getTree",
+                    data: {id: 0},
+                    dataType: "json",
+                    success: function (res) {
+                        data1 = res.data;
+                        let tree = layui.tree
+                            , layer = layui.layer
+                            , util = layui.util
+                            , list = []
+                            , data2 = [];
+
+                        tree.render({
+                            elem: '#gather-info-list'
+                            , data: data2
+                            , showCheckbox: true        //是否显示复选框
+                            , id: 'demoId1'
+                            , isJump: true              //是否允许点击节点时弹出新窗口跳转
+                            , click: function (obj) {
+                                var data = obj.data2;   //获取当前点击的节点数据
+                                layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+                            }
+                        });
+
+                        //filter并非必须
+                        layui.use(['form'], function () {
+                            let form = layui.form;
+                            form.on('checkbox', function (data) {
+                                let _this = $(this);
+                                let _val = _this.val()
+
+                                // 父级点击事件
+                                if (data.value.slice(data.value.length - 1) == "#") {
+                                    if (_this.is(":checked")) {
+                                        $("#gather-info-list .layui-tree-entry .layui-tree-main").each(function () {
+                                            $(this).children("input:checkbox").prop("checked", false);
+                                        })
+                                    } else {
+                                        $("#gather-list").val('');
+                                    }
+
+                                    // 子级点击事件
+                                } else {
+                                    if (_this.is(":checked")) {
+                                        $("#gather-info-list .layui-tree-entry .layui-tree-main").each(function () {
+                                            $(this).children("input:checkbox").prop("checked", false);
+                                        })
+                                        _this.prop("checked", true);
+                                        $("#gather-list").val(_val);
+                                    } else {
+                                        $("#gather-list").val('');
+                                    }
+                                }
+                            })
+                        })
+
+                        //开启复选框
+                        tree.render({
+                            elem: '#gather-info-list'
+                            , data: data1
+                            , showCheckbox: true
+                        });
+                    }
+                })
+            });
+        }
+    }
+
+    layui.use(['laytp'],function(){
+        layui.form.on('submit(add)', function(data){
+            data = facade.setEditorField(data);
+            facade.ajax({
+                route:'/admin.landing_page/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+
+    layui.use('layer',function(){
+        var layer = layui.layer;
+        layer.ready(function(){
+            var _val = { value: 1};
+            getTree(_val)
+        });
+    });
+    function landingPageYype(type) {
+        alert(type);
+    }
+</script>
+</body>
+</html>

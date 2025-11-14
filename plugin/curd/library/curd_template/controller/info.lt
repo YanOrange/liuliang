@@ -1,0 +1,8 @@
+
+    //查看详情
+    public function info()
+    {
+        $id   = $this->request->param('id');
+        $info = $this->model{%withRelation%}->find($id);
+        return $this->success('获取成功', $info);
+    }

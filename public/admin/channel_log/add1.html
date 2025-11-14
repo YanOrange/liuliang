@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加记录</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        .box {
+            height: auto;
+        }
+
+        .box .title {
+            width: 100%;
+            height: 40px;
+            background-color: #36B368;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .box .content {
+            width: 100%;
+            height: auto;
+            overflow-y: auto;
+            margin-top: 20px;
+            display: flex;
+            min-height: 188px;
+        }
+
+        .box .content .channel {
+            flex: 1;
+            height: 360px;
+            margin-left: 20px;
+        }
+
+        .box .content .channel .title {
+            width: 100%;
+            height: 30px;
+            background-color: #fff;
+            display: flex;
+        }
+
+        .box .content .channel .title p:nth-child(1) {
+            width: 20%;
+            height: 30px;
+            text-align: center;
+        }
+
+        .box .content .channel .title p:nth-child(2) {
+            flex: 1;
+            height: 30px;
+            text-align: center;
+        }
+
+        .box .content .channel .title p:nth-child(3) {
+            width: 120px;
+            height: 30px;
+            text-align: center;
+        }
+
+        .box .content .channel .list {
+            width: 100%;
+            height: 30px;
+            margin-top: 20px;
+        }
+
+        .box .content .channel .list li {
+            width: 96%;
+            margin-top: 20px;
+            display: flex;
+            background: whitesmoke;
+            padding: 10px;
+        }
+
+        .box .content .channel .list li #channel_name_select {
+            width: 80%;
+            height: 30px;
+        }
+
+        .box .content .channel .list li .box2 {
+            flex: 1;
+            overflow-x: auto;
+            height: 28px;
+            border: 1px solid #ccc;
+            text-indent: 1em;
+            line-height: 28px;
+            width: 98%;
+        }
+
+        .box .content .channel .list li .box3 {
+            flex: 1;
+            overflow-x: auto;
+            height: 28px;
+            border: 1px solid #ccc;
+            text-indent: 1em;
+            line-height: 28px;
+            width: 98%;
+        }
+
+        .box .content .channel .list li .delete {
+            width: 120px;
+            height: 30px;
+            background: url('/static/admin/images/delete.png') no-repeat center/contain;
+        }
+
+
+        .box .content .channel .list li .select_div{
+            width: 20%;
+        }
+        .box .content .channel .list li .content_div{
+            width: 100%;
+        }
+        .box .content .channel .list li .content_div .content_div_title{
+            line-height: 40px;
+        }
+
+
+    </style>
+</head>
+<body>
+<form type="text/html" id="form">
+    <div class="box">
+        <!-- 主体 -->
+        <div class="content">
+            <div class="channel">
+                <!-- 下拉选择 -->
+                <ul class="list">
+                    <li class="li0">
+                        <div class="select_div">
+                            <select id="channel_name_select"></select>
+                        </div>
+                        <div class="content_div">
+                            <div class="content_div_title">当前内容：</div>
+                            <div class="current_content"><input type="text" class="box2"></div>
+                            <div class="upload_div">
+                                <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <div class="laytpUpload"
+                                         data-name="show_page_image"
+                                         data-accept="image"
+                                         data-type="ali-oss-url"
+                                         data-layVerify="required"
+                                    ></div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="content_div_title">之前内容：</div>
+                            <div class="last_content"><input type="text" class="box3"></div>
+                            <div class="upload_div">
+                                <div class="layui-input-block">
+                                    <div class="laytpUpload"
+                                         data-name="show_page_image"
+                                         data-accept="image"
+                                         data-type="ali-oss-url"
+                                         data-layVerify="required"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="delete"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 追加 -->
+        <div class="bottom">
+            <div style="float: left; width: 30%;margin-left: 50px">
+                <button type="button" class="laytp-btn laytp-btn-primary laytp-btn-sm add_btn_link" lay-submit=""
+                        lay-filter="laytp-form">
+                    <i class="layui-icon layui-icon-ok"></i>
+                    追加
+                </button>
+            </div>
+            <div style="float: right">
+                <button type="button" class="laytp-btn laytp-btn-primary laytp-btn-sm save_btn" lay-submit=""
+                        lay-filter="laytp-form" style="margin-right: 10px;">
+                    <i class="layui-icon layui-icon-ok"></i>
+                    提交
+                </button>
+                <button type="reset" class="laytp-btn laytp-btn-sm" style="margin-right: 50px;" form="form">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+
+    // 初始数据
+    let arr = [
+        {
+            id: 1,
+            name: '修改APP名称'
+        },
+        {
+            id: 2,
+            name: '修改分类'
+        }
+    ];
+    let option = '';
+    for (let j = 0; j < arr.length; j++) {
+        option += '<option value="' + arr[j].id + '">' + arr[j].name + '</option>';
+    }
+    $('.li0 #channel_name_select').html(option);
+
+
+    $('.add_btn_link').click(function () {
+        let len = $('.list li').length;
+        let class_name = 'li' + (len + 1);
+        li_html = '<li class="' + class_name + '">';
+        li_html += '<div class="select_div">';
+        li_html += '<select id="channel_name_select" onchange="create_link(this)">';
+        li_html += '<option value="0" >请选择操作类型</option>';
+        if (arr.length > 0) {
+            for (let j = 0; j < arr.length; j++) {
+                li_html += '<option value="' + arr[j].id + '">' + arr[j].name + '</option>';
+            }
+        }
+        li_html += '</select>';
+        li_html += '<div class="content_div">';
+        li_html += '<div class="content_div_title">当前内容：</div>';
+        li_html += '<div class="current_content"><input type="text" className="box2"></div>';
+        li_html += '<div class="content_div_title">之前内容：</div>';
+        li_html += '<div class="last_content"><input type="text" className="box3"></div>';
+        li_html += '</div>';
+        li_html += '<div class="delete" onclick="delete_li(this)"></div>';
+        li_html += '</li>';
+        $('.list').append(li_html);
+    })
+
+    function delete_li(obj) {
+        let len = $('.list li').length;
+        if (len == 1) {
+            facade.error("最少要有一项")
+        } else {
+            $(obj).parent().remove();
+            let current_channel_id = $(obj).parent().children('#channel_name_select').val()
+            $.each(select_channel, function (index, item) {
+                if (item == current_channel_id) {
+                    select_channel.splice(index, 1)
+                }
+            })
+            console.log(select_channel);
+        }
+    }
+
+    function check_has(num) {
+        return /(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + num.join("\x0f\x0f") + "\x0f");
+    }
+
+    function create_link(obj) {
+        let channel_id = $(obj).val();
+        if (channel_id == 0) {
+            $(obj).parent().children('.box2').val('');
+            return;
+        }
+        let url = linki_domain + '?for_flow_id=' + id + '&channel=' + channel_id;
+        $(obj).parent().children('.box2').val(url);
+    }
+
+    $('.save_btn').click(function () {
+        let data = {};
+        let h5_link_json = [];
+        data.id = id;
+        $('.channel .list li').each(function (index, item) {
+            let id = $(item).children('#channel_name_select').val();
+            let name = $(item).children('#channel_name_select').find('option:selected').text();
+            let link = $(item).children('.box2').val();
+            if (name != '') {
+                let json = {
+                    channel: name,
+                    link: link,
+                    channel_id: id
+                };
+                h5_link_json.push(json);
+            }
+        })
+        data.h5_link_json = h5_link_json;
+        $.ajax({
+            url: "/admin.for_flow/editLink",
+            type: 'post',
+            data: data,
+            success: function (res) {
+                if (res.code === 0) {
+                    facade.success(res.msg)
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    return
+                } else {
+                    facade.error(res.msg)
+                    return
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

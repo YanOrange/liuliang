@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑客服分量数据</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input laydate" lay-verify="required" id="date" name="date_day" data-type="date" value="{{=d.date_day}}" placeholder="请选择日期">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>跟进客服</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="customer_service"
+                             data-sourceType="data"
+                             data-source="[{name:'王豪杰',value:'1'},{name:'王露云',value:'2'},{name:'衷强',value:'3'}]"
+                             data-valueField="name"
+                             data-placeholder="请选择客服"
+                             data-radio="true"
+                             data-layVerify="required"
+                             data-selected="{{=d.customer_service}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>类目</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_class_name"
+                             data-sourceType="route"
+                             data-source="/admin.customer_receiving_quantity_register/appClassList"
+                             data-textField="app_class_name"
+                             data-valueField="app_class_name"
+                             data-placeholder="请选择类目"
+                             data-radio="true"
+                             data-layVerify="required"
+                             data-selected="{{=d.app_class_name}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>流量渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="flow_channel"
+                             data-sourceType="data"
+                             data-source="[{name:'APP',value:'1'}]"
+                             data-textField="name"
+                             data-valueField="name"
+                             data-placeholder="请选择渠道"
+                             data-radio="true"
+                             data-layVerify="required"
+                             data-selected="{{=d.flow_channel}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>接量总数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="receiving_quantity" value="{{=d.receiving_quantity}}" lay-verify="number" autocomplete="off" placeholder="请输入接量总数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">已分配微信数</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="wx_fp" value="{{=d.wx_fp}}" lay-verify="number" autocomplete="off" placeholder="请输入已分配微信数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">当天删除数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="delete_day" value="{{=d.delete_day}}" lay-verify="number" autocomplete="off" placeholder="请输入当天删除数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统查不到</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="system_no_find" value="{{=d.system_no_find}}" lay-verify="number" autocomplete="off" placeholder="请输入系统查不到" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">不回复数【无法激活】</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="no_reply" value="{{=d.no_reply}}" lay-verify="number" autocomplete="off" placeholder="请输入不回复数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">未成年</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="under_age" value="{{=d.under_age}}" lay-verify="number" autocomplete="off" placeholder="请输入未成年" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统给量数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="system_dosage" value="{{=d.system_dosage}}" lay-verify="number" autocomplete="off" placeholder="请输入系统给量数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">截图缺少数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="screenshot_lack" value="{{=d.screenshot_lack}}" lay-verify="number" autocomplete="off" placeholder="请输入截图缺少数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">拉回数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="pull_back" value="{{=d.pull_back}}" lay-verify="number" autocomplete="off" placeholder="请输入拉回数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">长按二维码识别数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="is_discern_qrcode" value="{{=d.is_discern_qrcode}}" lay-verify="number" autocomplete="off" placeholder="请输入长按二维码识别数" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-input" name="remarks" id="remarks" cols="30" rows="10">{{d.remarks}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.customer_receiving_quantity_register/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.customer_receiving_quantity_register/edit',
+                data:data.field
+            }).done(function(res){
+                if(res. code=== 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

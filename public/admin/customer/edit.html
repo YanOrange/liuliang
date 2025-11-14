@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑客服</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商户</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="merchant_id"
+                             data-sourceType="route"
+                             data-source="/admin.merchant/index"
+                             data-radio="true"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.merchant_id}}"
+                             data-placeholder="请选择商户"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>登陆账号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="account_name"  value="{{ d.account_name }}" autocomplete="off" placeholder="请输入登陆账号" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>登陆手机</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="login_mobiles" value="{{ d.login_mobiles }}" lay-verify="required" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+                        <text title="必填项" style="color:red;">多个手机号英文用“,”隔开</text>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登陆密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="pwd" autocomplete="off" placeholder="留空默认不修改" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>昵称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="nickname" value="{{ d.nickname }}" lay-verify="required" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">头像</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="avatar"
+                             data-accept="image"
+                             data-uploaded="{{ d.avatar }}"
+                             data-uploadedId="{{ d.avatar }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">微信号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="wechat_number" value="{{ d.wechat_number }}" autocomplete="off" placeholder="请输入微信号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">企业微信获客链接</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="customer_link" autocomplete="off" placeholder="请输入企业微信获客链接" value="{{ d.customer_link }}" class="layui-input">
+                    </div>
+                </div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="phone" value="{{ d.phone }}" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">二维码</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="qr_code"
+                             data-accept="image"
+                             data-uploaded="{{ d.qr_code }}"
+                             data-uploadedId="{{ d.qr_code }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>当日线索分配数量</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="daily_intake_limit_nums" value="{{ d.daily_intake_limit_nums }}" lay-verify="required" autocomplete="off" placeholder="请输入当日线索分配数量" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>权重(1-5区间)</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="weight" lay-verify="required" value="{{ d.weight }}" autocomplete="off" placeholder="请输入权重" class="layui-input" >
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>是否需要未满18岁线索</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="is_under_eighteen_thread" value="1" title="是" {{# if(d.is_under_eighteen_thread===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="is_under_eighteen_thread" value="0" title="否" {{# if(d.is_under_eighteen_thread===0){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">线索状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="thread_status" value="1" title="开启" {{# if(d.thread_status===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="thread_status" value="0" title="关闭" {{# if(d.thread_status===0){ }}checked="checked"{{# } }} />
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">排版类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="day_night_shift" value="0" title="全天" {{# if(d.day_night_shift===0){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="day_night_shift" value="1" title="早班" {{# if(d.day_night_shift===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="day_night_shift" value="2" title="晚班" {{# if(d.day_night_shift===2){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">工作时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate"
+                               id="daily_intake_time_period" name="daily_intake_time_period"
+                               data-type="time" data-isRange="true" value="{{ d.daily_intake_time_period }}" placeholder="请选择工作时间">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">客服分配线索数量</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="assign_intake_limit_nums" value="{{ d.assign_intake_limit_nums }}" autocomplete="off" placeholder="请输入客服分配线索数量" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">账号状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="正常" {{# if(d.status===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="status" value="0" title="禁用" {{# if(d.status===0){ }}checked="checked"{{# } }} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.customer/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.customer/edit',
+                data:data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

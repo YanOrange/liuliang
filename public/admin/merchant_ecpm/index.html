@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商户ECPM</title>
+</head>
+<body class="laytp-container">
+<div class="layui-card" id="search-form">
+    <div class="layui-card-body">
+
+            <div class="layui-form-item">
+                <div class="layui-form-item layui-inline">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input laydate"
+                               id="create_time" name="create_time"
+                               data-type="datetime" data-isRange="true" placeholder="请选择创建时间">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <button id="subEcpm" class="laytp-btn laytp-btn-md laytp-btn-primary">
+                        <i class="layui-icon layui-icon-search"></i>
+                        查询
+                    </button>
+                    <button id="reset" type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="layui-card">
+    <div id="ecpmChart" style="margin-left:50px;">
+        <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+        <div id="ecpmChartMain" style="width: 90%; height: 400px;"></div>
+    </div>
+
+</div>
+
+<script type="text/html" id="default-bar">
+
+</script>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/module/echarts.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/merchant_ecpm.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/module/echarts.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/merchant_ecpm.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        option = {
+            //标题
+            title: {
+                text: 'ECPM',
+                subtext: '曝光次数/线索数量/ECPM'
+           },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                top: '20%',
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: true,
+                axisLabel:{
+                    interval: 0,
+                    rotate:-40,
+                },
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: []
+        };
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('ecpmChartMain'));
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        var url='/admin.merchant_ecpm/index';
+        $.post(url, function(res, status){
+            if(res.data!=null){
+                //之前option中legend和 XAxis的data,series 为空，所以现在将数据填充进去
+                myChart.setOption({    //加载数据图表
+                    legend: {
+                        data:['曝光次数','线索数量','ECPM']
+                    },
+                    xAxis: {
+                        data: res.data.merchantNameList
+                    },
+                    series: [
+                        {
+                            // 根据名字对应到相应的系列
+                            name: '曝光次数',
+                            type:'line',
+                            data: res.data.landingPageBrowsingNums
+                        },
+                        {
+                            // 根据名字对应到相应的系列
+                            name: '线索数量',
+                            type:'line',
+                            data: res.data.landingPageThreadNums
+                        },
+                        {
+                            // 根据名字对应到相应的系列
+                            name: 'ECPM',
+                            type:'line',
+                            data: res.data.merchantEcpm
+                        },
+                    ],
+                });
+            }
+
+        },"json");
+
+        $("#subEcpm").click(function(){
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('ecpmChartMain'));
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+            var url='/admin.merchant_ecpm/index';
+            var channel = $("input[name='channel']").val();
+            var create_time = $("input[name='create_time']").val();
+            var data = {
+                'channel': channel,
+                'create_time' : create_time
+            };
+            $.post(url, data,function(res, status){
+                if(res.data!=null){
+                    //之前option中legend和 XAxis的data,series 为空，所以现在将数据填充进去
+                    myChart.setOption({    //加载数据图表
+                        xAxis: {
+                            data: res.data.merchantNameList
+                        },
+                        series: [
+                            {
+                                // 根据名字对应到相应的系列
+                                name: '曝光次数',
+                                type:'line',
+                                data: res.data.landingPageBrowsingNums
+                            },
+                            {
+                                // 根据名字对应到相应的系列
+                                name: '线索数量',
+                                type:'line',
+                                data: res.data.landingPageThreadNums
+                            },
+                            {
+                                // 根据名字对应到相应的系列
+                                name: 'ECPM',
+                                type:'line',
+                                data: res.data.merchantEcpm
+                            },
+                        ],
+                    });
+                }
+
+            },"json");
+        });
+    });
+
+    $("#reset").click(function() {
+        $("input[name='channel']").val('');
+        $("input[name='create_time']").val('');
+        //window.location.href = '/admin.merchant_ecpm/index.html';
+    })
+
+</script>
+</body>
+</html>

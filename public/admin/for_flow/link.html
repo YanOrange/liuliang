@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>生成h5信息列链接</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        .box {
+            height: auto;
+        }
+
+        .box .title {
+            width: 100%;
+            height: 40px;
+            background-color: #36B368;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .box .content {
+            width: 100%;
+            height: auto;
+            overflow-y: auto;
+            margin-top: 20px;
+            display: flex;
+            min-height: 188px;
+        }
+
+        .box .content .channel {
+            flex: 1;
+            height: 360px;
+            margin-left: 20px;
+        }
+
+        .box .content .channel .title {
+            width: 100%;
+            height: 30px;
+            background-color: #fff;
+            display: flex;
+        }
+
+        .box .content .channel .title p:nth-child(1) {
+            width: 20%;
+            height: 30px;
+            text-align: center;
+        }
+
+        .box .content .channel .title p:nth-child(2) {
+            flex: 1;
+            height: 30px;
+            text-align: center;
+        }
+        .box .content .channel .title p:nth-child(3) {
+            width:120px;
+            height: 30px;
+            text-align: center;
+        }
+
+        .box .content .channel .list {
+            width: 100%;
+            height: 30px;
+            margin-top: 20px;
+        }
+
+        .box .content .channel .list li {
+            width: 100%;
+            height: 30px;
+            margin-top: 20px;
+            display: flex;
+        }
+
+        .box .content .channel .list li #channel_name_select{
+            width: 20%;
+            height: 30px;
+        }
+
+        .box .content .channel .list li .box2 {
+            flex: 1;
+            margin-left: 50px;
+            overflow-x: auto;
+            height: 28px;
+            border: 1px solid #ccc;
+            text-indent: 1em;
+            line-height: 28px;
+        }
+
+        .box .content .channel .list li .delete {
+            width: 120px;
+            height: 30px;
+            background: url('/static/admin/images/delete.png') no-repeat center/contain;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<form type="text/html" id="form">
+    <div class="box">
+        <!-- 主体 -->
+        <div class="content">
+            <div class="channel">
+                <!-- 标题 -->
+                <div class="title">
+                    <p>渠道</p>
+                    <p>链接</p>
+                    <p>操作</p>
+                </div>
+                <!-- 下拉选择 -->
+                <ul class="list">
+                    <li class="li0">
+                        <!--<div class="box1">
+                            <input type="text" placeholder="请选择" class="channel_name">
+                            <input type="hidden" placeholder="请选择" class="channel_id">
+                            <span class="icon"></span>
+                            <div class="wrap"></div>
+                        </div>-->
+                        <select id="channel_name_select">
+                        </select>
+                        <input type="text" class="box2">
+                        <div class="delete"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 追加 -->
+        <div class="bottom">
+            <div style="float: left; width: 30%;margin-left: 50px">
+                <button type="button" class="laytp-btn laytp-btn-primary laytp-btn-sm add_btn_link" lay-submit=""
+                        lay-filter="laytp-form">
+                    <i class="layui-icon layui-icon-ok"></i>
+                    追加
+                </button>
+            </div>
+            <div style="float: right">
+                <button type="button" class="laytp-btn laytp-btn-primary laytp-btn-sm save_btn" lay-submit=""
+                        lay-filter="laytp-form" style="margin-right: 10px;">
+                    <i class="layui-icon layui-icon-ok"></i>
+                    提交
+                </button>
+                <button type="reset" class="laytp-btn laytp-btn-sm" style="margin-right: 50px;" form="form">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    if (localStorage.getItem("staticDomain")) {
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    } else {
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/jquery_3.3.1.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/layui/layui.js?v=" + localStorage.getItem("version") + "'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v=" + localStorage.getItem("version") + "'><\/script>");
+    }
+</script>
+<script>
+
+    // 初始数据
+    let arr1 = []
+    // 数据
+    let arr = []
+    // 域名
+    let linki_domain = 'http://testflowh5.yuluojishu.com/#/';
+
+    let select_channel = [];
+    $.getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    var id = $.getUrlParam('id');
+    if (!id) {
+        layui.error('参数ID不能为空');
+    } else {
+        $.ajax({
+            url: "/admin.channel/getChannelListBySource",
+            type: 'post',
+            async: false,
+            sync: false,
+            success: function (res) {
+                if (res.code === 0) {
+                    arr = res.data;
+                    if (arr.length > 0) {
+                        let option = '';
+                        for (let j = 0; j < arr.length; j++) {
+                            option += '<option data-app="'+ arr[j].app_id +'" value="' + arr[j].id + '">' + arr[j].channel + '</option>';
+                        }
+                        $('.channel_name_select').html(option);
+                    }
+                }
+            }
+        });
+
+        $.ajax({
+            url: "/admin.for_flow/info",
+            type: 'post',
+            data: {id: id},
+            async: false,
+            sync: false,
+            success: function (res) {
+                if (res.code === 0) {
+                    arr1 = res.data.h5_link_json;
+                    linki_domain = res.data.link;
+                    let li_html = '';
+                    if(arr1 != null) {
+                        if (arr1.length > 0) {
+                            for (let j = 0; j < arr1.length; j++) {
+                                let class_name = 'li' + j;
+                                li_html += '<li class="' + class_name + '">';
+                                li_html += '<select id="channel_name_select" onchange="create_link(this)">';
+                                li_html += '<option value="0" >请选择渠道</option>';
+                                if (arr.length > 0) {
+                                    for (let k = 0; k < arr.length; k++) {
+                                        let is_selected = '';
+                                        if (arr1[j].channel_id == arr[k].id) {
+                                            is_selected = 'selected';
+                                        }
+                                        li_html += '<option data-app="'+ arr[k].app_id +'" value="' + arr[k].id + '" ' + is_selected + '>' + arr[k].channel_name + '</option>';
+                                    }
+                                }
+                                li_html += '</select>';
+                                li_html += '<input type="text" class="box2" value="' + arr1[j].link + '">';
+                                li_html += '<div class="delete" onclick="delete_li(this)"></div>';
+                                li_html += '</li>';
+                            }
+                        } else {
+                            let class_name = 'li0';
+                            li_html += '<li class="' + class_name + '">';
+                            li_html += '<select id="channel_name_select" onchange="create_link(this)">';
+                            li_html += '<option value="0" >请选择渠道</option>';
+                            if (arr.length > 0) {
+                                for (let k = 0; k < arr.length; k++) {
+                                    li_html += '<option data-app="'+ arr[k].app_id +'" value="' + arr[k].id + '" >' + arr[k].channel_name + '</option>';
+                                }
+                            }
+                            li_html += '</select>';
+                            li_html += '<input type="text" class="box2" value="">';
+                            li_html += '<div class="delete" onclick="delete_li(this)"></div>';
+                            li_html += '</li>';
+                        }
+                    } else {
+                        let class_name = 'li0';
+                        li_html += '<li class="' + class_name + '">';
+                        li_html += '<select id="channel_name_select" onchange="create_link(this)">';
+                        li_html += '<option value="0" >请选择渠道</option>';
+                        if (arr.length > 0) {
+                            for (let k = 0; k < arr.length; k++) {
+                                li_html += '<option data-app="'+ arr[k].app_id +'" value="' + arr[k].id + '" >' + arr[k].channel_name + '</option>';
+                            }
+                        }
+                        li_html += '</select>';
+                        li_html += '<input type="text" class="box2" value="">';
+                        li_html += '<div class="delete" onclick="delete_li(this)"></div>';
+                        li_html += '</li>';
+                    }
+                    $('.list').html(li_html);
+                }
+            }
+        });
+
+        $('.add_btn_link').click(function () {
+            let len = $('.list li').length;
+            let class_name = 'li' + (len + 1);
+            li_html = '<li class="' + class_name + '">';
+            li_html += '<select id="channel_name_select" onchange="create_link(this)">';
+            li_html += '<option value="0" >请选择渠道</option>';
+            if (arr.length > 0) {
+                for (let j = 0; j < arr.length; j++) {
+                    li_html += '<option data-app="'+ arr[j].app_id +'" value="' + arr[j].id + '">' + arr[j].channel_name + '</option>';
+                }
+            }
+            li_html += '</select>';
+            li_html += '<input type="text" class="box2" >';
+            li_html += '<div class="delete" onclick="delete_li(this)"></div>';
+            li_html += '</li>';
+            $('.list').append(li_html);
+        })
+
+        function delete_li(obj) {
+            let len = $('.list li').length;
+            if (len == 1) {
+                facade.error("最少要有一项")
+            } else {
+                $(obj).parent().remove();
+               let current_channel_id = $(obj).parent().children('#channel_name_select').val()
+                $.each(select_channel,function(index,item){
+                    if(item == current_channel_id){
+                        select_channel.splice(index,1)
+                    }
+                })
+                console.log(select_channel);
+            }
+        }
+
+        function check_has(num) {
+            return /(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + num.join("\x0f\x0f") + "\x0f");
+        }
+
+        function create_link(obj) {
+            let channel_id = $(obj).val();
+            let app_id = $(obj).find("option:selected").data('app');console.log(app_id);
+            if(channel_id == 0){
+                $(obj).parent().children('.box2').val('');
+                return ;
+            }
+
+            link_string = '';
+            if (app_id == 13 && id != 22) {
+                link_string = '&track_id=__TRACKID__&account_id=__ACCOUNTID__&campaign_id=__CAMPAIGNID__&unit_id=__UNITID__&creative_id=__CREATIVEID__&model=__MODEL__&oaid_md5=__OAIDMD5__&idfa_md5=__IDFAMD5__&ip=__IP__&os=__OS__&ts=__TS__'
+            }
+            /*if($.inArray(channel_id,select_channel) !== -1){
+                facade.error("不能重复添加")
+                return ;
+            }*/
+            let url = linki_domain + '?for_flow_id=' + id + '&channel=' + channel_id + link_string;
+            $(obj).parent().children('.box2').val(url);
+        }
+
+        $('.save_btn').click(function () {
+            let data = {};
+            let h5_link_json = [];
+            data.id = id;
+            $('.channel .list li').each(function (index, item) {
+                let id = $(item).children('#channel_name_select').val();
+                let name = $(item).children('#channel_name_select').find('option:selected').text();
+                let link = $(item).children('.box2').val();
+                if (name != '') {
+                    let json = {
+                        channel: name,
+                        link: link,
+                        channel_id: id
+                    };
+                    h5_link_json.push(json);
+                }
+            })
+            data.h5_link_json = h5_link_json;
+            $.ajax({
+                url: "/admin.for_flow/editLink",
+                type: 'post',
+                data: data,
+                success: function (res) {
+                    if (res.code === 0) {
+                        facade.success(res.msg)
+                        parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                        return
+                    } else {
+                        facade.error(res.msg)
+                        return
+                    }
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

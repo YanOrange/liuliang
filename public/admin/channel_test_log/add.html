@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加测试信息</title>
+</head>
+<body>
+<form class="layui-form" lay-filter="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>测试名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title"  autocomplete="off" lay-verify="required" placeholder="请输入测试名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>关联渠道</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="channel_id"
+                             data-sourceType="route"
+                             data-source="/admin.channel/getChannelListBySource?source=1"
+                             data-radio="true"
+                             data-textField="channel_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-layVerify="required"
+                        ></div>
+                    </div>
+                </div>
+                <!--<div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>测试周期</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input laydate"  name="test_time" data-type="datetime" data-isRange="true" placeholder="请选择测试周期">
+                    </div>
+                </div>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>测试周期</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="cycle_time"  autocomplete="off" placeholder="请输入测试周期" class="layui-input" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">目标</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="target"  autocomplete="off" placeholder="请输入测试名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分量（百分比）</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="rate"  autocomplete="off"  placeholder="请输入测试名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">素材名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="material_name"  autocomplete="off"  placeholder="请输入测试名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">应用截图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="app_img"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">氛围图文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="atmosphere_text"  autocomplete="off"  placeholder="请输入测试名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">氛围图UI</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="atmosphere_img"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">icon文案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="icon_text"  autocomplete="off"  placeholder="请输入测试名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">iconUI</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="icon_img"
+                             data-accept="image"
+                             data-type="ali-oss-url"
+                             data-multi="true"
+                        ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">一句话</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="aword"  autocomplete="off" placeholder="请输入测试名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">素材上架时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input laydate"
+                                   id="material_onshelf_time" name="material_onshelf_time"
+                                   data-type="datetime"  placeholder="请选择素材上架时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">素材下架时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input laydate"
+                                   id="material_offshelf_time" name="material_offshelf_time"
+                                   data-type="datetime"  placeholder="请选择素材下架时间">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="add">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+
+        layui.form.on('submit(add)', function(data){
+            facade.ajax({
+                route:'/admin.channel_test_log/add',
+                data : data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

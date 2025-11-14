@@ -1,0 +1,174 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>swoole聊天h5</title>
+    <link href="static/assets/index/chat/css/style.css" rel="stylesheet" type="text/css">
+    <script src="static/assets/index/chat/js/jquery.js"></script>
+    <script src="static/assets/index/chat/js/index.js"></script>
+    <script src="static/assets/index/chat/js/superslide.2.1.js"></script>
+    <script src="static/assets/index/chat/js/nicescroll.js"></script>
+</head>
+
+<body>
+<div class="qq-exe"><img src="static/assets/index/chat/images/QQ-ICON.png"><input type="text" value="腾讯QQ" placeholder="腾讯QQ"></div>
+
+<div class="win-bg"><img src="static/assets/index/chat/images/win-bg.png"></div>
+
+
+<div class="qq">
+    <div class="qq-top">
+        <div class="qq-top-icon">
+            <i><img src="static/assets/index/chat/images/qq-top.png"></i>
+            <span class="qq-top-02 close"><img src="static/assets/index/chat/images/qq-top-02.png"></span>
+            <span class="qq-top-01 min"><img src="static/assets/index/chat/images/qq-top-01.png"></span>
+        </div>
+        <div class="qq-top-name">
+            <span>
+                <input type="text" name="u_name" value="{$info.u_name}" class="u_name">
+                <input type="hidden" name="update_url" value="{:url('update')}">
+            </span>
+            <dl><dd><img src="static/assets/index/chat/images/zai.png"></dd><dt><img src="static/assets/index/chat/images/lv.png"></dt><dt><img src="static/assets/index/chat/images/svip.png"></dt></dl>
+        </div>
+        <div class="qq-top-shuo"><input type="text" value="这两天空间被各种婚礼刷屏了"></div>
+        <div class="qq-top-menu">
+            <ul>
+                <li></li><li></li><li></li><li></li>
+            </ul>
+            <span class="qq-top-001"></span>
+            <span class="qq-top-002"></span>
+        </div>
+        <div class="qq-serch">搜索：联系人、讨论组、群、企业</div>
+    </div>
+    <div class="qq-xuan">
+        <ul>
+            <li class="qq-xuan-li"><span></span><i></i></li>
+            <li><span></span><i></i></li>
+            <li><span></span><i></i></li>
+            <li><span></span><i></i></li>
+        </ul>
+    </div>                                                  
+<!--    <input type="hidden" name="user_name" value="">-->
+    <input type="hidden" name="u_id" value="{$info.u_id}">
+    <input type="hidden" name="cdn_url" value="static/assets/index/chat/images/head/">
+    <div class="qq-hui">
+        <ul>
+            {volist name="user_list" id="vo" empty="暂时没有数据" }
+            
+            <li class="li-{$vo.u_id}">
+                <div class="qq-hui-img"><img src="static/assets/index/chat/images/head/01.jpg"><i></i></div>
+                <div class="qq-hui-name">
+                    <span>{$vo.u_name}</span>
+                    <i>
+                        {notempty name="$vo.add_time"}
+                        {$vo.add_time|date="Y-m-d H:i:s",###}
+                        {/notempty}
+                    </i>
+                </div>
+                <div class="qq-hui-txt" title="">
+                    {notempty name="$vo.desc"}
+                    {$vo.desc}
+                    {/notempty}
+                </div>
+                <input type="hidden" class="qq-hui-uid" value="{$vo.u_id}" name="uid">
+            </li>
+            
+            {/volist}
+
+
+        </ul>
+    </div>
+    <div class="qq-bot">
+        <div class="qq-menu">
+            <ul>
+                <li><img src="static/assets/index/chat/images/bot-menu/01.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/02.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/03.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/04.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/05.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/06.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/07.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/08.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/09.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/10.png"></li>
+            </ul>
+        </div>
+        <div class="qq-bou-she">
+            <ul>
+                <li><img src="static/assets/index/chat/images/bot-menu/11.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/12.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/13.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/14.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/15.png"></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/16.png"><span>查找</span></li>
+                <li><img src="static/assets/index/chat/images/bot-menu/05.png"><span>应用宝</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="get_note_url" value="{:url('get_note_url')}">
+
+<div class="qq-chat">
+    <div class="qq-chat-win">
+        <ul>
+            <li class="she"></li><li class="min"></li><li class="max"></li><li class="close"></li>
+        </ul>
+    </div>
+    <div class="qq-chat-top">
+        <div class="qq-chat-tops">
+            <div class="qq-chat-t-head"><img src=""></div>
+            <div class="qq-chat-t-name"></div>
+            <div class="qq-chat-t-shuo">站在别人的雨季，淋湿自己空弹一出戏.....</div>
+        </div>
+        <div class="qq-chat-menu">
+            <ul>
+                <li><span><img src="static/assets/index/chat/images/chat/icon-01.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/icon-02.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/icon-03.png"></span><i></i></li>
+                <li><span><img src="static/assets/index/chat/images/chat/icon-04.png"></span><i></i></li>
+                <li><span><img src="static/assets/index/chat/images/chat/icon-05.png"></span><i></i></li>
+                <li><span><img src="static/assets/index/chat/images/chat/icon-06.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/icon-07.png"></span><i></i></li>
+            </ul>
+        </div>
+    </div>
+
+
+<!--    聊天栏-->
+    <div class="qq-chat-bot">
+        <div class="qq-chat-txt chat-note-box">
+            <ul>
+<!--                消息记录循坏-->
+<!--                <li>-->
+<!--                    <div class="qq-chat-you blue"><span></span><i></i></div>-->
+<!--                    <div class="qq-chat-ner">在么？找你有点事</div>-->
+<!--                </li>-->
+            </ul>
+        </div>
+        <div class="qq-chat-text">
+            <ul>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-01.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-02.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-03.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-04.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-05.png"></span><i></i></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-06.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-07.png"></span><i></i></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-08.png"></span></li>
+                <li><span><img src="static/assets/index/chat/images/chat/menu-09.png"></span><i></i></li>
+                <li class="fr" style="margin-right:5px;"><span><img src="static/assets/index/chat/images/chat/menu-10.png"></span><p>消息记录</p><i></i></li>
+            </ul>
+<!--            消息输入并进行发送-->
+            <textarea id="qq-chat-text"></textarea>
+            <div class="qq-chat-but">
+                <span class="fasong" uid="">发送(S)</span>
+                <span class="close-chat">关闭(C)</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="text-align:center;">
+    <p>来源:<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+</div>
+</body>
+</html>

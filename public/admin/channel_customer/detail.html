@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑用户</title>
+</head>
+<style>
+    .main{
+        width:100%;
+        margin-top:10px
+    }
+    .left{
+        border:1px solid #eee;
+        width:30%;
+        float:left;
+    }
+
+    .right{
+        border:1px solid #eee;
+        width:68%;
+        float:left;
+        margin-left:1%;
+    }
+</style>
+<body>
+<form type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="main">
+        <div class="left">
+            <table class="layui-table" lay-skin="line" style="margin: 0 0;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="height:200px;">
+                            <img src="{{d.avatar}}" alt="" style="width:100px;height:100px;"><br/><br/>
+                            <span style="width:100%;text-align: center;">{{d.nickname}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">手机号</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">{{d.phone}}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">年龄</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">18-24岁</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">身份</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">学生</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">学历</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">大专</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">渠道</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">{{d.channel}}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">应用分类</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">视频剪辑</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">登录时间</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">{{d.login_time}}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">登录ip</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">127.0.0.1</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">创建时间</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">{{d.create_time}}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="">
+                            <div class="layui-table-cell laytable-cell-4-0-22">更新时间</div>
+                        </td>
+                        <td data-field="operation" data-key="4-0-22" align="center" data-off="true" class="" style="border-left:1px solid #eee;">
+                            <div class="layui-table-cell laytable-cell-4-0-22">{{d.update_time}}</div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="right">
+            <div class="layui-card" id="search-form">
+                <div class="layui-card-body">
+                    <form class="layui-form" lay-filter="layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-form-item layui-inline">
+                                <label class="layui-form-label">页面名称</label>
+                                <div class="layui-input-inline">
+                                    <div class="xmSelect"
+                                         data-name="search_param[page_id][value]"
+                                         data-sourceType="route"
+                                         data-source="/admin.app_burying_point_page/index"
+                                         data-radio="true"
+                                         data-textField="page_name"
+                                         data-valueField="id"
+                                         data-paging="true"
+                                         data-placeholder="请选择页面"
+                                    ></div>
+                                </div>
+                                <input type="hidden" name="search_param[page_id][condition]" value="=">
+                            </div>
+                            <div class="layui-form-item layui-inline">
+                                <label class="layui-form-label">事件名称</label>
+                                <div class="layui-input-inline">
+                                    <div class="xmSelect"
+                                         data-name="search_param[event_id][value]"
+                                         data-sourceType="route"
+                                         data-source="/admin.app_burying_point_event/index"
+                                         data-radio="true"
+                                         data-textField="event_name"
+                                         data-valueField="id"
+                                         data-paging="true"
+                                         data-placeholder="请选择事件"
+                                    ></div>
+                                </div>
+                                <input type="hidden" name="search_param[event_id][condition]" value="=">
+                            </div>
+                            <div class="layui-form-item layui-inline">
+                                <label class="layui-form-label">创建时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input laydate"
+                                           id="create_time" name="search_param[create_time][value]"
+                                           data-type="datetime" data-isRange="true" placeholder="请选择创建时间">
+                                    <input type="hidden" name="search_param[create_time][condition]" value="BETWEEN">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-inline">
+                                <button class="laytp-btn laytp-btn-md laytp-btn-primary" lay-submit lay-filter="laytp-search-form">
+                                    <i class="layui-icon layui-icon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="laytp-btn laytp-btn-md laytp-search-form-reset">
+                                    <i class="layui-icon layui-icon-refresh"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                        <div class="layui-card">
+                            <div class="layui-card-body">
+                                <table id="laytp-table" lay-filter="laytp-table"></table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</form>
+
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/admin/js/userPageEvent.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/admin/js/userPageEvent.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+
+<script>
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.user_list/detail",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+    })
+</script>
+</body>
+</html>

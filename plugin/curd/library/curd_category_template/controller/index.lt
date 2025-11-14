@@ -1,0 +1,16 @@
+
+    //查看
+    public function index(){
+        $where = $this->buildSearchParams();
+        $order = $this->buildOrder();
+        $sourceData = $this->model->where($where)->order($order){%withRelation%}->select()->toArray();
+        $isTree = $this->request->param('is_tree');
+        if($isTree){
+            $menuTreeObj = Tree::instance();
+            $menuTreeObj->init($sourceData);
+            $data = $menuTreeObj->getRootTrees();
+        }else{
+            $data = $sourceData;
+        }
+        return $this->success('数据获取成功', $data);
+    }

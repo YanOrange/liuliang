@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑轮播图</title>
+</head>
+<body>
+<script type="text/html" id="form">
+    <input type="hidden" name="id" value="{{ d.id }}" />
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商户类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="class_id" value="1" title="单类目单机构" {{# if(d.class_id===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="class_id" value="2" title="单类目多机构" {{# if(d.class_id===2){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="class_id" value="3" title="多类目多机构" {{# if(d.class_id===3){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商户</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="merchant_id"
+                             data-sourceType="route"
+                             data-source="/admin.merchant/index"
+                             data-textField="merchant_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.merchant_id}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">应用</label>
+                    <div class="layui-input-block">
+                        <div class="xmSelect"
+                             data-name="app_id"
+                             data-sourceType="route"
+                             data-source="/admin.app/index"
+                             data-textField="app_name"
+                             data-valueField="id"
+                             data-paging="true"
+                             data-selected="{{=d.app_id}}"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title"  value="{{ d.title }}" lay-verify="required" autocomplete="off" placeholder="请输入渠道名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>背景图</label>
+                    <div class="layui-input-block">
+                        <div class="laytpUpload"
+                             data-name="image"
+                             data-accept="image"
+                             data-uploaded="{{ d.image }}"
+                             data-uploadedId="{{ d.image }}"
+                             data-type="ali-oss-url"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><text title="必填项" style="color:red;">*</text>排序</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="sort"  lay-verify="number" autocomplete="off" placeholder="请输入排序" class="layui-input" value="{{ d.sort }}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">跳转方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="jump_mode" value="0" onlick="jump_mode(0)" title="不跳转" {{# if(d.jump_mode===0){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="jump_mode" value="1" onlick="jump_mode(1)" title="站内跳转" {{# if(d.jump_mode===1){ }}checked="checked"{{# } }}>
+                        <input type="radio" name="jump_mode" value="2" onlick="jump_mode(2)" title="站外跳转" {{# if(d.jump_mode===2){ }}checked="checked"{{# } }}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <div id="jump_mode_0" style="display:none;">
+                            <span>点击banner后，没有跳转效果</span>
+                        </div>
+                        <div id="jump_mode_1" style="display: flex;">
+                            <div class="xmSelect"
+                                 data-name="module_id"
+                                 data-sourceType="route"
+                                 data-source="/admin.app_module/index"
+                                 data-radio="true"
+                                 data-textField="module_name"
+                                 data-valueField="id"
+                                 data-paging="true"
+                                 data-selected="{{=d.module_id}}"
+                                 style="width:50%;"></div>
+                            <div class="xmSelect"
+                                 data-name="course_id"
+                                 data-sourceType="route"
+                                 data-source="/admin.course/index"
+                                 data-radio="true"
+                                 data-textField="title"
+                                 data-valueField="id"
+                                 data-paging="true"
+                                 data-selected="{{=d.course_id}}"
+                                 style="width:50%;"></div>
+                        </div>
+                        <div id="jump_mode_2" style="display:none;">
+                            <input type="text" name="jump_url" autocomplete="off" placeholder="请输入跳转链接" class="layui-input" value="{{ d.dump_url }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="开启" {{# if(d.status===1){ }}checked="checked"{{# } }} />
+                        <input type="radio" name="status" value="0" title="关闭" {{# if(d.status===0){ }}checked="checked"{{# } }} />
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="laytp-btn laytp-btn-primary laytp-btn-sm" lay-submit="" lay-filter="laytp-form">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="laytp-btn laytp-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</script>
+<form class="layui-form" lay-filter="layui-form"></form>
+<script>
+    if(localStorage.getItem("staticDomain")){
+        document.write("<link rel='stylesheet' href='" + localStorage.getItem("staticDomain") + "/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='" + localStorage.getItem("staticDomain") + "/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }else{
+        document.write("<link rel='stylesheet' href='/static/component/layui/css/layui.css?v=" + localStorage.getItem("version") + "'>");
+        document.write("<script src='/static/component/layui/layui.js?v="+localStorage.getItem("version")+"'><\/script>");
+        document.write("<script src='/static/component/laytp/layuiConfig.js?v="+localStorage.getItem("version")+"'><\/script>");
+    }
+</script>
+<script>
+    layui.use(['laytp'],function(){
+        let form = layui.form;
+        let $ = layui.jquery;
+        //获取参数ID
+        var id = facade.getUrlParam('id');
+        if(!id){
+            facade.error('参数ID不能为空');
+            return false;
+        }
+
+        //获取数据，渲染到对应的节点上
+        facade.ajax({
+            route: "/admin.banner/info",
+            data: {id: id},
+            successAlert: false,
+            showLoading: true
+        }).done(function(res){
+            if(res.code === 0){
+                layui.laytpl($("#form").html()).render(res.data,function(string){
+                    $("form").html(string);
+                    layui.laytpForm.render();
+                    form.render();
+                });
+            }
+        });
+
+        form.on('submit(laytp-form)', function(data){
+            facade.ajax({
+                route:'/admin.banner/edit',
+                data:data.field
+            }).done(function(res){
+                if(res.code === 0){
+                    parent.layui.layer.close(parent.layui.layer.getFrameIndex(window.name));//关闭当前页
+                    parent.layui.table.reload("laytp-table");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>
