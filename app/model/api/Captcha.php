@@ -95,7 +95,8 @@ class Captcha extends BaseModel
                 'code' => $captcha, 
                 'channel' => $channel
             ]);
-
+            print "123";
+            print_r($result);
             // 检查发送结果
             if (empty($result)) {
                 throw new ApiException("短信发送失败：接口未返回有效数据");
@@ -133,6 +134,7 @@ class Captcha extends BaseModel
         } catch (ApiException $e) {
             throw $e; // 直接抛出API异常
         } catch (\Exception $e) {
+            print('123321');
             throw new ApiException("短信发送异常：{$e->getMessage()}");
         }
     }
