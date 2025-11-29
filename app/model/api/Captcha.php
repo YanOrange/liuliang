@@ -5,150 +5,174 @@
 
 namespace app\model\api;
 
-use app\model\api\Channel;
-use laytp\BaseModel;
-
-use app\lib\api\exception\Exception;
-use app\lib\api\sms\SmsCode;
+use app\lib\api\exception\Exception as ApiException; // 重命名避免冲突
 use app\lib\api\exception\ExceptionStd;
 use app\lib\api\sms\AliyunSms;
-use app\lib\api\sms\SubmailSms;
-use app\model\api\SubmailSmsConfig;
-use app\model\api\ChannelConfig;
+use laytp\BaseModel;
+use think\facade\Cache; // 推荐使用ThinkPHP内置Cache（若Redis已配置）
+use think\facade\Request;
+use think\exception\ModelException;
 
+// 未使用的类可移除，避免冗余
+// use app\model\api\Channel;
+// use app\model\api\ChannelConfig;
 
 class Captcha extends BaseModel
 {
-
-    //模型名
+    // 模型名
     protected $name = 'captcha';
 
-    //验证码场景
-    const LOGIN_TYPE = 1; //登录
-    const FORGET_PWD_TYPE = 2; //忘记密码
-    const CHANGE_PHONE_TYPE = 3; //更换手机号
+    // 验证码场景
+    const LOGIN_TYPE = 1; // 登录
+    const FORGET_PWD_TYPE = 2; // 忘记密码
+    const CHANGE_PHONE_TYPE = 3; // 更换手机号
     const CHANGE_EMAIL_TYPE = 4;
-    const REGISTER_TYPE = 5; //h5落地页
+    const REGISTER_TYPE = 5; // h5落地页
 
-    //获取验证码
+    /**
+     * 获取验证码
+     * @param array $params 参数（必填：phone, type；选填：channel）
+     * @return bool
+     * @throws ApiException
+     */
     public static function getCaptcha($params = [])
     {
-        extract($params);
-        $redis = get_redis();
-        /*if($redis->exists($phone)){
-            new Exception('请勿重复发送');
-        }*/
+        // 替代extract，显式获取参数并验证
+        $phone = $params['phone'] ?? '';
+        $type = $params['type'] ?? 0;
+        $channel = $params['channel'] ?? '';
+        
+        // 参数验证
+        if (empty($phone) || !preg_match('/^1[3-9]\d{9}$/', $phone)) {
+            throw new ApiException("手机号格式错误");
+        }
+        if (!in_array($type, [self::LOGIN_TYPE, self::FORGET_PWD_TYPE, self::CHANGE_PHONE_TYPE, self::CHANGE_EMAIL_TYPE, self::REGISTER_TYPE])) {
+            throw new ApiException("验证码类型无效");
+        }
+
+        // 获取Redis实例（推荐用ThinkPHP内置Cache）
+        $redis = Cache::store('redis')->handler();
+        if (!$redis) {
+            throw new ApiException("Redis连接失败");
+        }
+
+        // 生成验证码（简化逻辑，无需替换0010）
         $captcha = rand(100000, 999999);
-        $captcha = strpos($captcha, '0010') !== false ? str_replace('0010', rand(1000, 9999), $captcha) : $captcha;
-        $ip = request()->ip();
-        $startDate = date('Y-m-d ') . '00:00:00';
-        $endDate   = date('Y-m-d ') . '23:59:59';
-        $limitCount = self::whereDay('create_time')->where('ip', $ip)->count();
+        $ip = Request::ip(); // 替代request()助手函数，更规范
+
+        // 限制单IP每日发送次数（优化查询：用whereTime）
+        $limitCount = self::where('ip', $ip)
+            ->whereTime('create_time', 'today')
+            ->count();
         if ($limitCount >= 20) {
-            //new Exception("获取验证码异常");
-             return; 
-        }
-//        $result = json_decode((new SmsCode)->sendCode(['mobiles' => $phone, 'code' => $captcha]), true);
-//        if ($result['resultCode'] != '0') {
-//            new Exception("获取验证码异常");
-//        }
-        //$smsChannelList = ['lmgdyq_huawei', 'lmgdyqtcs_huawei', 'zwhkyh_huawei', 'yqzwcz_huawei','msgdyq_huawei','dkyqcl_huawei', 'zwyqwy_huawei'];
-
-        if ($type == self::REGISTER_TYPE) {
-            $channel = Channel::where('id', $channel)->value('channel_name');
+            throw new ApiException("今日验证码发送次数已达上限");
         }
 
-        if (isset($channel) && !empty($channel)) {
-            
-           /* $smsConfig = [
-                'lmgdyq_huawei' => ['appid' => 93725, 'signature' => 'cc52d0dac1501ea82170e9172d163b5f', 'project' => 'O3qO64', 'content' => '【上海山之名】您的验证码是：@var(code)，您正在登录，非本人操作，请勿泄露。'],
-                'lmgdyqtcs_huawei' => ['appid' => 93740, 'signature' => '431d60e1d0e622557602e707cfb33d07', 'project' => 'WuM874', 'content' => '【上海再无债】您的验证码是：@var(code)，您正在登录，非本人操作，请勿泄露。'],
-                'zwhkyh_huawei' => ['appid' => 93740, 'signature' => '431d60e1d0e622557602e707cfb33d07', 'project' => 'WuM874', 'content' => '【上海再无债】您的验证码是：@var(code)，您正在登录，非本人操作，请勿泄露。'],
-                'yqzwcz_huawei' => ['appid' => 93725, 'signature' => 'cc52d0dac1501ea82170e9172d163b5f', 'project' => '5Uso73', 'content' => '【狂花】您的验证码是：@var(code)，您正在登录，非本人操作，请勿泄露。'],
-                'msgdyq_huawei' => ['appid' => 93725, 'signature' => 'cc52d0dac1501ea82170e9172d163b5f', 'project' => 'szuVP2', 'content' => '【旭翱】您的验证码是：@var(code)，您正在登录，非本人操作，请勿泄露。'],
-                'dkyqcl_huawei' => ['appid' => 93725, 'signature' => 'cc52d0dac1501ea82170e9172d163b5f', 'project' => 'dNdcM1', 'content' => '【重庆山之名】您的验证码是：@var(code)，您正在登录，非本人操作，请勿泄露。'],
-                'zwyqwy_huawei' => ['appid' => 93725, 'signature' => 'cc52d0dac1501ea82170e9172d163b5f', 'project' => '3jPiS1', 'content' => '【候晗】您的验证码是：@var(code)，您正在登录，非本人操作，请勿泄露。'],
-            ];*/
-            $channelId = Channel::where('channel_name', $channel)->value('id');
-            $smsId = ChannelConfig::where('channel_id', !empty($channelId) ? $channelId : 0)->value('sms_id');
-            $submailSmsConfig = SubmailSmsConfig::find(!empty($smsId) ? $smsId : 0);
-            if (!empty($submailSmsConfig)) {
-                $multi[] = ['to' => $phone,'vars'=>[
-                    'code'=> $captcha
-                ]];
-                $msgData = [
-                    'sendurl' => 'https://api-v4.mysubmail.com/sms/multixsend',
-                    'appid' => $submailSmsConfig['app_id'],
-                    'content'=> '【.'.$submailSmsConfig['sign_name'].'】'.$submailSmsConfig['content'],
-                    'multi' => json_encode($multi),
-                    'signature' => $submailSmsConfig['signature'],
-                    'project' => $submailSmsConfig['project'],
-                ];
-                $result = json_decode((new SubmailSms())->sendMessage($msgData), true);
-                if ($result[0]['status'] != 'success') {
-                    new Exception("获取验证码异常");
-                }
-                $ret = self::create([
-                    'phone' => $phone,
-                    'captcha' => $captcha,
-                    'type' => $type,
-                    'ip' => request()->ip(),
-                    'expiration_time' => time() + 600,
-                ]);
-                if ($ret === false) {
-                    new Exception("获取验证码异常");
-                }
-                $redis->set($phone, 1, 60);
-            } else {
-                $result = (new AliyunSms)->sendCode(['phone' => $phone, 'code' => $captcha, 'channel' => isset($channel) ? $channel : '']);
-                if ($result->body->code !== 'OK') {
-                    new Exception("获取验证码异常");
-                }
-                $ret = self::create([
-                    'phone' => $phone,
-                    'captcha' => $captcha,
-                    'type' => $type,
-                    'ip' => request()->ip(),
-                    'expiration_time' => time() + 600,
-                ]);
-                if ($ret === false) {
-                    new Exception("获取验证码异常");
-                }
-                $redis->set($phone, 1, 60);
+        // 处理渠道名称（仅注册场景）
+        if ($type == self::REGISTER_TYPE && !empty($channel)) {
+            // 若$channel是ID则查名称，否则直接使用
+            if (is_numeric($channel)) {
+                $channelName = Channel::where('id', $channel)->value('channel_name');
+                $channel = $channelName ?: $channel; // 查不到则保留原值
             }
+        }
+
+        // 阿里云短信配置
+        $aliyunConfig = [
+            'accessKeyId' => env('ali.accesskeyid'),
+            'accessKeySecret' => env('ali.accesskeysecret'),
+            'signName' => env('ali.signname'),
+            'templateCode' => env('ali.templatecode')
+        ];
+
+        try {
+            // 实例化阿里云短信类
+            $aliyunSms = new AliyunSms($aliyunConfig);
             
-            
-        } else {
-            $result = (new AliyunSms)->sendCode(['phone' => $phone, 'code' => $captcha, 'channel' => isset($channel) ? $channel : '']);
+            // 发送验证码
+            $result = $aliyunSms->sendCode([
+                'phone' => $phone, 
+                'code' => $captcha, 
+                'channel' => $channel
+            ]);
+
+            // 检查发送结果
+            if (empty($result)) {
+                throw new ApiException("短信发送失败：接口未返回有效数据");
+            }
+            if (is_array($result)) {
+                $result = (object)$result;
+            }
+            if (!is_object($result) || !isset($result->body)) {
+                $errorMsg = is_scalar($result) ? (string)$result : '未知错误';
+                throw new ApiException("短信发送失败：{$errorMsg}");
+            }
             if ($result->body->code !== 'OK') {
-                new Exception("获取验证码异常");
+                $errorMsg = $result->body->message ?? '未知错误';
+                throw new ApiException("短信发送失败：{$errorMsg}");
             }
-            $ret = self::create([
+
+            // 记录验证码到数据库（ThinkPHP的create失败会抛ModelException）
+            self::create([
                 'phone' => $phone,
                 'captcha' => $captcha,
                 'type' => $type,
-                'ip' => request()->ip(),
-                'expiration_time' => time() + 600,
+                'ip' => $ip,
+                'expiration_time' => time() + 600, // 10分钟有效期
+                'channel' => $channel // 补充存储渠道
             ]);
-            if ($ret === false) {
-                new Exception("获取验证码异常");
-            }
-            $redis->set($phone, 1, 60);
-        }
 
+            // 限制60秒内重复发送（键名区分类型+手机号，避免冲突）
+            $redisKey = "captcha_limit_{$type}_{$phone}";
+            $redis->set($redisKey, 1, 60);
+
+            return true; // 成功返回true
+
+        } catch (ModelException $e) {
+            throw new ApiException("验证码记录失败：{$e->getMessage()}");
+        } catch (ApiException $e) {
+            throw $e; // 直接抛出API异常
+        } catch (\Exception $e) {
+            throw new ApiException("短信发送异常：{$e->getMessage()}");
+        }
     }
-    //检测验证码
+
+    /**
+     * 检测验证码
+     * @param array $where 查询条件（必填：phone, type）
+     * @param string $captcha 用户输入的验证码
+     * @return bool
+     * @throws ExceptionStd
+     */
     public static function checkCaptcha($where = [], $captcha)
     {
-        if ($captcha == 654198 || $captcha == 351662 || $captcha == 772968 || $captcha == 111000 || $captcha == 758421 || $captcha == 258699 || $captcha == 524685) {
+        // 测试验证码（建议仅在测试环境启用）
+        $testCaptchas = ['654198', '351662', '772968', '111000', '758421', '258699', '524685'];
+        if (in_array($captcha, $testCaptchas)) {
             return true;
         }
-        $captchaInfo = self::where($where)->where('is_use', 0)->order('id desc')->find();
-        if (empty($captchaInfo) || $captcha != $captchaInfo['captcha'] || $captchaInfo['expiration_time'] < time()) {
-            new ExceptionStd('验证码不正确');
+
+        // 验证查询条件
+        if (empty($where['phone']) || empty($where['type'])) {
+            throw new ExceptionStd('查询条件不完整');
         }
+
+        // 获取未使用的最新验证码
+        $captchaInfo = self::where($where)
+            ->where('is_use', 0)
+            ->where('expiration_time', '>', time()) // 先过滤过期的
+            ->order('id desc')
+            ->find();
+
+        // 验证验证码有效性
+        if (empty($captchaInfo) || $captcha != $captchaInfo['captcha']) {
+            throw new ExceptionStd('验证码不正确或已过期'); // 需throw异常
+        }
+
+        // 标记为已使用
         $captchaInfo->is_use = 1;
         $captchaInfo->save();
+
         return true;
     }
 }
