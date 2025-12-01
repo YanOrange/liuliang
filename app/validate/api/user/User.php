@@ -9,7 +9,7 @@ class User extends BaseValidate
     protected $rule = [
         'phone'      => 'require|checkIsPhone',
         'nickname'   => 'require',
-        'captcha'    => 'require|length:6',
+        'captcha'    => 'require|length:6|checkCaptcha',
         'channel'    => 'require',
         'app_bundle_id' => 'require',
         'code' => 'require',
@@ -34,7 +34,7 @@ class User extends BaseValidate
     ];
 
     //验证验证码
-    /*protected function checkCaptcha($captcha, $rule, $data)
+    protected function checkCaptcha($captcha, $rule, $data)
     {
         $checkCaptcha = CaptchaModel::where('phone', $data['phone'])->where('type', 1)->order('id desc')->value('captcha');
         if ($captcha == 654198) {
@@ -44,7 +44,7 @@ class User extends BaseValidate
             return '验证码不正确';
         }
         return true;
-    }*/
+    }
     /**
      * 验证场景
      */

@@ -95,23 +95,6 @@ class Captcha extends BaseModel
                 'code' => $captcha, 
                 'channel' => $channel
             ]);
-            print "123";
-            print_r($result);
-            // 检查发送结果
-            if (empty($result)) {
-                throw new ApiException("短信发送失败：接口未返回有效数据");
-            }
-            if (is_array($result)) {
-                $result = (object)$result;
-            }
-            if (!is_object($result) || !isset($result->body)) {
-                $errorMsg = is_scalar($result) ? (string)$result : '未知错误';
-                throw new ApiException("短信发送失败：{$errorMsg}");
-            }
-            if ($result->body->code !== 'OK') {
-                $errorMsg = $result->body->message ?? '未知错误';
-                throw new ApiException("短信发送失败：{$errorMsg}");
-            }
 
             // 记录验证码到数据库（ThinkPHP的create失败会抛ModelException）
             self::create([
@@ -134,7 +117,6 @@ class Captcha extends BaseModel
         } catch (ApiException $e) {
             throw $e; // 直接抛出API异常
         } catch (\Exception $e) {
-            print('123321');
             throw new ApiException("短信发送异常：{$e->getMessage()}");
         }
     }
