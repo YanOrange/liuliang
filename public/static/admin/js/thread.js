@@ -95,6 +95,7 @@ layui.use(["laytp"], function () {
             , cols: [[
                 {type: "checkbox"}
                 , {field: "id", title: "ID", align: "center", width: 60}
+                , {field: "create_time", title: "创建时间", align: "center", width: 300},
                 , {field: "merchant_id", title: "商户", align: "center", width: 120,templet:'<div>{{# if(d.merchant){ }}{{d.merchant.merchant_name}}{{# }else{ }}-{{# } }}</div>'}
                 , {field: "channel_id", title: "渠道", align: "center",width: 120,templet:'<div>{{# if(d.channelpro){ }}{{d.channelpro.channel_name}}{{# }else{ }}{{d.channel}}{{# } }}</div>'}
                 , {field: "app_id", title: "应用", align: "center",width: 120,templet:'<div>{{# if(d.app){ }}{{d.app.app_name}}{{# }else{ }}-{{# } }}</div>'}
@@ -185,7 +186,6 @@ layui.use(["laytp"], function () {
                 , {field: "reply", title: "是否回复", align: "center",width: 120,templet:'<div>{{# if(d.follow_action){ }}{{d.follow_action.reply}}{{# }else{ }}-{{# } }}</div>'}
                 , {field: "del", title: "是否删除", align: "center",width: 120,templet:'<div>{{# if(d.follow_action){ }}{{d.follow_action.del}}{{# }else{ }}-{{# } }}</div>'}
                 , {field: "add_wechat", title: "是否加v", align: "center",width: 120,templet:'<div>{{# if(d.follow_action){ }}{{d.follow_action.add_wechat}}{{# }else{ }}-{{# } }}</div>'}
-                , {field: "create_time", title: "创建时间", align: "center", width: 300},
                 , {field: "operation", title: "操作", align: "center", fixed: 'right', toolbar: "#default-bar", width: 100}
             ]]
         });

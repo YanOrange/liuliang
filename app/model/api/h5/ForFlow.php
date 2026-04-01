@@ -110,7 +110,7 @@ class ForFlow extends BaseModel
         if(!empty($gatherUserInfoIds)){
             $gatherUserInfoData = json_decode($gatherUserInfoIds, true);
             $gatherInfoArrIds = array_column($gatherUserInfoData, 'pid');
-            $gatherUserInfoList = GatherUserInfo::field('id,field,title,gather_info_json,sort')->whereIn('id', $gatherInfoArrIds)->order('sort asc, id asc')->select()->toArray();
+            $gatherUserInfoList = GatherUserInfo::field('id,field,title,gather_info_json,sort,select_type')->whereIn('id', $gatherInfoArrIds)->order('sort asc, id asc')->select()->toArray();
             $gatherUserInfoList = self::getMysqlDataInSort($gatherInfoArrIds, $gatherUserInfoList, $gatherUserInfoData);
             foreach ($gatherUserInfoList as &$value) {
                 $value['selected_id'] = 0;

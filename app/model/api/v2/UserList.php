@@ -331,7 +331,7 @@ class UserList extends BaseModel
                     $oaid = AdvertiserCallbackRecord::where('channel_name', $channel)->where('app_bundle_id', $app_bundle_id)->where('cvType', 'active')->order('create_time', 'desc')->value('oaid');
                 }
                 $callBackData = [
-                    'user' => ['channel' => $channel, 'oaid' => $oaid, 'app_bundle_id' => $app_bundle_id],
+                    'user' => ['channel' => $channel, 'oaid' => $oaid, 'app_bundle_id' => $app_bundle_id,'phone'=>$phone],
                     'dataType' => 'register',
                 ];
                 event('UserCallbackRecord', $callBackData);//广告主回传

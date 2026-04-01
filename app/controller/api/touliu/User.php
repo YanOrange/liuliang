@@ -7,14 +7,14 @@ use app\model\api\UserList as UserListModel;
 use app\model\api\UserAgreement;
 use app\model\api\PrivacyAgreement;
 use app\model\api\v2\UserList;
-
+use think\facade\Log;
 /**
  * 用户接口
  */
 class User extends BaseApi
 {
-    public $noNeedLogin = ['oneClickPhoneLogin','loginPhoneCaptcha','getPrivacyAgreementContent','getPrivacyAgreementUrl', 'getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc','getSdkAgreementContent', 'overduePersonalInfoStatement'];
-    public $noNeedCheckSign = ['getUserInfo','logoutUser','getPrivacyAgreementContent','getPrivacyAgreementUrl','getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc', 'overduePersonalInfoStatement'];
+    public $noNeedLogin = ['active','oneClickPhoneLogin','loginPhoneCaptcha','getPrivacyAgreementContent','getPrivacyAgreementUrl', 'getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc','getSdkAgreementContent', 'overduePersonalInfoStatement'];
+    public $noNeedCheckSign = ['active','getUserInfo','logoutUser','getPrivacyAgreementContent','getPrivacyAgreementUrl','getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc', 'overduePersonalInfoStatement'];
 
     //手机验证码登录
     public function loginPhoneCaptcha()
@@ -44,6 +44,16 @@ class User extends BaseApi
         };
 
         return $this->success('登录成功', $result);
+    }
+
+    public function active()
+    {
+        $params = $this->request->post();
+        Log::info('执行激活方法：active，参数：' . json_encode($params));
+
+        UserListModel::active($params);
+
+        return $this->success('记录成功', null);
     }
     //获取用户信息
     public function getUserInfo()

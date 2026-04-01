@@ -38,13 +38,15 @@ class UserList extends Backend
 
         foreach($data['data'] as &$item){
             $item['phone'] = $loginUserInfo['is_show_phone'] !== 1 ? (!empty($item['phone']) ? substr_replace($item['phone'], '****', 3, 4) : '') : $item['phone'];
-            $item['fd_money'] = GatherUserInfoModel::getFormatGatherInfo($item['fd_money'], 'fd_money')['name'];
-            $item['fd_overdue'] = GatherUserInfoModel::getFormatGatherInfo($item['fd_overdue'], 'fd_overdue')['name'];
-            $item['fd_amount'] = GatherUserInfoModel::getFormatGatherInfo($item['fd_amount'], 'fd_amount')['name'];
-            $item['jyd_demand'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_demand'], 'jyd_demand')['name'];
-            $item['jyd_overdue'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_overdue'], 'jyd_overdue')['name'];
-            $item['jyd_PayAbility'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_PayAbility'], 'jyd_PayAbility')['name'];
-            $item['jyd_amount'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_amount'], 'jyd_amount')['name'];
+            
+            // 修复：判断字段是否存在，不存在则赋值为空
+            $item['fd_money'] = GatherUserInfoModel::getFormatGatherInfo($item['fd_money'] ?? '', 'fd_money')['name'] ?? '';
+            $item['fd_overdue'] = GatherUserInfoModel::getFormatGatherInfo($item['fd_overdue'] ?? '', 'fd_overdue')['name'] ?? '';
+            $item['fd_amount'] = GatherUserInfoModel::getFormatGatherInfo($item['fd_amount'] ?? '', 'fd_amount')['name'] ?? '';
+            $item['jyd_demand'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_demand'] ?? '', 'jyd_demand')['name'] ?? '';
+            $item['jyd_overdue'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_overdue'] ?? '', 'jyd_overdue')['name'] ?? '';
+            $item['jyd_PayAbility'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_PayAbility'] ?? '', 'jyd_PayAbility')['name'] ?? '';
+            $item['jyd_amount'] = GatherUserInfoModel::getFormatGatherInfo($item['jyd_amount'] ?? '', 'jyd_amount')['name'] ?? '';
         }
 
         return $this->success('数据获取成功', $data);
@@ -117,8 +119,6 @@ class UserList extends Backend
         return $threadModel;
     }
 
-
-
     //查看详情
     public function detail()
     {
@@ -188,7 +188,6 @@ class UserList extends Backend
             return $this->error('数据库异常，操作失败');
         }
     }
-
 
     //回收站
     public function recycle()

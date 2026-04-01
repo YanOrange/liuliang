@@ -35,23 +35,25 @@ layui.use(["laytp"], function () {
             , cols: [[
                 {type: "checkbox"}
                 , {field: "id", title: "ID", align: "center", width: 80}
+                , {field: "create_time", title: "创建时间", align: "center", width: 160}
                 , {field: "channel_id", title: "渠道", align: "center",width: 120,templet:'<div>{{# if(d.channelpro){ }}{{d.channelpro.channel_name}}{{# }else{ }}{{d.channel}}{{# } }}</div>'}
                 , {field: "app_id", title: "应用", align: "center",width: 120,templet:'<div>{{# if(d.app){ }}{{d.app.app_name}}{{# }else{ }}-{{# } }}</div>'}
                 , {field: "class_id", title: "应用分类", align: "center",width: 120,templet:'<div>{{# if(d.class){ }}{{d.class.app_class_name}}{{# }else{ }}-{{# } }}</div>'}
-                , {field:'apply_nums_count',title:'是否报名',align:'center',width: 100,templet:function(d){
+                , {field:'apply_nums_count',title:'是否弹出微信名片',align:'center',width: 100,templet:function(d){
                         if (d.apply_nums) {
-                            return '已报名';
+                            return '已弹出';
                         }
-                        return '未报名';
+                        return '未弹出';
                     }}
-                , {field:'apply_nums_count',title:'报名次数',width: 100,align:'center'}
-                , {field:'wecom_external_userid',title:'是否加微',align:'center',width: 100,templet:function(d){
-                        if (d.wecom_external_userid) {
-                            return '已加微';
-                        }
-                        return '未加微';
-                    }}
-                , {field:'wx_nickname',title:'微信昵称',align:'center',width: 100}
+                , {field:'apply_nums_count',title:'弹出次数',width: 100,align:'center'}
+                , 
+                // {field:'wecom_external_userid',title:'是否加微',align:'center',width: 100,templet:function(d){
+                //         if (d.wecom_external_userid) {
+                //             return '已加微';
+                //         }
+                //         return '未加微';
+                //     }},
+                {field:'wx_nickname',title:'微信昵称',align:'center',width: 100}
                 , {
                     field: "avatar", title: "头像", align: "center" ,width: 100,templet: function (d) {
                         return laytp.tableFormatter.images(d.avatar);
@@ -102,7 +104,7 @@ layui.use(["laytp"], function () {
                 , {field: "lately_start_app_time", title: "最后活跃时间", align: "center",width: 160}
                 , {field: "province", title: "省", align: "center",width: 160}
                 , {field: "city", title: "市", align: "center",width: 160}
-                , {field: "create_time", title: "创建时间", align: "center", width: 160}
+                
                 , {field: "update_time", title: "修改时间", align: "center", width: 180}
                 , {field: "operation", title: "操作", align: "center", fixed: 'right', toolbar: "#default-bar", width: 180}
             ]]

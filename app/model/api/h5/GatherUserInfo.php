@@ -20,7 +20,7 @@ class GatherUserInfo extends BaseModel
         $name = '';
         $gatherInfoList = [];
         $gatherInfo = [];
-        $gatherInfoData = self::field('title,field,gather_info_json')->where('field', $field)->find();
+        $gatherInfoData = self::field('title,field,gather_info_json,select_type')->where('field', $field)->find();
         if (!empty($gatherInfoData)) {
             if (isset($gatherInfoData['gather_info_json']) && !empty($gatherInfoData['gather_info_json'])) {
                 $gatherInfoList = json_decode($gatherInfoData['gather_info_json'], true);

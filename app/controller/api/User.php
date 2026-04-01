@@ -9,14 +9,15 @@ use think\facade\Config;
 use app\model\api\LandingPage;
 use app\model\api\Channel;
 use app\model\api\App;
+use think\facade\Log;
 
 /**
  * 用户接口
  */
 class User extends BaseApi
 {
-    public $noNeedLogin = ['oneClickPhoneLogin','loginPhoneCaptcha','getPrivacyAgreementContent','getPrivacyAgreementUrl', 'getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc','getSdkAgreementContent'];
-    public $noNeedCheckSign = ['getUserInfo','logoutUser','getPrivacyAgreementContent','getPrivacyAgreementUrl','getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc'];
+    public $noNeedLogin = ['active','oneClickPhoneLogin','loginPhoneCaptcha','getPrivacyAgreementContent','getPrivacyAgreementUrl', 'getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc','getSdkAgreementContent'];
+    public $noNeedCheckSign = ['active','getUserInfo','logoutUser','getPrivacyAgreementContent','getPrivacyAgreementUrl','getUserAgreementContent','getUserAgreementUrl','getAgreement','getPersonalTransferAgreementContent','getPersonalTransferAgreementUrl','wxAuthDesc'];
 
 
     //本机号码一键登陆
@@ -39,6 +40,15 @@ class User extends BaseApi
         $params = $this->request->post();
         $this->commonApiValidate($params, 'app\validate\api\user\User', 'loginPhoneCaptcha', new \stdClass());
         return $this->success('登录成功', UserListModel::loginPhoneCaptcha($params));
+    }
+    public function active()
+    {
+        $params = $this->request->post();
+        Log::info('执行激活方法：active，参数：' . json_encode($params));
+
+        UserListModel::active($params);
+
+        return $this->success('记录成功', null);
     }
     //获取用户信息
     public function getUserInfo()

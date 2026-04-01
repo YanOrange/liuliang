@@ -77,7 +77,8 @@ return [
 
         'WecomSyncCustomer' => 'app\command\wecom\WecomSyncCustomer',
 
-
+        # vivo token自动刷新定时任务（每6天0点执行）
+        'vivo:refresh_token' => 'app\command\VivoRefreshToken',
 
     ],
 ];

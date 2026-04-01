@@ -25,13 +25,14 @@ use app\model\api\v2\GatherUserInfo;
 use app\lib\api\other\CourseJumpWx;
 use app\model\api\single\SingleCourse;
 use app\model\api\Thread;
+use think\facade\Log;
 
 class UserList extends BaseModel
 {
     use SoftDelete;
     //模型名
     protected $name = 'user_list';
-//    protected $hidden = [
+    //    protected $hidden = [
 //        'wxopenid',
 //        'app_id',
 //    ];
@@ -56,9 +57,9 @@ class UserList extends BaseModel
         $isVestBag = 0;
         if (!empty($channel) && !empty($user)) {
             if ((isset($channel['app_version']) && !empty($channel['app_version'])) && (isset($user['app_version']) && !empty($user['app_version']))) {
-                $channelVersionArr = explode(',',$channel['app_version']);
-                if(in_array($user['app_version'], $channelVersionArr)){
-                    $isVestBag  = isset($channel['is_vest_bag']) ? $channel['is_vest_bag'] : 0;
+                $channelVersionArr = explode(',', $channel['app_version']);
+                if (in_array($user['app_version'], $channelVersionArr)) {
+                    $isVestBag = isset($channel['is_vest_bag']) ? $channel['is_vest_bag'] : 0;
                 }
             }
         }
@@ -81,7 +82,7 @@ class UserList extends BaseModel
         $isWxAuth = $user['app_class_id'] == 9 ? 0 : 1;
         if (!empty($channel) && !empty($user)) {
             if ((isset($channel['auth_wx_version']) && !empty($channel['auth_wx_version'])) && (isset($user['app_version']) && !empty($user['app_version']))) {
-                if($channel['auth_wx_version'] == $user['app_version']){
+                if ($channel['auth_wx_version'] == $user['app_version']) {
                     $isWxAuth = $channel['is_wx_auth'];
                 }
             }
@@ -95,7 +96,7 @@ class UserList extends BaseModel
     {
         extract($params);
         $phone = (new OneClickPhoneLogin())->oneClickCheck(['token' => $token, 'accessToken' => $accessToken], $app_bundle_id);
-        $params['phone']  = $phone;
+        $params['phone'] = $phone;
         return self::loginPhoneCaptcha($params, false);
     }
     //绑定微信
@@ -119,6 +120,7 @@ class UserList extends BaseModel
     //手机验证码登录
     public static function loginPhoneCaptcha($params = [], $checkCode = true)
     {
+        Log::info('执行登录方法：loginPhoneCaptcha，参数：' . json_encode($params));
         extract($params);
 
         //获取是否是测试号码；
@@ -126,15 +128,15 @@ class UserList extends BaseModel
         $testPhoneArr = Config::load("extra/test/userphone", "extra") ?? [];
 
         $isTestStatus = 0;
-        if(in_array($phone,$testPhoneArr)){
+        if (in_array($phone, $testPhoneArr)) {
             $isTestStatus = 1;
         }
 
         $oaid = $oaid ?? '';
         $nickname = isset($nickname) && !empty($nickname) ? $nickname : '设置昵称';
         $channelInfo = Channel::getChannelAppClass($channel);
-        if ($isTestStatus==0 && $checkCode) {
-//            Captcha::checkCaptcha(['phone' => $phone, 'type' => 1], $captcha);
+        if ($isTestStatus == 0 && $checkCode) {
+            //            Captcha::checkCaptcha(['phone' => $phone, 'type' => 1], $captcha);
         }
         $userInfo = self::where('phone', $phone)->where('status', 1)->where('channel_id', $channelInfo['channel_id'])->find();
         if (!empty($userInfo)) {
@@ -146,7 +148,7 @@ class UserList extends BaseModel
             $userInfo = self::getUserInfo(['uid' => $userInfo->id, 'oaid' => $oaid]);
             $userInfo['token'] = $token;
             $userInfo['app_record_number'] = '渝ICP备2024030274号-3A';
-//            $userInfo['campaign_id'] = TodayReceiveMonitorData::where('oaid', $oaid)->where('channel', $channelInfo['channel_name'])->field('campaign_id')->find()['campaign_id'];
+            //            $userInfo['campaign_id'] = TodayReceiveMonitorData::where('oaid', $oaid)->where('channel', $channelInfo['channel_name'])->field('campaign_id')->find()['campaign_id'];
             return $userInfo;
         } else {
             $cityInfo = IpCity::getIpToCity();
@@ -154,11 +156,11 @@ class UserList extends BaseModel
             try {
                 $is_switch = 0;
                 $is_test = 0;
-                $merchant = Merchant::where('is_switch', 1)->where('is_source', 2)->where('app_class_id',$channelInfo['app_class_id'])->count();
+                $merchant = Merchant::where('is_switch', 1)->where('is_source', 2)->where('app_class_id', $channelInfo['app_class_id'])->count();
                 if ($merchant > 0) {
                     $is_switch = 1;
                 }
-                if ($isTestStatus ==1  || strpos($nickname, '测试') !== false || substr($phone,0,2) === '11' || substr($phone,0,3) === '120' || in_array($phone, self::Phone) ) {
+                if ($isTestStatus == 1 || strpos($nickname, '测试') !== false || substr($phone, 0, 2) === '11' || substr($phone, 0, 3) === '120' || in_array($phone, self::Phone)) {
                     $is_test = 1;
                 }
                 //$oldUser = self::where('phone', $phone)->find();
@@ -184,7 +186,7 @@ class UserList extends BaseModel
                     'province' => $cityInfo['province_name'] ?? '',
                     'city' => $cityInfo['city_name'] ?? '',
                     'is_test' => $is_test ?? 0,
-                    'is_search_plan' => self::userSearchType($oaid ?? '',$channel,$app_bundle_id),
+                    'is_search_plan' => self::userSearchType($oaid ?? '', $channel, $app_bundle_id),
                     'oaid_two' => $oaid_two,
                     'phone_end_number' => substr($phone, -4),
                     'age_range_id' => self::checkChannelAge($channel),  // 逾期版本默认年龄段 chenlele 22.09.21
@@ -197,7 +199,7 @@ class UserList extends BaseModel
                 ]);
                 Db::commit();
                 $token = getJwtToken($user->id);
-                $userInfo = self::getUserInfo(['uid' => $user->id,'oaid' => $oaid]);
+                $userInfo = self::getUserInfo(['uid' => $user->id, 'oaid' => $oaid]);
                 $userInfo['token'] = $token;
                 $userInfo['app_record_number'] = '渝ICP备2024030274号-3A';
                 $oaid = $oaid ?? '';
@@ -205,18 +207,38 @@ class UserList extends BaseModel
                     $oaid = AdvertiserCallbackRecord::where('channel_name', $channel)->where('app_bundle_id', $app_bundle_id)->where('cvType', 'active')->order('create_time', 'desc')->value('oaid');
                 }
                 $callBackData = [
-                    'user' => ['channel' => $channel, 'oaid' => $oaid, 'app_bundle_id' => $app_bundle_id],
+                    'user' => ['channel' => $channel, 'oaid' => $oaid, 'app_bundle_id' => $app_bundle_id, 'phone' => $phone],
                     'dataType' => 'register',
                 ];
+                Log::info('触发事件：UserCallbackRecord，数据：' . json_encode($callBackData));
                 event('UserCallbackRecord', $callBackData);//广告主回传
+                Log::info('事件触发完成：UserCallbackRecord');
                 self::checkChannelAge($channel);
-//                $userInfo['campaign_id'] = TodayReceiveMonitorData::where('oaid', $oaid)->where('channel', $channel)->field('campaign_id')->find();
+                //                $userInfo['campaign_id'] = TodayReceiveMonitorData::where('oaid', $oaid)->where('channel', $channel)->field('campaign_id')->find();
                 return $userInfo;
             } catch (\Exception $e) {
                 Db::rollback();
                 new ExceptionStd($e->getMessage());
             }
         }
+    }
+
+    public static function active($params = [])
+    {
+        extract($params);
+
+        // 广告主回传：dataType 改为 active
+        $callBackData = [
+            'user' => [
+                'channel' => $channel,
+                'oaid' => $oaid ?? '',
+                'app_bundle_id' => $app_bundle_id,
+                'phone' => null // 激活回传不包含手机号，避免隐私泄露
+            ],
+            'dataType' => 'active', // 已修改为激活回传
+        ];
+        event('UserCallbackRecord', $callBackData);
+
     }
 
     //检测渠道是否勾选年龄段字段，没勾选默认返回一个2的年龄id
@@ -242,10 +264,10 @@ class UserList extends BaseModel
     public static function seacharr_by_value($array, $index, $value)
     {
         $newarray = [];
-        if(is_array($array) && count($array)>0) {
-            foreach(array_keys($array) as $key){
+        if (is_array($array) && count($array) > 0) {
+            foreach (array_keys($array) as $key) {
                 $temp[$key] = $array[$key][$index];
-                if ($temp[$key] == $value){
+                if ($temp[$key] == $value) {
                     $newarray[$key] = $array[$key];
                 }
             }
@@ -256,7 +278,9 @@ class UserList extends BaseModel
     //获取用户信息
     public static function getUserInfo($params = [])
     {
-        if (!isset($params['oaid'])) {$params['oaid'] = '';}
+        if (!isset($params['oaid'])) {
+            $params['oaid'] = '';
+        }
         extract($params);
         $userInfoObj = self::find(isset($GLOBALS['uid']) ? $GLOBALS['uid'] : $uid);
         if (empty($userInfoObj)) {
@@ -266,9 +290,9 @@ class UserList extends BaseModel
         $user = array_intersect_key($userInfo, array_flip(self::ALOWFIELDS));
         $channelInfo = Channel::where('channel_name', $userInfo['channel'])->field('retention_page_desc,user_material_btn_desc,is_vest_bag,capital_page_position,app_version,is_wx_auth,auth_wx_version')->find();
         $userMaterialBtnDesc = $channelInfo['user_material_btn_desc'];
-        $isVestBag =  self::checkIsVestBag($channelInfo, $userInfo);
+        $isVestBag = self::checkIsVestBag($channelInfo, $userInfo);
         $user['avatar'] = isset($userInfo['avatar']) && !empty($userInfo['avatar']) ? $userInfo['avatar'] : "http://cdnwm.yuluojishu.com/uploads/20220507/334dfa7ab34e224a3e70fe2a149dfa05.png";
-        $user['is_wx_auth'] = $isVestBag ? 0 : self::checkIsWxAuth($channelInfo,$userInfo);
+        $user['is_wx_auth'] = $isVestBag ? 0 : self::checkIsWxAuth($channelInfo, $userInfo);
         $user['user_material_btn_desc'] = $userMaterialBtnDesc;
         if (!empty($channelInfo) && !empty($channelInfo['retention_page_desc'])) {
             $user['retention_page_desc'] = json_decode($channelInfo['retention_page_desc']);
@@ -384,7 +408,7 @@ class UserList extends BaseModel
                 $user->sex = $is_has_computer_id;
             } elseif (in_array($user->channel, $userConfig['filter_study_goal_channel'])) {
                 $user->study_goal_id = $is_has_computer_id;
-            } elseif(in_array($user->channel, $userConfig['filter_shop_channel'])) {
+            } elseif (in_array($user->channel, $userConfig['filter_shop_channel'])) {
                 $user->is_has_shop_id = $is_has_computer_id;
             } else {
                 $user->is_has_computer_id = $is_has_computer_id;
@@ -405,7 +429,7 @@ class UserList extends BaseModel
         if ($checkPhone) {
             new ExceptionStd("手机号已存在");
         }
-        $user  = self::find($GLOBALS['uid']);
+        $user = self::find($GLOBALS['uid']);
         $user->phone = $phone;
         $ret = $user->save();
         if ($ret !== false) {
@@ -418,9 +442,9 @@ class UserList extends BaseModel
     public static function getChannelJumpWechat($channel)
     {
         $isJumpMiniprogram = 1;
-        $channelInfo = Channel::where('channel_name',$channel)->field('id,is_jump_miniprogram,jump_wechat_version')->find();
+        $channelInfo = Channel::where('channel_name', $channel)->field('id,is_jump_miniprogram,jump_wechat_version')->find();
         $appVersion = UserList::where('id', $GLOBALS['uid'])->value('app_version');
-        if (isset($channelInfo['jump_wechat_version']) && !empty($channelInfo['jump_wechat_version']) &&  $channelInfo['jump_wechat_version'] == $appVersion) {
+        if (isset($channelInfo['jump_wechat_version']) && !empty($channelInfo['jump_wechat_version']) && $channelInfo['jump_wechat_version'] == $appVersion) {
             $isJumpMiniprogram = $channelInfo['is_jump_miniprogram'];
         }
         return $isJumpMiniprogram;
@@ -442,7 +466,7 @@ class UserList extends BaseModel
     public static function codeLogoutUser($params = [])
     {
         extract($params);
-        if(!isset($captcha) || empty($captcha)){
+        if (!isset($captcha) || empty($captcha)) {
             new Exception('验证码不能为空');
         }
         $user = self::find($GLOBALS['uid']);
@@ -454,9 +478,9 @@ class UserList extends BaseModel
         //测试账号
         $testPhoneArr = Config::load("extra/test/userphone", "extra") ?? [];
 
-        if(in_array($user['phone'],$testPhoneArr)){
+        if (in_array($user['phone'], $testPhoneArr)) {
             $user->delete_time = time();
-        }else{
+        } else {
             Captcha::checkCaptcha(['phone' => $user['phone'], 'type' => 4], $captcha);
         }
         $user->status = 2;
@@ -469,9 +493,9 @@ class UserList extends BaseModel
         $gatherUserInfoList = GatherUserInfo::field('id,field,title,gather_info_json')->select()->toArray();
         if (!empty($gatherUserInfoList)) {
             $gatherUserInfoData = array_column($gatherUserInfoList, 'gather_info_json', 'field');
-            foreach($gatherUserInfoData as $key => $val) {
-                $data = json_decode($val,true);
-                $gatherUserInfoData[$key] = !empty($data) ? array_column($data,'name','id') : [];
+            foreach ($gatherUserInfoData as $key => $val) {
+                $data = json_decode($val, true);
+                $gatherUserInfoData[$key] = !empty($data) ? array_column($data, 'name', 'id') : [];
             }
             return $gatherUserInfoData;
         }
@@ -482,28 +506,29 @@ class UserList extends BaseModel
     }
 
     //搜索分发用户
-    public static function userSearchType($oaid = null,$channel = null,$app_bundle_id = null)
+    public static function userSearchType($oaid = null, $channel = null, $app_bundle_id = null)
     {
         $isSearchPlan = 0;
         $receiveOaid = $oaid ?? '';
-        if(!empty($receiveOaid)){
-            if(strpos($channel, 'vivo') !== false) $receiveOaid = md5($receiveOaid);
+        if (!empty($receiveOaid)) {
+            if (strpos($channel, 'vivo') !== false)
+                $receiveOaid = md5($receiveOaid);
             $receiveData = TodayReceiveMonitorData::where('oaid', $receiveOaid)
                 ->where('channel', $channel)
                 ->where('app_bundle_id', $app_bundle_id)
                 ->order('id desc')
                 ->field('id,adid')
                 ->find();
-            if(!empty($receiveData)){
-                if(strpos($channel, 'vivo') !== false){
-                    $vivoSsPlanDetail = TodayVivoPlanDetailData::where('ad_id',$receiveData->adid)->field('consume_type')->find();
-                    if(!empty($vivoSsPlanDetail)){
+            if (!empty($receiveData)) {
+                if (strpos($channel, 'vivo') !== false) {
+                    $vivoSsPlanDetail = TodayVivoPlanDetailData::where('ad_id', $receiveData->adid)->field('consume_type')->find();
+                    if (!empty($vivoSsPlanDetail)) {
                         $isSearchPlan = $vivoSsPlanDetail['consume_type'];
                     }
                 }
-                if(strpos($channel, 'oppo') !== false){
-                    $oppoSsPlanDetail = TodayPlanDetailData::where('ad_id',$receiveData->adid)->field('consume_type')->find();
-                    if(!empty($oppoSsPlanDetail)){
+                if (strpos($channel, 'oppo') !== false) {
+                    $oppoSsPlanDetail = TodayPlanDetailData::where('ad_id', $receiveData->adid)->field('consume_type')->find();
+                    if (!empty($oppoSsPlanDetail)) {
                         $isSearchPlan = $oppoSsPlanDetail['consume_type'];
                     }
                 }
