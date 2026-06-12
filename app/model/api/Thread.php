@@ -205,7 +205,8 @@ class Thread extends BaseModel
                             'user' => $userInfo,
                             'dataType' => 'pay',
                         ];
-                        if ($userInfo->is_test == 0 && $userInfo->age_range_id > 1) {
+                        // if ($userInfo->is_test == 0 && $userInfo->age_range_id > 1) {
+                        if ($userInfo->is_test == 0) {
                             /* event('UserCallbackRecord', $callBackData);//广告主回传
                              if ($userInfo->channel == 'lmgdyq_douyin') {
                                  $callBackData = [
@@ -457,7 +458,8 @@ class Thread extends BaseModel
                 'user' => $userInfo,
                 'dataType' => 'pay',
             ];
-            if ($userInfo->is_test == 0 && $userInfo->age_range_id > 1) {
+            // if ($userInfo->is_test == 0 && $userInfo->age_range_id > 1) {
+            if ($userInfo->is_test == 0) {
                 event('UserCallbackRecord', $callBackData);//广告主回传
             }
         }
@@ -769,7 +771,8 @@ class Thread extends BaseModel
                             'user' => $userInfo,
                             'dataType' => 'pay',
                         ];
-                        if ($userInfo->is_test == 0 && $userInfo->age_range_id > 1) {
+                        // if ($userInfo->is_test == 0 && $userInfo->age_range_id > 1) {
+                        if ($userInfo->is_test == 0) {
                             event('UserCallbackRecord', $callBackData);//广告主回传
                             if ($userInfo->channel == 'lmgdyq_douyin') {
                                 $callBackData = [
@@ -936,8 +939,8 @@ class Thread extends BaseModel
                 $customerLink = Customer::where('id', $thread->customer_id)->find();
 
                 return [
-                    'customer_link' => $customerLink->customer_link ?? '',
-                    // 'customer_link' => '',
+                    // 'customer_link' => $customerLink->customer_link ?? '',
+                    'customer_link' => '',
                 ];
             }
 
@@ -973,10 +976,10 @@ class Thread extends BaseModel
                 ]);
 
                 return [
-                    'customer_link' => 'https://work.weixin.qq.com/ca/cawcde0708935b39de',
-                    // 'customer_link' => '',
+                    // 'customer_link' => 'https://work.weixin.qq.com/ca/cawcde0708935b39de',
+                    'customer_link' => '',
                 ];
-                
+
             }
 
             // 赋值随机获取的客服数据
@@ -1006,11 +1009,19 @@ class Thread extends BaseModel
                 'thread_price_origin' => $threadPrice,
             ]);
 
+            $callBackData = [
+                'user' => $userInfo,
+                'dataType' => 'pay',
+            ];
+            event('UserCallbackRecord', $callBackData);//广告主回传
+
             Log::info('保存用户提交的线索信息结果', $res->toArray());
             if (!$res && $data['id']) {
                 Log::info('服务器异常，稍后重试');
                 new Exception('服务器异常，稍后重试');
             }
+
+            
 
             $thread = Thread::where('uid', $GLOBALS['uid'])->where('app_id', $userInfo['app_id'])->where('channel_id', $userInfo['channel_id'])->order('id desc')->find();
             $threadInfo = $thread->toArray();
@@ -1031,8 +1042,8 @@ class Thread extends BaseModel
                 new Exception('获取客服信息失败，稍后将会有客服联系您，请注意接听电话。');
             }
             return [
-                'customer_link' => $data ? $data['customer_link'] : '',
-                // 'customer_link' => '',
+                // 'customer_link' => $data ? $data['customer_link'] : '',
+                'customer_link' => '',
             ];
         } catch (\Exception $e) {
             new Exception('服务器异常，稍后再试(' . $e->getMessage() . ')');
@@ -1060,16 +1071,16 @@ class Thread extends BaseModel
         }
 
         if ($userInfo['is_test'] == 1) {
-            return ['customer_link' => $thread ? 'https://work.weixin.qq.com/ca/cawcde0708935b39de' : ''];
-            // return ['customer_link' => ''];
+            // return ['customer_link' => $thread ? 'https://work.weixin.qq.com/ca/cawcde0708935b39de' : ''];
+            return ['customer_link' => ''];
         }
 
         if (!$customer && $thread) {
             new Exception('获取客服信息失败，稍后将会有客服联系您，请注意接听电话。');
         }
         return [
-            'customer_link' => $customer['customer_link'] ?? '',
-            // 'customer_link' => ''
+            // 'customer_link' => $customer['customer_link'] ?? '',
+            'customer_link' => ''
         ];
     }
 
